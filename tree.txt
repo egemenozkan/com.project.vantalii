@@ -1,0 +1,158 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------------< com.project:web >---------------------------
+[INFO] Building web 1.0.0-BUILD-SNAPSHOT
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ web ---
+[INFO] com.project:web:war:1.0.0-BUILD-SNAPSHOT
+[INFO] +- org.springframework:spring-context:jar:5.1.3.RELEASE:compile
+[INFO] |  +- org.springframework:spring-aop:jar:5.1.3.RELEASE:compile
+[INFO] |  |  +- (org.springframework:spring-beans:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  |  \- (org.springframework:spring-core:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- org.springframework:spring-beans:jar:5.1.3.RELEASE:compile
+[INFO] |  |  \- (org.springframework:spring-core:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- org.springframework:spring-core:jar:5.1.3.RELEASE:compile
+[INFO] |  |  \- org.springframework:spring-jcl:jar:5.1.3.RELEASE:compile
+[INFO] |  \- org.springframework:spring-expression:jar:5.1.3.RELEASE:compile
+[INFO] |     \- (org.springframework:spring-core:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] +- org.springframework:spring-webmvc:jar:5.1.3.RELEASE:compile
+[INFO] |  +- (org.springframework:spring-aop:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-beans:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-context:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-core:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-expression:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  \- org.springframework:spring-web:jar:5.1.3.RELEASE:compile
+[INFO] |     +- (org.springframework:spring-beans:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |     \- (org.springframework:spring-core:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] +- org.springframework.security:spring-security-web:jar:5.1.2.RELEASE:compile
+[INFO] |  +- org.springframework.security:spring-security-core:jar:5.1.2.RELEASE:compile
+[INFO] |  |  +- (org.springframework:spring-aop:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  |  +- (org.springframework:spring-beans:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  |  +- (org.springframework:spring-context:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  |  +- (org.springframework:spring-core:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  |  \- (org.springframework:spring-expression:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-aop:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-beans:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-context:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-core:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-expression:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  \- (org.springframework:spring-web:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] +- org.springframework.security:spring-security-config:jar:5.1.2.RELEASE:compile
+[INFO] |  +- (org.springframework.security:spring-security-core:jar:5.1.2.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-aop:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-beans:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-context:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  \- (org.springframework:spring-core:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] +- org.springframework.social:spring-social-config:jar:1.1.6.RELEASE:compile
+[INFO] |  +- (org.springframework.social:spring-social-core:jar:1.1.6.RELEASE:compile - omitted for duplicate)
+[INFO] |  \- (org.springframework.social:spring-social-web:jar:1.1.6.RELEASE:compile - omitted for duplicate)
+[INFO] +- org.springframework.social:spring-social-core:jar:1.1.6.RELEASE:compile
+[INFO] |  \- (org.springframework:spring-web:jar:4.1.8.RELEASE:compile - omitted for conflict with 5.1.3.RELEASE)
+[INFO] +- org.springframework.social:spring-social-security:jar:1.1.6.RELEASE:compile
+[INFO] |  +- (org.springframework.social:spring-social-core:jar:1.1.6.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework.social:spring-social-web:jar:1.1.6.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-web:jar:4.1.8.RELEASE:compile - omitted for conflict with 5.1.3.RELEASE)
+[INFO] |  +- (org.springframework:spring-webmvc:jar:4.1.8.RELEASE:compile - omitted for conflict with 5.1.3.RELEASE)
+[INFO] |  \- (org.springframework.security:spring-security-web:jar:3.2.9.RELEASE:compile - omitted for conflict with 5.1.2.RELEASE)
+[INFO] +- org.springframework.social:spring-social-web:jar:1.1.6.RELEASE:compile
+[INFO] |  +- (org.springframework.social:spring-social-core:jar:1.1.6.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- javax.inject:javax.inject:jar:1:compile
+[INFO] |  +- (org.springframework:spring-web:jar:4.1.8.RELEASE:compile - omitted for conflict with 5.1.3.RELEASE)
+[INFO] |  \- (org.springframework:spring-webmvc:jar:4.1.8.RELEASE:compile - omitted for conflict with 5.1.3.RELEASE)
+[INFO] +- org.springframework.social:spring-social-facebook:jar:2.0.3.RELEASE:compile
+[INFO] +- commons-validator:commons-validator:jar:1.5.0:compile
+[INFO] |  +- commons-beanutils:commons-beanutils:jar:1.9.2:compile
+[INFO] |  |  +- (commons-logging:commons-logging:jar:1.1.1:compile - omitted for conflict with 1.2)
+[INFO] |  |  \- (commons-collections:commons-collections:jar:3.2.1:compile - omitted for conflict with 3.2.2)
+[INFO] |  +- commons-digester:commons-digester:jar:1.8.1:compile
+[INFO] |  +- commons-logging:commons-logging:jar:1.2:compile
+[INFO] |  \- commons-collections:commons-collections:jar:3.2.2:compile
+[INFO] +- org.aspectj:aspectjrt:jar:1.9.2:compile
+[INFO] +- org.slf4j:slf4j-simple:jar:1.7.25:compile
+[INFO] |  \- org.slf4j:slf4j-api:jar:1.7.25:compile
+[INFO] +- org.freemarker:freemarker:jar:2.3.27-incubating:compile
+[INFO] +- org.springframework:spring-context-support:jar:5.1.3.RELEASE:compile
+[INFO] |  +- (org.springframework:spring-beans:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-context:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  \- (org.springframework:spring-core:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] +- org.springframework.security.oauth:spring-security-oauth2:jar:2.3.4.RELEASE:compile
+[INFO] |  +- (org.springframework:spring-beans:jar:4.0.9.RELEASE:compile - omitted for conflict with 5.1.3.RELEASE)
+[INFO] |  +- (org.springframework:spring-core:jar:4.0.9.RELEASE:compile - omitted for conflict with 5.1.3.RELEASE)
+[INFO] |  +- (org.springframework:spring-context:jar:4.0.9.RELEASE:compile - omitted for conflict with 5.1.3.RELEASE)
+[INFO] |  +- (org.springframework:spring-webmvc:jar:4.0.9.RELEASE:compile - omitted for conflict with 5.1.3.RELEASE)
+[INFO] |  +- (org.springframework.security:spring-security-core:jar:3.2.10.RELEASE:compile - omitted for conflict with 5.1.2.RELEASE)
+[INFO] |  +- (org.springframework.security:spring-security-config:jar:3.2.10.RELEASE:compile - omitted for conflict with 5.1.2.RELEASE)
+[INFO] |  +- (org.springframework.security:spring-security-web:jar:3.2.10.RELEASE:compile - omitted for conflict with 5.1.2.RELEASE)
+[INFO] |  +- commons-codec:commons-codec:jar:1.9:compile
+[INFO] |  \- org.codehaus.jackson:jackson-mapper-asl:jar:1.9.13:compile
+[INFO] |     \- org.codehaus.jackson:jackson-core-asl:jar:1.9.13:compile
+[INFO] +- org.springframework.security:spring-security-oauth2-client:jar:5.1.2.RELEASE:compile
+[INFO] |  +- com.nimbusds:oauth2-oidc-sdk:jar:6.0:compile
+[INFO] |  |  +- com.sun.mail:javax.mail:jar:1.6.1:compile
+[INFO] |  |  |  \- javax.activation:activation:jar:1.1:compile
+[INFO] |  |  +- com.github.stephenc.jcip:jcip-annotations:jar:1.0-1:compile
+[INFO] |  |  +- net.minidev:json-smart:jar:2.3:compile
+[INFO] |  |  |  \- net.minidev:accessors-smart:jar:1.2:compile
+[INFO] |  |  |     \- org.ow2.asm:asm:jar:5.0.4:compile
+[INFO] |  |  +- com.nimbusds:lang-tag:jar:1.4.4:compile
+[INFO] |  |  \- (com.nimbusds:nimbus-jose-jwt:jar:6.0.2:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework.security:spring-security-core:jar:5.1.2.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- org.springframework.security:spring-security-oauth2-core:jar:5.1.2.RELEASE:compile
+[INFO] |  |  +- (org.springframework.security:spring-security-core:jar:5.1.2.RELEASE:compile - omitted for duplicate)
+[INFO] |  |  \- (org.springframework:spring-core:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework.security:spring-security-web:jar:5.1.2.RELEASE:compile - omitted for duplicate)
+[INFO] |  \- (org.springframework:spring-core:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] +- org.springframework.security:spring-security-oauth2-jose:jar:5.1.2.RELEASE:compile
+[INFO] |  +- com.nimbusds:nimbus-jose-jwt:jar:6.0.2:compile
+[INFO] |  |  +- (com.github.stephenc.jcip:jcip-annotations:jar:1.0-1:compile - omitted for duplicate)
+[INFO] |  |  \- (net.minidev:json-smart:jar:2.3:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework.security:spring-security-core:jar:5.1.2.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework.security:spring-security-oauth2-core:jar:5.1.2.RELEASE:compile - omitted for duplicate)
+[INFO] |  \- (org.springframework:spring-core:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] +- javax.servlet:servlet-api:jar:2.5:provided
+[INFO] +- javax.validation:validation-api:jar:2.0.0.Final:compile
+[INFO] +- mysql:mysql-connector-java:jar:6.0.6:compile
+[INFO] +- com.google.code.gson:gson:jar:2.8.2:compile
+[INFO] +- redis.clients:jedis:jar:2.7.0:compile
+[INFO] |  \- org.apache.commons:commons-pool2:jar:2.3:compile
+[INFO] +- org.springframework.data:spring-data-redis:jar:2.1.3.RELEASE:compile
+[INFO] |  +- org.springframework.data:spring-data-keyvalue:jar:2.1.3.RELEASE:compile
+[INFO] |  |  +- org.springframework.data:spring-data-commons:jar:2.1.3.RELEASE:compile
+[INFO] |  |  |  +- (org.springframework:spring-core:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  |  |  +- (org.springframework:spring-beans:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  |  |  \- (org.slf4j:slf4j-api:jar:1.7.25:compile - omitted for duplicate)
+[INFO] |  |  +- (org.springframework:spring-context:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  |  +- (org.springframework:spring-tx:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  |  \- (org.slf4j:slf4j-api:jar:1.7.25:compile - omitted for duplicate)
+[INFO] |  +- org.springframework:spring-tx:jar:5.1.3.RELEASE:compile
+[INFO] |  |  +- (org.springframework:spring-beans:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  |  \- (org.springframework:spring-core:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- org.springframework:spring-oxm:jar:5.1.3.RELEASE:compile
+[INFO] |  |  +- (org.springframework:spring-beans:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  |  \- (org.springframework:spring-core:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-aop:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework:spring-context-support:jar:5.1.3.RELEASE:compile - omitted for duplicate)
+[INFO] |  \- (org.slf4j:slf4j-api:jar:1.7.25:compile - omitted for duplicate)
+[INFO] +- com.project:contract:jar:1.0:compile
+[INFO] |  +- (org.slf4j:slf4j-api:jar:1.7.25:compile - omitted for duplicate)
+[INFO] |  +- (org.springframework.security:spring-security-core:jar:5.1.2.RELEASE:compile - omitted for duplicate)
+[INFO] |  +- org.jsoup:jsoup:jar:1.7.2:compile
+[INFO] |  +- com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.9.8:compile
+[INFO] |  |  +- com.fasterxml.jackson.core:jackson-annotations:jar:2.9.0:compile
+[INFO] |  |  +- com.fasterxml.jackson.core:jackson-core:jar:2.9.8:compile
+[INFO] |  |  \- com.fasterxml.jackson.core:jackson-databind:jar:2.9.8:compile
+[INFO] |  |     +- (com.fasterxml.jackson.core:jackson-annotations:jar:2.9.0:compile - omitted for duplicate)
+[INFO] |  |     \- (com.fasterxml.jackson.core:jackson-core:jar:2.9.8:compile - omitted for duplicate)
+[INFO] |  +- org.locationtech.spatial4j:spatial4j:jar:0.7:compile
+[INFO] |  \- (javax.validation:validation-api:jar:2.0.1.Final:compile - omitted for conflict with 2.0.0.Final)
+[INFO] +- junit:junit:jar:4.12:test
+[INFO] |  \- org.hamcrest:hamcrest-core:jar:1.3:test
+[INFO] \- org.springframework:spring-test:jar:5.1.3.RELEASE:test
+[INFO]    \- (org.springframework:spring-core:jar:5.1.3.RELEASE:test - omitted for duplicate)
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.009 s
+[INFO] Finished at: 2019-03-03T22:13:38+03:00
+[INFO] ------------------------------------------------------------------------
