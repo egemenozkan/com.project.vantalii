@@ -2,14 +2,11 @@ package com.project.web.controller;
 
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.facebook.api.Facebook;
-import org.springframework.social.facebook.api.Reference;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,19 +19,13 @@ import com.project.api.data.model.place.PlaceRequest;
 import com.project.web.service.impl.PlaceService;
 import com.project.web.utils.WebUtils;
 
+@Controller
 public class HomeController {
 
 	@Autowired
 	private PlaceService placeService;
 
 	final Logger logger = LoggerFactory.getLogger(HomeController.class);
-
-	private final Facebook facebook;
-
-	@Inject
-	public HomeController(Facebook facebook) {
-		this.facebook = facebook;
-	}
 
 	@GetMapping({ "/", "/{language}/" })
 	public String home(HttpServletRequest request, Model model, @PathVariable(required = false, name = "language") String language) {
@@ -45,12 +36,9 @@ public class HomeController {
 		placeRequest.setLanguage(Language.getByCode(language));
 		placeRequest.setLimit(10);
 		placeRequest.setRandom(Boolean.TRUE);
-		List<PlaceLandingPage> pages = placeService.getPlaceLandingPages(placeRequest);
+		List<PlaceLandingPage> pages = null; // placeService.getPlaceLandingPages(placeRequest);
 
 		model.addAttribute("pages", pages);
-
-		List<Reference> friends = facebook.friendOperations().getFriends();
-		model.addAttribute("friends", friends);
 
 		return "index";
 	}

@@ -6,7 +6,7 @@ public class WebConfiguration extends AbstractAnnotationConfigDispatcherServletI
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[] { WebMvcConfig.class };
+        return new Class[] { WebMvcConfig.class, SecurityConfig.class};
     }
 
     @Override

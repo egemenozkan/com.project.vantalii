@@ -18,18 +18,19 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 import com.google.gson.Gson;
 import com.project.web.interceptor.ExtendedCookieLocaleResolver;
 import com.project.web.interceptor.ExtendedLocaleChangeInterceptor;
+import com.project.web.interceptor.SessionTimerInterceptor;
 import com.project.web.interceptor.SiteInterceptor;
+import com.project.web.interceptor.UserInterceptor;
 
 import freemarker.template.TemplateModel;
 import kr.pe.kwonnam.freemarker.inheritance.BlockDirective;
 import kr.pe.kwonnam.freemarker.inheritance.ExtendsDirective;
 import kr.pe.kwonnam.freemarker.inheritance.PutDirective;
 
-
+@EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = "com.project.web")
 @PropertySource({ "classpath:config/application.properties", "classpath:config/application-${spring.profiles.active}.properties" })
-@EnableWebMvc
 // @EnableScheduling
 public class WebMvcConfig implements WebMvcConfigurer {
 
@@ -41,6 +42,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		// registry.addInterceptor(localisationInteceptor());
 		registry.addInterceptor(localeChangeInterceptor());
 		registry.addInterceptor(siteInteceptor());
+        registry.addInterceptor(new UserInterceptor());
+        registry.addInterceptor(new SessionTimerInterceptor());
 	}
 
 	@Bean
