@@ -1,3 +1,20 @@
+<#import "*/imports/spring.ftl" as spring/>
+<#import "*/imports/formatter.ftl" as formatter/>
+ 
+ 
+<!-- Page Properties -->
+<#assign title>
+    <@spring.message "page.home.title" />
+</#assign>
+<#assign description>
+    <@spring.message "page.home.description" />
+</#assign>
+<#assign category = "home">
+<#assign page = "index">
+<#assign styles = []>
+<#assign javascripts = []>
+<#assign bundle = "index">
+
 <@layout.extends name="layouts/base.ftl">
 	<@layout.put block="contents">
 		<div class="ax-panel good">
@@ -5,27 +22,33 @@
 				Login
 			</div>
 			<div class="ax-panel-body">
-    <form name='f' action="login" method='POST'>
-
-        <table>
-            <tr>
-                <td>User:</td>
-                <td><input type='text' name='username' value=''></td>
-            </tr>
-            <tr>
-                <td>Password:</td>
-                <td><input type='password' name='password' /></td>
-            </tr>
-            <tr>
-                <td>Remember Me:</td>
-                <td><input type="checkbox" name="remember-me" /></td>
-            </tr>
-            <tr>
-                <td><input name="submit" type="submit" value="submit" /></td>
-            </tr>
-        </table>
-
-    </form>
+  <form action="<@spring.url '/perform_login' />" method='POST'>
+                  <div class="input-group mb-3">
+                    <span class="input-group-addon"><i class="fa fa-sitemap" aria-hidden="true"></i></span>
+                    <select class="form-control" name="user_type">
+                        <option value="7">ADMIN</option>
+<!--                         <option value="2">DRIVER</option> -->
+<!--                         <option value="3">AGENCY</option> -->
+                    </select>
+                  </div>  
+                  <div class="input-group mb-3">
+                    <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
+                    <input class="form-control" name="username" placeholder="Enter your username" type="text">
+                  </div>
+                  <div class="input-group mb-4">
+                    <span class="input-group-addon"><i class="fa fa-unlock-alt" aria-hidden="true"></i></span>
+                    <input class="form-control" placeholder="Enter your password" type="password" name="password">
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                      <button type="submit" class="btn btn-primary px-4">Login</button>
+                    </div>
+                    <div class="col-6 text-right">
+                      <button type="button" class="btn btn-link px-0">Forgot password?</button>
+                    </div>
+                  </div>
+              </form>
 			</div>
 		</div>
 
