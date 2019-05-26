@@ -8,13 +8,17 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import com.project.web.security.CustomAccessDeniedHandler;
 import com.project.web.security.CustomAuthenticationProvider;
 import com.project.web.security.CustomLogoutSuccessHandler;
 import com.project.web.security.CustomWebAuthenticationDetailsSource;
+import com.project.web.security.RefererAuthenticationSuccessHandler;
 
 @Configuration
 // @ImportResource({ "classpath:webSecurityConfig.xml" })
@@ -60,17 +64,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/resources/**").permitAll()
         .antMatchers("/assets/**").permitAll()
         .antMatchers("/login*").permitAll()
+        .antMatchers("/places*").permitAll()
+        .antMatchers("/events*").permitAll()
+        .antMatchers("/**").permitAll()
         .anyRequest().authenticated()
         .and()
-        .formLogin().authenticationDetailsSource(authDetailsSource)
+        .formLogin().authenticationDetailsSource(authDetailsSource).successHandler(new RefererAuthenticationSuccessHandler())
         .loginPage("/login")
         .loginProcessingUrl("/perform_login")
-        .defaultSuccessUrl("/dashboard",true)
+        .defaultSuccessUrl("/",true)
         .failureUrl("/login?error=true")
         .and()
-        .logout()
+        .logout().permitAll()
         .logoutUrl("/logout")
-        .logoutSuccessUrl("login?logout")
+        .invalidateHttpSession(true)
         .deleteCookies("JSESSIONID")
         .logoutSuccessHandler(logoutSuccessHandler());
         //.and()
@@ -88,5 +95,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AccessDeniedHandler accessDeniedHandler() {
         return new CustomAccessDeniedHandler();
     }
+    
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 }

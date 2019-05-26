@@ -1,6 +1,7 @@
 package com.project.web.utils;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +40,13 @@ public class WebUtils {
 		return null;
 	}
 	
+	public static String getAsString(Map<String, Object> map, String name) {
+		return getAsString(map, name, null);
+	}
+	
+	public static String getAsString(Map<String, Object> map, String name, String defaultValue) {
+		return map.get(name) == null ? defaultValue : map.get(name).toString();
+	}
 	
 	/** Cookie **/
 	public static String getCookieValue(HttpServletRequest request, String cookieName, String defaultValue) {

@@ -1,1 +1,1 @@
-console.log("events")
+import '../js/common';

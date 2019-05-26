@@ -1,114 +1,108 @@
 <#import "*/imports/spring.ftl" as spring/>
 <#import "*/imports/formatter.ftl" as formatter/>
+<#import "*/imports/utils.ftl" as utils/>
 
 <!-- Page Properties -->
-<#assign title>
-    ${ page.title! }
+<#assign title ="${ page.title! }" />
+<#assign description>
+<#compress>
+<#if page.description??>
+    ${ page.description! }
+<#else>
+   <#if page.place.type.mainType! == 'LODGING'>
+           <@spring.messageArgs "description.places.mainType.${ page.place.type.mainType! }",["${ page.place.name!}"]/>
+   <#elseif page.place.type.mainType! == 'TRANSPORT'>
+   <#elseif page.place.type.mainType! == 'SHOPPING'>
+           <@spring.messageArgs "description.places.mainType.${ page.place.type.mainType! }",["${ page.place.name!}"]/>
+   <#elseif page.place.type.mainType! == 'FOOD_AND_BEVERAGE'>
+   <#elseif page.place.type.mainType! == 'ATTRACTIONS'>
+           <@spring.messageArgs "description.places.mainType.${ page.place.type.mainType! }", "${ page.place.name!}" />
+   <#elseif page.place.type.mainType! == 'ENTERTAINMENT'>
+   <#else>
+            <@spring.message "description.places.mainType.ALL"/>
+    </#if>
+</#if>    
+</#compress>
 </#assign>
-<#assign description>${ page.description! }</#assign>
 <#assign category = "places">
 <#assign styles = []>
 <#assign javascripts = []>
 <#assign bundle = "places">
-<!doctype html>
-  <html class="places">
-   <head>
-     <title>${ title! } | <@spring.message "title.brand"/></title>
-     <meta name="description" content="${ description! }" />
-     <link rel="canonical" href="${ webPage.canonical! }" />
-     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=contain">
-     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
 
-     <#if page.place.localisation?has_content>
-         <#if page.place.localisation['TURKISH']?has_content>
-         <link href="https://www.vantalii.com/tr/places/${ page.place.localisation['TURKISH'].slug }" hreflang="tr" rel="alternate">
-         </#if>
-         <#if page.place.localisation['ENGLISH']?has_content>
-         <link href="https://www.vantalii.com/en/places/${ page.place.localisation['ENGLISH'].slug }" hreflang="en" rel="alternate">
-         </#if>
-         <#if page.place.localisation['RUSSIAN']?has_content>
-         <link href="https://www.vantalii.ru/places/${ page.place.localisation['RUSSIAN'].slug }" hreflang="ru" rel="alternate">
-         </#if>   
-     </#if>
-     <#include '*/common/styles.ftl'>
-     <#include '*/common/head.ftl'>
-     <style>
-body {
-  padding: 20px;
-  font-family: Helvetica;
-}
-
-ul {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  grid-gap: 10px;
-}
-
-li {
-  background-color: #f5f5f5;
-  border-radius: 3px;
-  padding: 20px;
-  font-size: 14px;
-}
-
-     
-     </style>
-    </head>
-<body>
-   <#include '*/common/header.ftl'>
-   <div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-8 col-12">
-                <#include 'comments.ftl'>
-
-            <#list page.contents! as content>
-                ${ content.text! }
-            </#list>
-            <ul>
-            <#list pages as page>
-                <li><a href="${ webPage.baseUrl! }/places/${ page.slug }">${ page.title }</a></li>
-            </#list>
-            </ul>
+<@layout.extends name="layouts/place.ftl">
+    <@layout.put block="header">
+    </@layout.put>
+    <@layout.put block="contents">
+	<div class="row no-gutters">
+	    <div class="col-lg-12">
+	       <ul class="breadcrumb">
+	           <li><a href="${ webPage.baseUrl! }/">Vantalii</a><span>></span></li>
+	           <#if page.place.address.city?has_content>
+	           <li><a href="${ webPage.baseUrl! }/">${ page.place.address.city! }</a><span>></span></li>
+	           </#if>
+               <#if page.place.address.region?has_content>
+               <li><a href="${ webPage.baseUrl! }/">${ page.place.address.region! }</a><span>></span></li>
+               </#if>
+               <#if page.place.address.subregion?has_content>
+               <li><a href="${ webPage.baseUrl! }/">${ page.place.address.subregion! }</a><span>></span></li>
+               </#if>
+               <li><a href="${ webPage.baseUrl! }/"><@spring.message "places.mainType.${ page.place.type.mainType! }"/></a><span>></span></li>
+               <li><a href="${ webPage.baseUrl! }/"><@spring.message "places.type.${ page.place.type! }"/></a><span>></span></li>
+               <li><h1>${ page.title! }</h1></li>
+	       </ul>
+	    </div>
+        <div class="col-lg-6 col-12">
+            <div class="box pt-0 mb-2">
+                <h2>${ page.title! }</h2>
+	            <#if page.place?has_content>
+	                    <@utils.address address= page.place.address />
+	            </#if>
+	             <input type="hidden" id="placeId" value="${ placeId }">
+            </div>
+            <div id="app1">
+                <vue-page-gallery></vue-page-gallery>
+            </div>
+           
         </div>
-        <div class="col-lg-4 col-12">
+        <div class="col-lg-6 col-12">
+			<div class="box">
+                <#list page.contents! as content>
+                    ${ content.text! }
+                </#list>
+                <div class="keywords">
+		            ${ page.keywords! }
+		        </div>
+            </div>
+            
             <#if page.place?has_content>
-                <ul>
-                    <li>${ page.place.type! }, ${ page.place.type.mainType! }</li>
-                    <#if page.place.address?has_content>
-                        <li>${ page.place.address.address! }</li>
-                        <li>${ page.place.address.postCode! }</li>
-                        <li>${ page.place.address.city! }</li>
-                        <li>${ page.place.address.subregion! }</li>
-                        <li>${ page.place.address.region! }</li>
-                     
-                    </#if>
-                </ul>
                 <ul>
                     <#if page.place.contact?has_content>
                         <li>${ page.place.contact.phone! }</li>
                         <li>${ page.place.contact.whatsapp! }</li>
                         <li>${ page.place.contact.email! }</li>
-                        <li>${ page.place.contact.callCanter! }</li>
+                        <li>${ page.place.contact.callCenter! }</li>
                         <li>${ page.place.contact.web! }</li>
                     </#if>
                 </ul>
 
             </#if>
         </div>
-        <div class="keywords">
-            ${ page.keywords! }
-        </div>
-        <div class="col-lg-12">
-          <ul class="list">
+       <div class="col-lg-6">
+           <div class="box">
+               <div id="app2">
+                    <vue-comments></vue-comments>
+                </div>
+           </div>
 
-           </ul>
-        </div>
+       </div>
+                <div class="col-lg-6">
+                
+                </div>
     </div>
-   
-   </div>
-   <#include '*/common/footer.ftl'>
-   <#include '*/common/analytics.ftl'>
-   </body>
-  </html>
+        <!-- /.container -->
+    </@layout.put>
+    <@layout.put block="footer">
+       <#include '*/common/seoPlaces.ftl'>  
+    </@layout.put>
+</@layout.extends>
+

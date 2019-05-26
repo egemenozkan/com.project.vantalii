@@ -4,9 +4,13 @@ const WebpackMd5Hash = require('webpack-md5-hash');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const webpack = require('webpack');
+const compiler = require('vue-template-compiler')
 
 module.exports = {
         mode: 'production',
+        watch: true,
         entry: {
             index: './src/main/resources/static/js/index.js',
             events_index: './src/main/resources/static/js/events_index.js',
@@ -35,6 +39,9 @@ module.exports = {
         use: {
           loader: "babel-loader"
         }
+      }, {
+          test:/\.css$/,
+          use:['style-loader','css-loader']
       },
       {
           test: /\.scss$/,
@@ -58,7 +65,11 @@ module.exports = {
                   loader: 'sass-loader'
               }
           ]
-      }
+      },
+      {
+          test: /\.vue$/,
+          loader: 'vue-loader'
+      },      { test: /\.(gif|svg|jpg|png)$/, loader: 'file-loader' }
     ]
   },
   plugins: [
@@ -66,11 +77,17 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
-    new WebpackMd5Hash()
-  ],
-  optimization: {
-      minimizer: [new UglifyJsPlugin({
-        test: /\.js(\?.*)?$/i,
-      })]
-    }
+    new WebpackMd5Hash(),
+    new VueLoaderPlugin(),
+    new webpack.ProvidePlugin({
+        $: "jquery",
+        jQuery: "jquery"
+    })
+  ]
+//  ,
+//  optimization: {
+//      minimizer: [new UglifyJsPlugin({
+//        test: /\.js(\?.*)?$/i,
+//      })]
+//    }
 };

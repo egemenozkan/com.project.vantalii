@@ -1,5 +1,6 @@
 package com.project.web.interceptor;
 
+import java.security.Principal;
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,17 +10,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.google.gson.Gson;
 import com.project.api.data.enums.Language;
+import com.project.api.data.enums.MainType;
+import com.project.api.data.enums.PlaceType;
+import com.project.web.component.Translator;
 import com.project.web.model.WebPageModel;
 import com.project.web.utils.WebUtils;
 
 public class SiteInterceptor extends HandlerInterceptorAdapter {
 
 	private static Logger logger = LoggerFactory.getLogger(SiteInterceptor.class);
+	
 	@Autowired
 	Gson gson;
 
@@ -46,7 +53,8 @@ public class SiteInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public void postHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler,
 			final ModelAndView modelAndView) throws Exception {
-		if (modelAndView == null) {
+		if (modelAndView == null || (modelAndView != null && modelAndView.getStatus() != null && modelAndView.getStatus().is3xxRedirection())) {
+			logger.info("::postHandle modelAndVİew: {}", gson.toJson(modelAndView));
 			return;
 		}
 		String languageCode = WebUtils.getURILanguageCode(request.getRequestURI());
@@ -59,7 +67,7 @@ public class SiteInterceptor extends HandlerInterceptorAdapter {
 		webPage.setHost(request.getHeader("host"));
 		webPage.setScheme(scheme);
 		webPage.setLanguage(Language.getByCode(languageCode));
-
+		webPage.setEnvironment(environment);
 		if ("dev".equals(environment)) {
 			webPage.setCanonical(request.getRequestURL().toString());
 		} else if ("prod".equals(environment)) {
@@ -82,6 +90,22 @@ public class SiteInterceptor extends HandlerInterceptorAdapter {
 		}
 
 		modelAndView.getModelMap().addAttribute("webPage", webPage);
+
+		Principal auth = request.getUserPrincipal();
+		if (auth != null) {
+			logger.info("user details added {}", gson.toJson(((UsernamePasswordAuthenticationToken) auth).getDetails()));
+			modelAndView.addObject("user", ((UsernamePasswordAuthenticationToken) auth).getDetails());
+		}
+		
+		
+		/** FOOTER **/
+		modelAndView.addObject("placeMainTypes", MainType.values());
+		modelAndView.addObject("placeTypes", PlaceType.values());
+		
+		/** LANGUAGE JSON **/
+		modelAndView.addObject("localeMessages", gson.toJson(Translator.getAllMessages()));
+		
+		
 	}
 
 	/**
@@ -90,9 +114,9 @@ public class SiteInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public void afterCompletion(final HttpServletRequest request, final HttpServletResponse response, final Object handler,
 			final Exception ex) throws Exception {
-		if (ex != null)
-			ex.printStackTrace();
-		logger.info("[afterCompletion][" + request + "][exception: " + ex + "]");
+
+		
+		
 	}
 
 	private String getParameters(final HttpServletRequest request) {
