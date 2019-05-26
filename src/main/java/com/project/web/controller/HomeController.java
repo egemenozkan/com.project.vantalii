@@ -36,7 +36,7 @@ public class HomeController {
 		placeRequest.setLanguage(Language.getByCode(language));
 		placeRequest.setLimit(10);
 		placeRequest.setRandom(Boolean.TRUE);
-		List<PlaceLandingPage> pages = null; // placeService.getPlaceLandingPages(placeRequest);
+		List<PlaceLandingPage> pages = placeService.getPlaceLandingPages(placeRequest);
 
 		model.addAttribute("pages", pages);
 

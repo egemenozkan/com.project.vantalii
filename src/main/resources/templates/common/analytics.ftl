@@ -1,3 +1,4 @@
+<#if webPage.environment == "prod">
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-77382438-1"></script>
 <script>
@@ -7,3 +8,4 @@
 
   gtag('config', 'UA-77382438-1');
 </script>
+</#if>

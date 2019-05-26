@@ -1,5 +1,7 @@
+<#ftl encoding="utf-8">.
 <#import "*/imports/spring.ftl" as spring/>
 <#import "*/imports/formatter.ftl" as formatter/>
+<#import "*/imports/utils.ftl" as utils/>
  
  
 <!-- Page Properties -->
@@ -14,7 +16,6 @@
 <#assign styles = []>
 <#assign javascripts = []>
 <#assign bundle = "index">
-
 <@layout.extends name="layouts/base.ftl">
 	<@layout.put block="contents">
 		<div class="ax-panel good">
@@ -22,15 +23,7 @@
 				Login
 			</div>
 			<div class="ax-panel-body">
-  <form action="<@spring.url '/perform_login' />" method='POST'>
-                  <div class="input-group mb-3">
-                    <span class="input-group-addon"><i class="fa fa-sitemap" aria-hidden="true"></i></span>
-                    <select class="form-control" name="user_type">
-                        <option value="7">ADMIN</option>
-<!--                         <option value="2">DRIVER</option> -->
-<!--                         <option value="3">AGENCY</option> -->
-                    </select>
-                  </div>  
+                <form action="<@spring.url '/perform_login' />" method='POST'>
                   <div class="input-group mb-3">
                     <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
                     <input class="form-control" name="username" placeholder="Enter your username" type="text">
@@ -48,40 +41,12 @@
                       <button type="button" class="btn btn-link px-0">Forgot password?</button>
                     </div>
                   </div>
+                  <a href="https://www.facebook.com/v3.2/dialog/oauth?client_id=287713494586438&response_type=code&redirect_uri=https://www.vantalii.com/login/facebook">Facebook</a>
+                  <a href="https://oauth.vk.com/authorize?client_id=6942392&display=page&redirect_uri=https://www.vantalii.com/login/vkontakte&scope=friends,email&response_type=code&v=5.95">VKontakte</a>  
               </form>
 			</div>
 		</div>
-
-		<br/>
-
-		<h3>Sign in with</h3>
-
-		<ul class="ax-item-group">
-			<a class="ax-item" onclick="document.linkedin.submit();"><i class="axi axi-linkedin-square"></i> LinkedIn</a>
-			<a class="ax-item" onclick="document.facebook.submit();"><i class="axi axi-facebook-square"></i> Facebook</a>
-			<a class="ax-item" onclick="document.twitter.submit();"><i class="axi axi-twitter-square"></i> Twitter</a>
-			<a class="ax-item" onclick="document.kakao.submit();"><i class="axi axi-ion-chatbubble"></i> Kakao</a>
-			<a class="ax-item" onclick="document.github.submit();"><i class="axi axi-github-square"></i> Github</a>
-		</ul>
-
-		<div class="links">
-			<a class="ax" href="https://www.axisj.com">https://www.axisj.com</a>, <a class="ax" href="https://github.com/axisj">https://github.com/axisj</a>
-		</div>
-
 		<!-- /.container -->
-		<form action="/auth/facebook" name="facebook">
-			<input type="hidden" name="scope" value="email,user_friends"/>
-		</form>
-		<form action="/auth/linkedin" name="linkedin">
-		</form>
-		<form action="/auth/twitter" name="twitter">
-			<input type="hidden" name="scope" value="email"/>
-		</form>
-		<form action="/auth/kakao" name="kakao">
-		</form>
-		<form action="/auth/github" name="github">
-			<input type="hidden" name="scope" value="email"/>
-		</form>
 	</@layout.put>
 </@layout.extends>
 
