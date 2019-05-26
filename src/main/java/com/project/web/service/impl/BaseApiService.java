@@ -50,6 +50,12 @@ public abstract class BaseApiService<T> {
 		return responseBody;
 	}
 	
+	public Object patchObject(String endpoint, Object requestObject, Class<T> responseType) {
+		T responseEntity = restTemplate.patchForObject(endpoint,requestObject, responseType);
+		
+		return responseEntity;
+	}
+	
 	public Object postObject(String endpoint, Object request, Class<T> responseType, Object... parameters) {
 		ResponseEntity<T> responseEntity = restTemplate.postForEntity(endpoint, request, responseType, parameters);
 		T responseBody = responseEntity.getBody();

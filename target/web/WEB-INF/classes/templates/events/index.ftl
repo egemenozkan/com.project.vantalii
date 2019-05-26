@@ -1,25 +1,35 @@
- <#import "/imports/spring.ftl" as spring/>
-  <!doctype html>
-  <html class="events">
-   <head>
-     <title>Antalya'da Etkinlikler | Vantalii.com</title>
-     <meta name=”description” content=”” />
-    <link rel="stylesheet" href="//static.vantalii.com/bundle/css/events.css">
-</head>
+<#ftl encoding="utf-8">
 
-<body>
-   <div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <#assign url = http.request.url />
-            ${url}
+<#import "*/imports/spring.ftl" as spring/>
+<#import "*/imports/formatter.ftl" as formatter/>
+<#import "*/imports/utils.ftl" as utils/>
+
+<!-- Page Properties -->
+<#assign title>
+</#assign>
+<#assign description></#assign>
+<#assign category = "events">
+<#assign styles = []>
+<#assign javascripts = []>
+<#assign bundle = "events">
+<@layout.extends name="layouts/eventsHomepage.ftl">
+    <@layout.put block="header">
+    </@layout.put>
+    <@layout.put block="contents">
+	<div id="" class="row">
+        <div class="col-lg-3">
         </div>
-        <div class="keywords">
-           
+        <div class="col-lg-9" style="border: 1px #CCC solid;">
+          <ul>
+              <#list events as event>
+                  <li><a href="${ webPage.baseUrl! }/events/${ event.slug }">${ event.title }</a></li>
+              </#list>
+          </ul>
         </div>
     </div>
-   
-   </div>
-   <script src="static/bundle/js/events.js"></script>
-   </body>
-  </html>
+    <!-- # -->
+    </@layout.put>
+    <@layout.put block="footer">
+    </@layout.put>
+</@layout.extends>
+

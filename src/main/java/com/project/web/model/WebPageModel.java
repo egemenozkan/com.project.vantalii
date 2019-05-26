@@ -8,6 +8,7 @@ public class WebPageModel {
 	private String baseUrl;
 	private String scheme;
 	private Language language;
+	private String environment;
 
 	public String getHost() {
 		return host;
@@ -47,6 +48,14 @@ public class WebPageModel {
 
 	public void setScheme(String scheme) {
 		this.scheme = scheme;
+	}
+
+	public String getEnvironment() {
+		return environment;
+	}
+
+	public void setEnvironment(String environment) {
+		this.environment = environment;
 	}
 
 }

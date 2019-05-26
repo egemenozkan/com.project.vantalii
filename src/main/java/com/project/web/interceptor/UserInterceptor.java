@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.SmartView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -66,7 +67,7 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
     public static boolean isRedirectView(ModelAndView mv) {
 
         String viewName = mv.getViewName();
-        if (viewName.startsWith("redirect:/")) {
+        if (mv.getView() instanceof RedirectView || (viewName != null && viewName.startsWith("redirect:/"))) {
             return true;
         }
 

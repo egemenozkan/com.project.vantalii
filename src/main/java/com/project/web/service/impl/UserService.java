@@ -28,9 +28,26 @@ public class UserService extends BaseApiService implements IUserService {
 	}
 
 	@Override
-	public long saveUser(User user) {
+	public long registerUser(User user) {
+		return (long) this.postObject(authServerUrl + "/api/v1/users/register", user, Long.class);
+	}
+
+	@Override
+	public boolean findByFacebookId(String facebookId) {
 		// TODO Auto-generated method stub
-		return 0;
+		return false;
+	}
+
+	@Override
+	public boolean existsByEmailOrUsername(String emailOrUsername) {
+		UriComponentsBuilder endpoint = UriComponentsBuilder.fromUriString(authServerUrl + "/api/v1/users/available/{usernameOrEmail}/");
+		return (boolean) this.getObject(endpoint.toUriString(), Boolean.class, emailOrUsername);
+	}
+
+	@Override
+	public User updateSocialUserByEmail(User user) {
+//		UriComponentsBuilder endpoint = UriComponentsBuilder.fromUriString(authServerUrl + "/api/v1/users");
+		return  (User) postObject(authServerUrl + "/api/v1/users/social", user, User.class);
 	}
 
 }

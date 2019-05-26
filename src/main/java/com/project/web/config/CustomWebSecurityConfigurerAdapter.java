@@ -1,12 +1,12 @@
 package com.project.web.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+import io.netty.handler.codec.http.HttpHeaders.Values;
 
 //@EnableWebSecurity
 //@Configuration
@@ -29,4 +29,5 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
 				.antMatchers("/admin/**").hasRole("ADMIN") // #6
 				.anyRequest().authenticated();
 	}
+	
 }

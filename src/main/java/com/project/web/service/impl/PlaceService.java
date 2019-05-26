@@ -26,7 +26,7 @@ public class PlaceService extends BaseApiService implements IPlaceService {
 	@Value("${security.api.auth-server-url}")
 	private String authServerUrl;
     
-	final Logger LOG = LoggerFactory.getLogger(PlaceService.class);
+	final Logger logger = LoggerFactory.getLogger(PlaceService.class);
 
 	
 	@Override
@@ -38,6 +38,9 @@ public class PlaceService extends BaseApiService implements IPlaceService {
 		if (placeRequest.getLimit() > 0) {
 			endpoint.queryParam("limit", placeRequest.getLimit());
 		}
+		if (placeRequest.getMainType() != null) {
+			endpoint.queryParam("mainType", placeRequest.getMainType().getId());
+		}
 		if (placeRequest.getType() != null) {
 			endpoint.queryParam("type", placeRequest.getType().getId());
 		}
@@ -48,7 +51,7 @@ public class PlaceService extends BaseApiService implements IPlaceService {
 		Object cacheValue = redisTemplate.opsForHash().get("PLACE", endpoint.toString());
 
 		if (cacheValue != null) {
-			LOG.info("::cache getPlaceLandingPages");
+			logger.info("::cache getPlaceLandingPages");
 			return (List<PlaceLandingPage>) cacheValue;
 		} else {
 			List pages = getList(endpoint.toUriString(), null);
@@ -68,20 +71,21 @@ public class PlaceService extends BaseApiService implements IPlaceService {
 			endpoint.append(language);
 		}
 
-		String cacheKey = "place_" + id;
-		
-		Object cacheValue = redisTemplate.opsForHash().get("PLACE", cacheKey);
+		String cacheKey = "place_" + id + "_" + language ;
+		return (PlaceLandingPage) getObject(endpoint.toString(), PlaceLandingPage.class, id);
 
-		if (cacheValue != null) {
-			LOG.info("::cache getPlaceLandingPage id: {} language: {}", id, language);
-			return (PlaceLandingPage) cacheValue;
-		} else {
-			PlaceLandingPage page = (PlaceLandingPage) getObject(endpoint.toString(), PlaceLandingPage.class, id);
-			if (page != null) {
-				redisTemplate.opsForHash().put("PLACE", cacheKey, page);
-			}
-			return page;
-		}
+//		Object cacheValue = redisTemplate.opsForHash().get("PLACE", cacheKey);
+//
+//		if (cacheValue != null) {
+//			logger.info("::cache getPlaceLandingPage id: {} language: {}", id, language);
+//			return (PlaceLandingPage) cacheValue;
+//		} else {
+//			PlaceLandingPage page = (PlaceLandingPage) getObject(endpoint.toString(), PlaceLandingPage.class, id);
+//			if (page != null) {
+//				redisTemplate.opsForHash().put("PLACE", cacheKey, page);
+//			}
+//			return page;
+//		}
 	}
 
 	@Override

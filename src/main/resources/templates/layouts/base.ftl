@@ -1,30 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<@layout.block name="head">
-		<title>Spring Social Example</title>
-		<meta charset="utf-8"/>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-
-		<link rel="stylesheet" type="text/css" href="/css/ax5.css" id="ax5-theme">
-		<link rel="stylesheet" type="text/css" href="/css/style.css">
-		<link rel="stylesheet" type="text/css" href="http://cdn.axisj.com/axicon/axicon.min.css">
-		<script type="text/javascript" src="/js/ax5.min.js"></script>
-		<script type="text/javascript" src="/js/all.min.js"></script>
-	</@layout.block>
-</head>
-<body>
-	<div class="container">
-		<div class="ax-sample-header">
-			<div class="ax-logo"></div>
-			<h1 class="ax info">AXISJ SAMPLE CODES</h1>
-		</div>
-
-		<@layout.block name="contents">
+<#import "*/imports/spring.ftl" as spring/>
+<#import "*/imports/formatter.ftl" as formatter/>
+ 
+<!doctype html>
+<html lang="${ webPage.language.code }">
+   <head>
+		<@layout.block name="head">
+		 <title>${ title! } | <@spring.message "title.brand"/></title>
+		 <meta name="description" content="${ description! }" />
+		 <link rel="canonical" href="${ webPage.canonical! }" />
+		 <link href="https://www.vantalii.com/tr/" hreflang="tr" rel="alternate">
+		 <link href="https://www.vantalii.com/en/" hreflang="en" rel="alternate">
+		 <link href="https://www.vantalii.ru" hreflang="ru" rel="alternate">
+		 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=contain">
+		 <#include '*/common/styles.ftl'>
+		 <#include '*/common/head.ftl'>
 		</@layout.block>
-	</div>
-<@layout.block name="footer">
-</@layout.block>
-</body>
+	</head>
+    <body>
+        <div class="wrapper">
+		<@layout.block name="header">
+            <#include '*/common/header.ftl'>
+		</@layout.block>
+		<div class="container content-area">
+			<@layout.block name="contents">
+			</@layout.block>
+		</div>
+		<@layout.block name="footer">
+		</@layout.block>
+		      <#include '*/common/footer.ftl'>
+		</div>
+		 <#include '*/common/javascripts.ftl'>
+         <#include '*/common/analytics.ftl'>
+    </body>
 </html>
