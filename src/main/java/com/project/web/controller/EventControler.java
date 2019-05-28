@@ -1,6 +1,8 @@
 package com.project.web.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -60,21 +62,24 @@ public class EventControler {
 		eventRequest.setLanguage(Language.TURKISH);
 		List<Event> events = eventService.getEvents(eventRequest);
 		model.addAttribute("events", events);
-		logger.info("events: {}", gson.toJson(events));
+		logger.info("events events2: {}", gson.toJson(events));
 		return events;
 	}
-
-	@GetMapping({ "/eventsJson" })
+	
+	@GetMapping({ "/events/json/map" })
 	@ResponseBody
-	public List<Event> eventsJson(Model model, HttpServletRequest request) {
+	public Map<String,List<Event>> eventsMap(Model model, HttpServletRequest request) {
 		EventRequest eventRequest = new EventRequest();
 		eventRequest.setType(EventType.CONCERT);
 		eventRequest.setLanguage(Language.TURKISH);
 		List<Event> events = eventService.getEvents(eventRequest);
 		model.addAttribute("events", events);
-		logger.info("events: {}", gson.toJson(events));
-		return events;
+		logger.info("events events2: {}", gson.toJson(events));
+		Map<String, List<Event>> eventsMap = new HashMap<String, List<Event>>();
+		return eventsMap;
 	}
+	
+
 
 	@GetMapping({ "/events/{slug}", "/{language}/events/{slug}" })
 	public ModelAndView getPlace(Model model, HttpServletRequest request,

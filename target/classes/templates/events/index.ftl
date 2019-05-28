@@ -19,9 +19,9 @@
 	<div id="" class="row">
         <div class="col-lg-3">
         </div>
-        <div class="col-lg-9" style="border: 1px #CCC solid;">
+        <div class="col-lg-9">
           <ul>
-              <#list events as event>
+              <#list events! as event>
                   <li><a href="${ webPage.baseUrl! }/events/${ event.slug }">${ event.title }</a></li>
               </#list>
           </ul>

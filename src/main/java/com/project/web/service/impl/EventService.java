@@ -1,6 +1,8 @@
 package com.project.web.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,5 +104,14 @@ public class EventService extends BaseApiService implements IEventService {
 		return getList(endpoint.toUriString(), null);
 	
 	}
+
+	@Override
+	public Map<String, List<Event>> getEventsMap(EventRequest eventRequest) {
+		List<Event> events = getEvents(eventRequest);
+		
+		
+		return new HashMap<String, List<Event>>();
+	}
+	
 
 }
