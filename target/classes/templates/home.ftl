@@ -2,7 +2,7 @@
 	<@layout.put block="contents">
 		<div class="ax-panel good">
 			<div class="ax-panel-heading">
-				Hi ${name}
+				Hi web
 			</div>
 			<div class="ax-panel-body">
 				Email : ${email} <br/>

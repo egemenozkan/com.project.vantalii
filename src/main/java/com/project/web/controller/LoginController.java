@@ -125,7 +125,7 @@ public class LoginController {
 							logger.info("mePicture {}, response: {}", generateFacebookGetPicture(meResponse.get("id").toString(), accessToken), imageBytes);
 						}
 			}
-			;
+			
 			User user = userService.findByUsernameOrEmail(WebUtils.getAsString(meResponse, "email"));
 
 			if (user != null && !WebUtils.getAsString(meResponse, "id").equals(user.getFacebookId())) {
@@ -255,6 +255,8 @@ public class LoginController {
 				user.setPictureUrl((String) payload.get("picture"));
 				user.setEmail(payload.getEmail());
 				userService.registerUser(user);
+				user = userService.findByUsernameOrEmail(payload.getEmail());
+
 			}
 
 			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user.getEmail(), null,

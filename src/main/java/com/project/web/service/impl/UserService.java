@@ -1,5 +1,7 @@
 package com.project.web.service.impl;
 
+import java.net.URI;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +25,11 @@ public class UserService extends BaseApiService implements IUserService {
 
 	@Override
 	public User findByUsernameOrEmail(String usernameOrEmail) {
-		UriComponentsBuilder endpoint = UriComponentsBuilder.fromUriString(authServerUrl + "/api/v1/users/{usernameOrEmail}/");
-		return (User) this.getObject(endpoint.toUriString(), User.class, usernameOrEmail);
+		StringBuilder strBuilder = new StringBuilder(authServerUrl)
+				.append("/api/v1/users/email?email=").append(usernameOrEmail);
+			
+		
+		return (User) this.getObject(strBuilder.toString(), User.class);
 	}
 
 	@Override
@@ -39,15 +44,16 @@ public class UserService extends BaseApiService implements IUserService {
 	}
 
 	@Override
-	public boolean existsByEmailOrUsername(String emailOrUsername) {
-		UriComponentsBuilder endpoint = UriComponentsBuilder.fromUriString(authServerUrl + "/api/v1/users/available/{usernameOrEmail}/");
-		return (boolean) this.getObject(endpoint.toUriString(), Boolean.class, emailOrUsername);
+	public boolean existsByEmailOrUsername(String usernameOrEmail) {
+		URI endpoint = UriComponentsBuilder.fromUriString(authServerUrl + "/api/v1/users/available/{usernameOrEmail}/")
+				.build(usernameOrEmail);
+		return (boolean) this.getObject(endpoint.toString(), Boolean.class);
 	}
 
 	@Override
 	public User updateSocialUserByEmail(User user) {
 //		UriComponentsBuilder endpoint = UriComponentsBuilder.fromUriString(authServerUrl + "/api/v1/users");
-		return  (User) postObject(authServerUrl + "/api/v1/users/social", user, User.class);
+		return (User) postObject(authServerUrl + "/api/v1/users/social", user, User.class);
 	}
 
 }

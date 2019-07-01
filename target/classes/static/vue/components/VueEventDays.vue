@@ -1,5 +1,45 @@
 <template>
-    <div class="row">
+<div>
+    <div id="search-box">
+        <div class="container">
+            <div class="row no-gutters">
+                <div class="col-lg-6">
+                    <div id="search-form" class="row no-gutters">
+                        <div class="col-lg-12 col-12">
+                            <h1 class="box-title">Antalya'yı keşfet</h1>
+                            <p class="box-desc">Nerede, ne zaman, ne var?</p>
+                            <VueCtkDateTimePicker  
+                            v-model="datepicker"
+                            :format="'YYYY-MM-DD'"
+                            :formatted="LL"
+                            :custom-shortcuts="customShortcuts"
+                            :range="true" />
+                        </div>
+                        <div class="col-lg-12 col-12">
+                            <multiselect v-model="types"
+                                tag-placeholder="Add this as new tag"
+                                placeholder="Search or add a tag"
+                                label="name" track-by="code"
+                                :options="options"
+                                :multiple="true"
+                                :taggable="true"
+                                :max="3" 
+                                @tag="addTag" />
+                        </div>
+                        <div class="col-lg-12 col-12">
+                            <button class="btn btn-search">SEARCH</button>
+                        </div>
+                    </div>
+                    <!-- #search-form -->
+                </div>
+                <!-- .col-lg-12 -->
+            </div>
+            <!-- .row -->  
+        </div> 
+    </div> 
+    <!-- #search-box -->
+    <div id="search-results-box" class="container">
+        <div class="row">
             <div class="col-lg-12">
                 <h2 class="font-size-14 pastel-blue">Etkinlikler</h2>
                 <div class="days-menu desktop-hide">
@@ -15,71 +55,154 @@
                 </div>
                 <div class="row">
                     <div v-for="eventDay in eventDays" class="events-downlist col-lg-4">
-                        <h3>Bugün<span>Çarşamba</span></h3>
+                        <h3>{{eventDay.day}}<span>{{eventDay.key.format("yyyy-MM-dd").format("dd.MM.yyyy")}}</span></h3>
                         <ul class="list">
-                            <li v-for="event in eventDay.events">
-                                <h4>Ramazan Çoşkusu</h4>
-                                <span class="badge event-begin">21:00</span>
+                            <li v-for="event in eventDay.value">
+                                <h4><a :href="event.url">{{event.name}}</a></h4>
+                                <span :class="event.allDay ? 'badge event-begin allday' : 'badge event-begin'">{{event.startTime}}</span>
+                                <span v-if="event.duration>0" class="duration"><i class="fas fa-hourglass-half"></i>&nbsp;{{event.duration}} min</span>
                                 <div class="line-1">
-                                    <span>Festival</span>
+                                    <span>{{events.type}}</span>
                                 </div>
-                                <div class="line-2">
-                                    <div class="attendee">
-                                        <i class="fas fa-walking"></i><span>9</span>
-                                    </div>
-                                    <div class="comment">
-                                        <i class="fas fa-comments"></i><span>0</span>
+                                <div class="line-end">
+                                    <div class="info">
+                                        <div class="place">
+                                            <i class="fas fa-map-marker-alt"></i><a :href="event.place.url">{{event.place.name}}</a>
+                                        </div>
+                                        <div class="attendee">
+                                            <i class="fas fa-walking"></i><span>0</span>
+                                        </div>
+                                        <div class="comment">
+                                            <i class="fas fa-comments"></i><span>0</span>
+                                        </div>
                                     </div>
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </div>
+                <!-- .row -->
             </div>
-	    </div>
+        </div>
+        <!-- .row -->
+    </div>
+    <!-- #search-results-box.container -->
+</div>      
 </template>
 <script>
 
-function convertStrToDate(str) {
-    var dArr = str.split('-');
-    return new Date(dArr[2], dArr[1], dArr[0]);
-}
-
-function convertDateToString(date) {
-    return  ('0' + date.getDate()).slice(-2) + "-" + ('0' + (date.getMonth() + 1)).slice(-2) + date.getFullYear();
-}
-
 import {LocalDate} from '../../js/mydate';
+import axiosApi from 'axios';
+import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
+import 'vue-multiselect/dist/vue-multiselect.min.css';
+import Multiselect from 'vue-multiselect'
 
+function makeEventTypeList(types) {
+    return types.map(t=>t.code).join(',');
+}
+function getEvents(self) {           
+              axiosApi.get('/events/json/map', {
+                  params: {
+                   startDate : self.datepicker.start,
+                   endDate: self.datepicker.end,
+                   language: self.language,
+                   types: makeEventTypeList(self.types)
+                  }
+                })
+                .then(function (response) {
+                  if (response.data) {
+                      console.log(response.data);
+                    var eventsMap = response.data;
+                    var currentDate = self.datepicker.start.format("yyyy-MM-dd");
+                    self.eventDays = [];
+                        while (currentDate <= self.datepicker.end.format("yyyy-MM-dd")) {
+                            var eventKey = currentDate.format("yyyy-MM-dd");
+                            var tempMap = {
+                                key: eventKey,
+                                day: currentDate.format("EEEE"),
+                                value: (eventsMap[eventKey] !== undefined) ? eventsMap[eventKey] : []
+                            }
+                            console.log(tempMap);
+                            self.eventDays.push(tempMap);
+                            
+                            currentDate = currentDate.addDays(1);
+                        }
+                  }
+                })
+                .catch(function (error) {
+                  console.log(error);
+                })
+                .then(function () {
+                  // always executed
+                });  
+}
 
 export default {
   name: 'VueEventDays',
   data () {
     return {
-      msg: 'Hello world',
-      source:  [{"id":33,"title":"Zaman Test","keywords":"deneme, event","description":"","slug":"ahmet-parlak-3","contents":[{"id":10,"text":"\u003cp\u003edeneme2\u003c/p\u003e","order":0}],"language":"RUSSIAN","event":{"id":3,"name":"Ahmet Parlak","type":"CONCERT","language":"RUSSIAN","slug":"ahmet-parlak-3","place":{"id":1043,"language":"NOTSET","localisation":{"RUSSIAN":{"name":"Turkay Soray Cultural Center","language":"RUSSIAN","slug":"turkay-soray-cultural-center-1043"},"ENGLISH":{"name":"Turkay Soray Cultural Center","language":"ENGLISH","slug":"turkay-soray-cultural-center-1043"},"TURKISH":{"name":"Türkan Şoray Kültür Merkezi","language":"TURKISH","slug":"turkan-soray-kultur-merkezi-1043"}},"type":"ALL","address":{"id":1044,"address":"Yeşilbahçe Mahallesi, Çınarlı Cd. No:7","postCode":"07160","priority":0,"lat":36.8689782,"lng":30.7248293,"subregionId":4,"subregion":"ANTALYA CENTER","regionId":3,"region":"ANTALYA","cityId":1,"city":"Antalya","countryId":0},"contact":{"id":170,"phone":"","whatsapp":"","callCenter":"","web":"","email":""},"createDateTime":[2019,3,24,20,22,42],"updateDateTime":[2019,3,24,20,22,42],"images":[]},"periodType":"MONDAYS","startDate":"2019-10-24","startTime":"19:00","endDate":"2019-10-24","endTime":"11:00","showStartTime":true,"showEndTime":true}},{"id":62,"title":"2nd International Akra Jazz Festival","keywords":"Barut Akra","description":"Jazz Festival","slug":"2nd-international-akra-jazz-festival-6","contents":[],"language":"RUSSIAN","event":{"id":6,"name":"2nd International Akra Jazz Festival","type":"CONCERT","language":"RUSSIAN","slug":"2nd-international-akra-jazz-festival-6","place":{"id":21,"language":"NOTSET","localisation":{"RUSSIAN":{"name":"Barut Akra","language":"RUSSIAN","slug":"barut-akra-21"},"ENGLISH":{"name":"Barut Akra","language":"ENGLISH","slug":"barut-akra-21"},"TURKISH":{"name":"Barut Akra","language":"TURKISH","slug":"barut-akra-21"}},"type":"HOTEL","address":{"id":22,"priority":0,"lat":36.86406,"lng":30.726464,"subregionId":7,"subregion":"LARA","regionId":3,"region":"ANTALYA","cityId":1,"city":"Antalya","countryId":0},"createDateTime":[2018,12,29,18,55,46],"updateDateTime":[2018,12,29,18,55,46],"images":[]},"periodType":"UNORDINARY","startDate":"2019-06-19","endDate":"2019-06-29","showStartTime":false,"showEndTime":false}},{"id":0,"title":"Monica Molina","slug":"monica-molina-7","language":"RUSSIAN","event":{"id":7,"name":"Monica Molina","type":"CONCERT","language":"RUSSIAN","slug":"monica-molina-7","place":{"id":21,"language":"NOTSET","localisation":{"RUSSIAN":{"name":"Barut Akra","language":"RUSSIAN","slug":"barut-akra-21"},"ENGLISH":{"name":"Barut Akra","language":"ENGLISH","slug":"barut-akra-21"},"TURKISH":{"name":"Barut Akra","language":"TURKISH","slug":"barut-akra-21"}},"type":"HOTEL","address":{"id":22,"priority":0,"lat":36.86406,"lng":30.726464,"subregionId":7,"subregion":"LARA","regionId":3,"region":"ANTALYA","cityId":1,"city":"Antalya","countryId":0},"createDateTime":[2018,12,29,18,55,46],"updateDateTime":[2018,12,29,18,55,46],"images":[]},"periodType":"ONEDAY","startDate":"2019-06-19","startTime":"21:00","endDate":"2019-06-19","showStartTime":true,"showEndTime":false}},{"id":0,"title":"Roberto Fonseca \u0027\u0027Havan\u0027\u0027","slug":"roberto-fonseca-havan-8","language":"RUSSIAN","event":{"id":8,"name":"Roberto Fonseca \u0027\u0027Havan\u0027\u0027","type":"CONCERT","language":"RUSSIAN","slug":"roberto-fonseca-havan-8","place":{"id":21,"language":"NOTSET","localisation":{"RUSSIAN":{"name":"Barut Akra","language":"RUSSIAN","slug":"barut-akra-21"},"ENGLISH":{"name":"Barut Akra","language":"ENGLISH","slug":"barut-akra-21"},"TURKISH":{"name":"Barut Akra","language":"TURKISH","slug":"barut-akra-21"}},"type":"HOTEL","address":{"id":22,"priority":0,"lat":36.86406,"lng":30.726464,"subregionId":7,"subregion":"LARA","regionId":3,"region":"ANTALYA","cityId":1,"city":"Antalya","countryId":0},"createDateTime":[2018,12,29,18,55,46],"updateDateTime":[2018,12,29,18,55,46],"images":[]},"periodType":"ONEDAY","startDate":"2019-06-20","startTime":"21:00","endDate":"2019-06-20","showStartTime":false,"showEndTime":false}},{"id":0,"title":"Iyeoka","slug":"iyeoka-9","language":"RUSSIAN","event":{"id":9,"name":"Iyeoka","type":"CONCERT","language":"RUSSIAN","slug":"iyeoka-9","place":{"id":21,"language":"NOTSET","localisation":{"RUSSIAN":{"name":"Barut Akra","language":"RUSSIAN","slug":"barut-akra-21"},"ENGLISH":{"name":"Barut Akra","language":"ENGLISH","slug":"barut-akra-21"},"TURKISH":{"name":"Barut Akra","language":"TURKISH","slug":"barut-akra-21"}},"type":"HOTEL","address":{"id":22,"priority":0,"lat":36.86406,"lng":30.726464,"subregionId":7,"subregion":"LARA","regionId":3,"region":"ANTALYA","cityId":1,"city":"Antalya","countryId":0},"createDateTime":[2018,12,29,18,55,46],"updateDateTime":[2018,12,29,18,55,46],"images":[]},"periodType":"ONEDAY","startDate":"2019-06-22","startTime":"21:00","endDate":"2019-06-22","showStartTime":true,"showEndTime":false}}]
-
-    }
+    datepicker: '',
+    eventDays: [],
+    customShortcuts: [
+        { label: 'Tomorrow', value: '+day', isSelected: false },
+          { label: 'This Week', value: 'week', isSelected: true },
+          { label: 'Next Week', value: '+week', isSelected: false },
+          { label: 'This Month', value: 'month', isSelected: false },
+          { label: 'Last Month', value: '-month', isSelected: false },
+          { label: 'This Month', value: 'year', isSelected: false },
+          { label: 'Weekend', value: 'weekend', isSelected: false }
+        ],
+    
+    types: [
+        { name: localeMessages['events.type.CONCERT'], code: '2' },
+        { name: localeMessages['events.type.DANCE_AND_BALLET'], code: '3' },
+        { name: localeMessages['events.type.VISITOR_ATTRACTIONS'], code: '14' }
+      ],
+      options: [
+           { name: localeMessages['events.type.CONCERT'], code: '2'},
+           { name: localeMessages['events.type.DANCE_AND_BALLET'], code: '3'},
+          {  name: localeMessages['events.type.OPERA'], code: '4'},
+          {  name: localeMessages['events.type.MUSICALS'], code: '5'},
+           { name: localeMessages['events.type.COMEDY'], code: '6'},
+           { name: localeMessages['events.type.DRAMA'], code: '7'},
+           { name: localeMessages['events.type.ATHLETICS'], code: '8'},
+           { name: localeMessages['events.type.BASKETBALL'], code: '9'}, 
+           { name: localeMessages['events.type.GOLF'], code: '10'},
+           { name: localeMessages['events.type.SOCCER'], code: '11'},
+           { name: localeMessages['events.type.EXHIBITIONS'], code: '12'},
+           { name: localeMessages['events.type.FESTIVALS'], code: '13'},  
+           { name: localeMessages['events.type.VISITOR_ATTRACTIONS'], code: '14'},
+           { name: localeMessages['events.type.TRANSPORT'], code: '15'},
+           { name: localeMessages['events.type.MUSEUMS'], code: '16'},
+           { name: localeMessages['events.type.FAMILY_SHOWS'], code: '17'},
+           { name: localeMessages['events.type.SHOPPING'], code: '18'},                                   
+           { name: localeMessages['events.type.DISCOUNTS'], code: '19'},                                    
+           { name: localeMessages['events.type.EXCURSIONS'], code: '20'}                            
+      ]
+      }
   },
+  components: {
+      VueCtkDateTimePicker,
+      Multiselect
+  }, 
     computed : {
-        eventDays : function () {
-                        var self = this;
-
-            var map = new Map();
-            var today = new Date();
-
-            map.set("a","v")
-            self.source.forEach(e => {
-                if (LocalDate.today() > e.event.startDate.format("yyyy-MM-dd")) {
-                 console.log(e.event.startDate.format("yyyy-MM-dd") +  "önce " + LocalDate.today().toString() + " sonra");
-                } else  if (LocalDate.today() < e.event.startDate.format("yyyy-MM-dd")) {
-                    console.log(LocalDate.today().toString() +  "önce " + e.event.startDate.format("yyyy-MM-dd") + " sonra");
-                }
-              
-            });
-            return [{}];
+        language : function () {
+            return document.getElementsByTagName("html")[0].getAttribute("lang");
         }
+    },
+    watch : {
+        datepicker: function (val) {
+            getEvents(this);
+        },
+        types: function (val) {
+            getEvents(this);
+        }
+    },
+    mounted () {
+         getEvents(this);
     }
+
 
   }
 

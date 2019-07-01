@@ -1,9 +1,25 @@
 @import "bootstrap4/bootstrap";
 
+$mandalina-color: #EFBC53;
+$greyfurt-color: #E76649;
+$lime-color: #8FB82E;
+$uzum-color: #D3D035;
+$portakal-color: #F2873F;
+
+a {
+    color:  $greyfurt-color;
+}
+
+.logo {
+    color: $greyfurt-color !important;
+    font-weight: bold;
+}
+
 html,
 body {
-  overflow-x: hidden; /* Prevent scroll on narrow devices */
-  background-color: #F2F2F2 !important;
+    overflow-x: hidden;
+    /* Prevent scroll on narrow devices */
+    background-color: #F2F2F2 !important;
 }
 
 body {
@@ -15,85 +31,103 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
 li {
-                list-style: none;
-            }
-.bg-light {            
+    list-style: none;
+}
+
+.bg-light {
     background-color: #fff !important;
     border-bottom: 1px solid #CCC;
-}               
+}
+
 .navbar-nav .nav-link {
     line-height: normal;
     vertical-align: middle;
-}            
+}
+
 @media (max-width: 991.98px) {
-  .offcanvas-collapse {
-    position: fixed;
-    top: 56px; /* Height of navbar */
-    bottom: 0;
-    left: 100%;
-    width: 100%; 
-    padding-right: 1rem;
-    padding-left: 1rem;
-    overflow-y: auto;
-    visibility: hidden;
-    background-color: #f8f9fa !important;
-    transition: visibility .3s ease-in-out, -webkit-transform .3s ease-in-out;
-    transition: transform .3s ease-in-out, visibility .3s ease-in-out;
-    transition: transform .3s ease-in-out, visibility .3s ease-in-out, -webkit-transform .3s ease-in-out;
-    z-index: 1;
-  }
-  .offcanvas-collapse.open {
-    visibility: visible;
-    -webkit-transform: translateX(-100%);
-    transform: translateX(-100%);
-  }
+    .offcanvas-collapse {
+        position: fixed;
+        top: 56px;
+        /* Height of navbar */
+        bottom: 0;
+        left: 100%;
+        width: 100%;
+        padding-right: 1rem;
+        padding-left: 1rem;
+        overflow-y: auto;
+        visibility: hidden;
+        background-color: #f8f9fa !important;
+        transition: visibility .3s ease-in-out, -webkit-transform .3s ease-in-out;
+        transition: transform .3s ease-in-out, visibility .3s ease-in-out;
+        transition: transform .3s ease-in-out, visibility .3s ease-in-out, -webkit-transform .3s ease-in-out;
+        z-index: 1;
+    }
+
+    .offcanvas-collapse.open {
+        visibility: visible;
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%);
+    }
 }
 
 .nav-scroller {
-  position: relative;
-  z-index: 2;
-  height: 2.75rem;
-  overflow-y: hidden;
+    position: relative;
+    z-index: 2;
+    height: 2.75rem;
+    overflow-y: hidden;
 }
 
 .nav-scroller .nav {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: nowrap;
-  flex-wrap: nowrap;
-  padding-bottom: 1rem;
-  margin-top: -1px;
-  overflow-x: auto;
-  color: rgba(255, 255, 255, .75);
-  text-align: center;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    padding-bottom: 1rem;
+    margin-top: -1px;
+    overflow-x: auto;
+    color: rgba(255, 255, 255, .75);
+    text-align: center;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
 }
 
 .nav-underline .nav-link {
-  padding-top: .75rem;
-  padding-bottom: .75rem;
-  font-size: .875rem;
-  color: #6c757d;
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    font-size: .875rem;
+    color: #6c757d;
 }
 
 .nav-underline .nav-link:hover {
-  color: #007bff;
+    color: #007bff;
 }
 
 .nav-underline .active {
-  font-weight: 500;
-  color: #343a40;
+    font-weight: 500;
+    color: #343a40;
 }
 
-.text-white-50 { color: rgba(255, 255, 255, .5); }
+.text-white-50 {
+    color: rgba(255, 255, 255, .5);
+}
 
-.bg-purple { background-color: #6f42c1; }
+.bg-purple {
+    background-color: #6f42c1;
+}
 
-.lh-100 { line-height: 1; }
-.lh-125 { line-height: 1.25; }
-.lh-150 { line-height: 1.5; }
+.lh-100 {
+    line-height: 1;
+}
+
+.lh-125 {
+    line-height: 1.25;
+}
+
+.lh-150 {
+    line-height: 1.5;
+}
 
 
 .font-size-10 {
@@ -113,7 +147,7 @@ footer.common {
     width: 100%;
     height: 300px;
     background-color: #F5f5f5;
-    bottom:0;
+    bottom: 0;
 }
 
 .btn {
@@ -133,13 +167,14 @@ ul.breadcrumb li {
         line-height: 18px;
         vertical-align: middle;
     }
+
     span {
         font-size: 12px;
-    line-height: 18px;
-    padding: 0 0px 0 4px;
+        line-height: 18px;
+        padding: 0 0px 0 4px;
         vertical-align: middle;
     }
-   
+
     h1 {
         font-size: 12px;
         display: inline;
@@ -176,6 +211,7 @@ ul.breadcrumb li {
 .pagelink-div {
     height: 350px;
     padding-bottom: 30px;
+
     ul {
         border: 1px solid #e5e5e5;
         margin-top: 33px;
@@ -199,7 +235,7 @@ ul.breadcrumb li {
                 display: table-cell;
                 font-size: 13px;
                 height: 42px;
-                
+
 
             }
         }
@@ -216,14 +252,15 @@ ul.breadcrumb li {
         background: #FFF;
         padding: 10px;
         border: 1px solid #e5e5e5;
-            border-radius: 2px;
-    background-color: #fff;
-    box-sizing: border-box;
-        -webkit-box-shadow: 0 0 5px 0 rgba(50,50,50,.1);
-    -moz-box-shadow: 0 0 5px 0 rgba(50,50,50,.1);
-    box-shadow: 0 0 5px 0 rgba(50,50,50,.1);
-    border: 1px solid\9;
+        border-radius: 2px;
+        background-color: #fff;
+        box-sizing: border-box;
+        -webkit-box-shadow: 0 0 5px 0 rgba(50, 50, 50, .1);
+        -moz-box-shadow: 0 0 5px 0 rgba(50, 50, 50, .1);
+        box-shadow: 0 0 5px 0 rgba(50, 50, 50, .1);
+        border: 1px solid\9;
     }
+
     h2 {
         font-size: 28px;
         font-weight: bold;
@@ -235,52 +272,58 @@ ul.breadcrumb li {
         font-size: 12px;
         padding: 5px;
     }
-    
-    .cover-image {
-         border: 1px solid #FFF; border-top-left-radius: 8px; height: 240px; width: 100%; 
-             background-position-y: center !important;
-    background-position-x: center !important;
-         background-repeat: no-repeat !important;
-          position: relative;
-          background-size: cover !important;
-  overflow: hidden;
-  
-  img {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  height: 100%;
-  width: auto;
-  -webkit-transform: translate(-50%,-50%);
-      -ms-transform: translate(-50%,-50%);
-          transform: translate(-50%,-50%);
-           @media (min-width: 320px) {
-display: none;
 
-     
-         }
-}
-        
-         
-         
+    .cover-image {
+        border: 1px solid #FFF;
+        border-top-left-radius: 8px;
+        height: 240px;
+        width: 100%;
+        background-position-y: center !important;
+        background-position-x: center !important;
+        background-repeat: no-repeat !important;
+        position: relative;
+        background-size: cover !important;
+        overflow: hidden;
+
+        img {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            height: 100%;
+            width: auto;
+            -webkit-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+
+            @media (min-width: 320px) {
+                display: none;
+
+
+            }
+        }
+
+
+
     }
-    
+
     .detail {
         padding: 5px;
         background-color: #FFF;
         border-top-right-radius: 8px;
+
         .period {
             padding-left: 5px;
             font-size: 12px;
         }
-        
+
         ul {
-            padding:0 !important;
+            padding: 0 !important;
+
             li {
                 list-style: none;
             }
         }
-        
+
         i {
             padding: 5px;
             color: #333;
@@ -295,54 +338,60 @@ display: none;
             font-size: 18px;
         }
     }
+
     .comment-item {
         padding-bottom: 5px;
         position: relative;
         border-bottom: 1px solid rgb(222, 226, 230) !important;
         margin-bottom: 10px;
+
         .title {
-        
+
             font-weight: bold;
             margin: 5px 0 3px 0;
         }
-       .datetime {
+
+        .datetime {
             font-size: 11px;
-       }
-       
-       .user {
-        font-size:13px;
-        font-weight: bold;
-        float: right;
-        margin-right: 10px;
-       }
+        }
+
+        .user {
+            font-size: 13px;
+            font-weight: bold;
+            float: right;
+            margin-right: 10px;
+        }
     }
-    
+
     .new-comment {
         ::placeholder {
             font-size: 12px;
         }
+
         .header {
             padding: 5px 0;
         }
+
         .body {
             padding: 5px 0;
-        
-        } 
-        .footer{
+
+        }
+
+        .footer {
             padding: 5px 0;
-            position: relative; 
-            height: 38px;         
-              
+            position: relative;
+            height: 38px;
+
             .btn-comment-save {
                 position: absolute;
                 bottom: 5px;
                 right: 0px;
             }
         }
-    
+
     }
-    
-    
+
+
 
 }
 
@@ -353,17 +402,15 @@ display: none;
     color: #FFF;
     font-weight: bold;
     border-radius: unset;
+
     :hover {
         color: #FFF;
     }
-    i {
-        
-    }
-    
-    span {
-        
-    }
-    
+
+    i {}
+
+    span {}
+
 }
 
 .btn-vkontakte {
@@ -373,39 +420,38 @@ display: none;
     color: #FFF;
     font-weight: bold;
     border-radius: unset;
+
     :hover {
         color: #FFF;
     }
-    
-    i {
-        
-    }
-    
-    span {
-        
-    }
-    
+
+    i {}
+
+    span {}
+
 }
 
 .upload-btn-wrapper {
-  margin-top: 25%;
-  position: relative;
-  overflow: hidden;
-  display: block;
-  button {
-      border: none;
-      color: gray;
-      background-color: transparent;
-      padding: 5px;
-      font-size: 48px;
+    margin-top: 25%;
+    position: relative;
+    overflow: hidden;
+    display: block;
+
+    button {
+        border: none;
+        color: gray;
+        background-color: transparent;
+        padding: 5px;
+        font-size: 48px;
     }
-  input[type=file] {
-  font-size: 100px;
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0;
-}  
+
+    input[type=file] {
+        font-size: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+    }
 }
 
 
@@ -414,6 +460,3 @@ display: none;
 .pastel-blue {
     color: #22DAFF;
 }
-
-
-

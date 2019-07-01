@@ -1,5 +1,6 @@
 package com.project.web.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,9 +37,9 @@ public class HomeController {
 		placeRequest.setLanguage(Language.getByCode(language));
 		placeRequest.setLimit(10);
 		placeRequest.setRandom(Boolean.TRUE);
-		List<PlaceLandingPage> pages = placeService.getPlaceLandingPages(placeRequest);
+//		List<PlaceLandingPage> pages = placeService.getPlaceLandingPages(placeRequest);
 
-		model.addAttribute("pages", pages);
+		model.addAttribute("pages", Collections.EMPTY_LIST);
 
 		return "index";
 	}

@@ -3,15 +3,15 @@ com/project/web/controller/PlaceController.class
 com/project/web/controller/SignUpController.class
 com/project/web/misc/service/IGoogleApiService.class
 com/project/web/interceptor/UserInterceptor.class
-com/project/web/config/WebMvcConfigSupport.class
-org/baeldung/web/dto/Foo.class
 com/project/web/interceptor/SessionTimerInterceptor.class
 com/project/web/misc/service/impl/GoogleApiService.class
+com/project/web/service/impl/BaseApiService$1.class
 com/project/web/service/IPlaceService.class
 com/project/web/config/RedisConfig.class
 com/project/web/controller/DefaultController.class
 com/project/web/service/impl/PlaceService.class
 com/project/web/security/CustomAccessDeniedHandler.class
+com/project/web/service/impl/PlaceService$1.class
 com/project/web/config/SecurityConfig.class
 com/project/web/service/impl/UserService.class
 com/project/web/security/AuthUser.class
@@ -19,6 +19,7 @@ com/project/web/service/IFileService.class
 com/project/web/security/RefererAuthenticationSuccessHandler.class
 com/project/web/component/Translator.class
 com/project/web/service/IEventService.class
+com/project/web/service/impl/EventService$1.class
 com/project/web/controller/UserController.class
 com/project/web/security/WebUserModel.class
 com/project/web/config/WebMvcConfig.class
@@ -30,11 +31,11 @@ com/project/web/config/WebConfiguration.class
 com/project/web/security/CustomLogoutSuccessHandler.class
 com/project/web/config/MySimpleUrlAuthenticationSuccessHandler.class
 com/project/web/controller/EventControler.class
+com/project/web/service/impl/EventService$2.class
 com/project/web/config/ControllerAdvisor.class
 com/project/web/interceptor/ExtendedLocaleChangeInterceptor.class
 com/project/web/security/CustomWebAuthenticationDetailsSource.class
 com/project/web/utils/WebUtils.class
-org/baeldung/web/controller/PrintUserController.class
 com/project/web/interceptor/ExtendedCookieLocaleResolver.class
 com/project/web/config/ApiConnectConfig.class
 com/project/web/controller/LoginController.class
@@ -52,5 +53,4 @@ com/project/web/controller/HomeController.class
 com/project/web/security/CustomAuthenticationProvider.class
 com/project/web/utils/CharacterSetFilter.class
 com/project/web/interceptor/SiteInterceptor.class
-org/baeldung/web/controller/BankController.class
 com/project/web/service/impl/FileService$1.class

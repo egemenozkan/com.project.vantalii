@@ -110,7 +110,7 @@ export default {
             for (var i = 0; i < length; i++) {
               self.images.push({
                 background:
-                  "background-image: url(" + response.data[i].url + ");"
+                  "background-image: url(" + response.data[i].lgUrl + ");"
               });
             }
             console.log(self.images);
@@ -153,11 +153,11 @@ export default {
 
       var self = this;
       this.file = this.$refs.files.files[0];
-      alert(this.file.size);
+//      alert(this.file.size);
 console.log(this.file.size);
        self.message  = "Size: " + this.file.size;
       formData.append("file", this.file);
-      formData.append("userId", 15);
+      formData.append("userId", this.userId);
       formData.append("pageId", this.id);
       //   console.log(this.file);
       //   console.log(formData);

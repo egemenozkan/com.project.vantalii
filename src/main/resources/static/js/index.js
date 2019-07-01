@@ -15,7 +15,6 @@ Vue.mixin({
       }
     }
   })
-
 /* eslint-disable no-new */
 const app1 = new Vue({
   el: '#app1',

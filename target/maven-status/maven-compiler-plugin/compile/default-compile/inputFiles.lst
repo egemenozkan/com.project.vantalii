@@ -20,9 +20,7 @@
 /Devel/workspace/com.project.vantalii/src/main/java/com/project/web/service/IEventService.java
 /Devel/workspace/com.project.vantalii/src/main/java/com/project/web/interceptor/ExtendedResourceBundleMessageSource.java
 /Devel/workspace/com.project.vantalii/src/main/java/com/project/web/interceptor/ExtendedLocaleChangeInterceptor.java
-/Devel/workspace/com.project.vantalii/src/main/java/com/project/web/config/WebMvcConfigSupport.java
 /Devel/workspace/com.project.vantalii/src/main/java/com/project/web/controller/UserController.java
-/Devel/workspace/com.project.vantalii/src/main/java/com/project/web/controller/BankController.java
 /Devel/workspace/com.project.vantalii/src/main/java/com/project/web/exception/NotFoundException.java
 /Devel/workspace/com.project.vantalii/src/main/java/com/project/web/config/WebMvcConfig.java
 /Devel/workspace/com.project.vantalii/src/main/java/com/project/web/interceptor/UserInterceptor.java
@@ -36,9 +34,7 @@
 /Devel/workspace/com.project.vantalii/src/main/java/com/project/web/controller/EventControler.java
 /Devel/workspace/com.project.vantalii/src/main/java/com/project/web/misc/service/IGoogleApiService.java
 /Devel/workspace/com.project.vantalii/src/main/java/com/project/web/security/CustomWebAuthenticationDetailsSource.java
-/Devel/workspace/com.project.vantalii/src/main/java/com/project/web/controller/Foo.java
 /Devel/workspace/com.project.vantalii/src/main/java/com/project/web/security/CustomLogoutSuccessHandler.java
-/Devel/workspace/com.project.vantalii/src/main/java/com/project/web/controller/PrintUserController.java
 /Devel/workspace/com.project.vantalii/src/main/java/com/project/web/config/WebConfiguration.java
 /Devel/workspace/com.project.vantalii/src/main/java/com/project/web/interceptor/ExtendedCookieLocaleResolver.java
 /Devel/workspace/com.project.vantalii/src/main/java/com/project/web/config/RedisConfig.java

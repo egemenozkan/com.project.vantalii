@@ -2,7 +2,7 @@
 <#import "*/imports/formatter.ftl" as formatter/>
  
 <!doctype html>
-<html lang="${ webPage.language.code }">
+<html  lang="${ webPage.language.code?lower_case }" class="page places" data-language="${ webPage.language }" data-user-id="<#if (user?? &&  user.id??)>${ user.id?c! }<#else>0</#if>">
    <head>
 		<@layout.block name="head">
 		 <title>${ title! } | <@spring.message "title.brand"/></title>
@@ -18,18 +18,17 @@
 		</@layout.block>
 	</head>
     <body>
-        <div class="wrapper">
-		<@layout.block name="header">
-            <#include '*/common/header.ftl'>
-		</@layout.block>
-		<div class="container content-area">
+    	<div class="wrapper">
+			<@layout.block name="header">
+				<#include '*/common/header.ftl'>
+			</@layout.block>
 			<@layout.block name="contents">
 			</@layout.block>
+			<@layout.block name="footer">
+			</@layout.block>
+			<#include '*/common/footer.ftl'>
 		</div>
-		<@layout.block name="footer">
-		</@layout.block>
-		      <#include '*/common/footer.ftl'>
-		</div>
+		<!-- end of .wrapper -->
 		 <#include '*/common/javascripts.ftl'>
          <#include '*/common/analytics.ftl'>
     </body>

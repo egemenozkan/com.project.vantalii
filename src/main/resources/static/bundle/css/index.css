@@ -6693,6 +6693,13 @@ a.text-dark:hover, a.text-dark:focus {
 .invisible {
   visibility: hidden !important; }
 
+a {
+  color: #E76649; }
+
+.logo {
+  color: #E76649 !important;
+  font-weight: bold; }
+
 html,
 body {
   overflow-x: hidden;
@@ -7001,6 +7008,45 @@ ul.breadcrumb li {
 .pastel-blue {
   color: #22DAFF; }
 
+#search-box {
+  padding: 50px 0 30px 0;
+  background-color: #F2873F; }
+  #search-box #search-form h1.box-title {
+    color: #fff;
+    font-size: 2.375rem;
+    line-height: 4.2rem;
+    margin-bottom: 0;
+    margin-left: 0;
+    font-weight: bold; }
+  #search-box #search-form p.box-desc {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold; }
+  #search-box #search-form .date-time-picker {
+    margin-bottom: 15px; }
+    #search-box #search-form .date-time-picker .field-input {
+      border: 1px solid #FFF !important;
+      font-size: 16px !important; }
+    #search-box #search-form .date-time-picker .custom-button {
+      padding: 0; }
+  #search-box #search-form .multiselect {
+    margin-bottom: 15px; }
+    #search-box #search-form .multiselect .multiselect__tags {
+      border: 1px solid #FFF !important; }
+    #search-box #search-form .multiselect .multiselect__tag {
+      background-color: #F2873F !important; }
+    #search-box #search-form .multiselect .multiselect__tag-icon:focus,
+    #search-box #search-form .multiselect .multiselect__tag-icon:hover {
+      background-color: #E76649 !important; }
+  #search-box #search-form .btn-search {
+    margin-bottom: 15px;
+    background: #FFF;
+    border: #8FB82E;
+    font-weight: bold;
+    color: #F2873F;
+    padding: 10px;
+    float: right; }
+
 @media screen and (max-width: 768px) {
   .mobile-hide {
     display: none !important; } }
@@ -7011,11 +7057,23 @@ ul.breadcrumb li {
 
 .badge.event-begin {
   font-size: 0.85rem;
-  background-color: aquamarine;
   padding: 3px;
   position: absolute;
   right: 5px;
-  top: 5px; }
+  top: 5px;
+  background-color: chartreuse; }
+
+.badge.event-begin.allday {
+  background-color: aquamarine; }
+
+.duration {
+  font-size: 0.7rem;
+  padding: 3px;
+  position: absolute;
+  right: 5px;
+  top: 22px; }
+  .duration i {
+    font-size: 0.6rem; }
 
 .days-menu {
   position: relative;
@@ -7072,34 +7130,49 @@ ul.breadcrumb li {
       background: #fff;
       transition: all 0.3s ease-out;
       box-sizing: border-box;
-      padding: 5px; }
+      padding: 5px;
+      height: 70px; }
       .events-downlist .list li h4 {
         font-size: 0.9rem;
         font-weight: 600;
         margin: 0; }
       .events-downlist .list li .line-1 {
         font-size: 0.7rem; }
-      .events-downlist .list li .line-2 {
+      .events-downlist .list li .line-end {
         font-size: 0.7rem;
-        position: relative;
-        min-height: 16px; }
-        .events-downlist .list li .line-2 .attendee {
+        position: absolute;
+        bottom: 2px;
+        min-height: 16px;
+        left: 0;
+        width: 98%;
+        left: 2%; }
+      .events-downlist .list li .info {
+        position: relative; }
+        .events-downlist .list li .info .place {
+          position: absolute; }
+          .events-downlist .list li .info .place i {
+            font-size: 0.8rem;
+            margin-right: 3px; }
+          .events-downlist .list li .info .place a {
+            padding-top: 6px;
+            font-weight: bold; }
+        .events-downlist .list li .info .attendee {
           position: absolute;
           right: 50px;
           width: 30px; }
-          .events-downlist .list li .line-2 .attendee i {
+          .events-downlist .list li .info .attendee i {
             margin-right: 5px; }
-          .events-downlist .list li .line-2 .attendee span {
+          .events-downlist .list li .info .attendee span {
             background: #f5f5f5;
             padding: 2px;
             border-radius: 3px; }
-        .events-downlist .list li .line-2 .comment {
+        .events-downlist .list li .info .comment {
           position: absolute;
           right: 5px;
           width: 30px; }
-          .events-downlist .list li .line-2 .comment i {
+          .events-downlist .list li .info .comment i {
             margin-right: 5px; }
-          .events-downlist .list li .line-2 .comment span {
+          .events-downlist .list li .info .comment span {
             background: #f5f5f5;
             padding: 2px;
             border-radius: 3px; }

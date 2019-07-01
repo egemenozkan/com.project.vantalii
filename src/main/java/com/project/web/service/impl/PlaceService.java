@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -54,7 +55,7 @@ public class PlaceService extends BaseApiService implements IPlaceService {
 			logger.info("::cache getPlaceLandingPages");
 			return (List<PlaceLandingPage>) cacheValue;
 		} else {
-			List pages = getList(endpoint.toUriString(), null);
+			List pages = getList(endpoint.toUriString(), new ParameterizedTypeReference<List<PlaceLandingPage>>() {});
 			if (pages != null) {
 				redisTemplate.opsForHash().put("PLACE", endpoint.toString(), pages);
 			}

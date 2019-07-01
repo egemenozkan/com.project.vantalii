@@ -2,6 +2,7 @@
 
 <script>
  var localeMessages = JSON.parse('${ localeMessages }');
+ console.log("localeMessages", localeMessages);
 </script>
 
 <!-- Bundles -->

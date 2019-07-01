@@ -1,4 +1,3 @@
-console.log("test");
 import 'bootstrap';
 window.jQuery = $;
 window.$ = $;

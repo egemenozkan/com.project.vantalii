@@ -6693,6 +6693,13 @@ a.text-dark:hover, a.text-dark:focus {
 .invisible {
   visibility: hidden !important; }
 
+a {
+  color: #E76649; }
+
+.logo {
+  color: #E76649 !important;
+  font-weight: bold; }
+
 html,
 body {
   overflow-x: hidden;
