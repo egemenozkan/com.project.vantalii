@@ -30,7 +30,7 @@
 		<@layout.block name="header">
             <#include '*/common/header.ftl'>
 		</@layout.block>
-		<div class="container content-area">
+		<div class="container events">
 			<@layout.block name="contents">
 			</@layout.block>
 		</div>

@@ -19,7 +19,7 @@ html,
 body {
     overflow-x: hidden;
     /* Prevent scroll on narrow devices */
-    background-color: #F2F2F2 !important;
+    background-color: #FFFFFF !important;
 }
 
 body {
@@ -39,6 +39,7 @@ li {
 .bg-light {
     background-color: #fff !important;
     border-bottom: 1px solid #CCC;
+        box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.12);
 }
 
 .navbar-nav .nav-link {

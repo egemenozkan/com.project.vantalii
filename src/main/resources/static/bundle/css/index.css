@@ -6704,7 +6704,7 @@ html,
 body {
   overflow-x: hidden;
   /* Prevent scroll on narrow devices */
-  background-color: #F2F2F2 !important; }
+  background-color: #FFFFFF !important; }
 
 body {
   font-family: Poppins, Helvetica, sans-serif;
@@ -6720,7 +6720,8 @@ li {
 
 .bg-light {
   background-color: #fff !important;
-  border-bottom: 1px solid #CCC; }
+  border-bottom: 1px solid #CCC;
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.12); }
 
 .navbar-nav .nav-link {
   line-height: normal;
@@ -7127,7 +7128,7 @@ ul.breadcrumb li {
       margin-bottom: 15px;
       border: 1px solid #e4e4e4;
       border-radius: 3px;
-      background: #fff;
+      background: #fafafa;
       transition: all 0.3s ease-out;
       box-sizing: border-box;
       padding: 5px;

@@ -23,11 +23,11 @@
                                 :options="options"
                                 :multiple="true"
                                 :taggable="true"
-                                :max="3" 
+                                :max="6" 
                                 @tag="addTag" />
                         </div>
                         <div class="col-lg-12 col-12">
-                            <button class="btn btn-search">SEARCH</button>
+                            <button class="btn btn-search" v-on:click="searchEvent">SEARCH</button>
                         </div>
                     </div>
                     <!-- #search-form -->
@@ -62,7 +62,7 @@
                                 <span :class="event.allDay ? 'badge event-begin allday' : 'badge event-begin'">{{event.startTime}}</span>
                                 <span v-if="event.duration>0" class="duration"><i class="fas fa-hourglass-half"></i>&nbsp;{{event.duration}} min</span>
                                 <div class="line-1">
-                                    <span>{{events.type}}</span>
+                                 {{ event.type | typeLM }}       
                                 </div>
                                 <div class="line-end">
                                     <div class="info">
@@ -112,9 +112,9 @@ function getEvents(self) {
                 })
                 .then(function (response) {
                   if (response.data) {
-                      console.log(response.data);
                     var eventsMap = response.data;
                     var currentDate = self.datepicker.start.format("yyyy-MM-dd");
+                    console.log("-->",self.datepicker);
                     self.eventDays = [];
                         while (currentDate <= self.datepicker.end.format("yyyy-MM-dd")) {
                             var eventKey = currentDate.format("yyyy-MM-dd");
@@ -123,11 +123,11 @@ function getEvents(self) {
                                 day: currentDate.format("EEEE"),
                                 value: (eventsMap[eventKey] !== undefined) ? eventsMap[eventKey] : []
                             }
-                            console.log(tempMap);
                             self.eventDays.push(tempMap);
                             
                             currentDate = currentDate.addDays(1);
                         }
+
                   }
                 })
                 .catch(function (error) {
@@ -145,13 +145,12 @@ export default {
     datepicker: '',
     eventDays: [],
     customShortcuts: [
-        { label: 'Tomorrow', value: '+day', isSelected: false },
-          { label: 'This Week', value: 'week', isSelected: true },
-          { label: 'Next Week', value: '+week', isSelected: false },
-          { label: 'This Month', value: 'month', isSelected: false },
-          { label: 'Last Month', value: '-month', isSelected: false },
-          { label: 'This Month', value: 'year', isSelected: false },
-          { label: 'Weekend', value: 'weekend', isSelected: false }
+{ label: localeMessages['datepicker.tomorrow'], value: '+day', isSelected: false },
+{ label: localeMessages['datepicker.thisWeek'], value: 'week', isSelected: true },
+{ label: localeMessages['datepicker.weekend'], value: 'weekend', isSelected: false },
+{ label: localeMessages['datepicker.nextWeek'], value: '+week', isSelected: false },
+{ label: localeMessages['datepicker.thisMonth'], value: 'month', isSelected: false },
+{ label: localeMessages['datepicker.nextMonth'], value: '+month', isSelected: false }
         ],
     
     types: [
@@ -191,18 +190,31 @@ export default {
             return document.getElementsByTagName("html")[0].getAttribute("lang");
         }
     },
-    watch : {
+   /* watch : {
         datepicker: function (val) {
             getEvents(this);
-        },
-        types: function (val) {
+        }
+    }, */
+    mounted () {
+        var self = this;
+        setTimeout(function() {
+            console.log("girdi", new Date());
+        	  getEvents(self);
+				}, 1000);
+       
+    },
+    methods: {
+        searchEvent: function () {
+            console.log("searchEvent");
             getEvents(this);
         }
     },
-    mounted () {
-         getEvents(this);
+    filters: {
+    typeLM: function (value) {
+        if (!value) return ''
+        return localeMessages['events.type.' + value];
     }
-
+  }
 
   }
 

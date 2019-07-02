@@ -125,6 +125,14 @@ public class EventService extends BaseApiService implements IEventService {
 
 	@Override
 	public Map<String, List<Event>> getEventsMap(EventRequest eventRequest) {
+		
+		if (eventRequest != null && eventRequest.getStartDate() !=null && eventRequest.getEndDate() == null) {
+			eventRequest.setEndDate(eventRequest.getStartDate());
+		}
+		if (eventRequest.getStartDate() == null && eventRequest.getEndDate() == null ) {
+			return null;
+		}
+		logger.error("eventRequest: {}", gson.toJson(eventRequest));
 		List<Event> events = getEvents(eventRequest);
 
 		Map<String, List<Event>> eventsMap = new HashMap<>();
