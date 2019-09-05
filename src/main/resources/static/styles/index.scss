@@ -3,12 +3,13 @@
 
 #search-box {
     padding: 50px 0 30px 0;
-    background-color: $portakal-color;
-    ;
-
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    position: relative;
     #search-form {
         h1.box-title {
-            color: #fff;
+            color: $primary;
             font-size: 2.375rem;
             line-height: 4.2rem;
             margin-bottom: 0;
@@ -16,10 +17,11 @@
             font-weight: bold;
         }
 
-        p.box-desc {
-            color: #fff;
+        h2.box-desc {
+            color: $primary;
             font-size: 1rem;
             font-weight: bold;
+            margin: 0 0 10px 0 !important;
         }
 
         .date-time-picker {
@@ -44,22 +46,19 @@
             }
 
             .multiselect__tag {
-                background-color: $portakal-color !important;
+                background-color: $primary !important;
             }
 
             .multiselect__tag-icon:focus,
             .multiselect__tag-icon:hover {
-                background-color: $greyfurt-color !important;
+                background-color: $primary !important;
             }
 
         }
 
         .btn-search {
             margin-bottom: 15px;
-            background: #FFF;
-            border: $lime-color;
             font-weight: bold;
-            color: $portakal-color;
             padding: 10px;
             float: right;
         }
@@ -187,11 +186,15 @@
             box-sizing: border-box;
             padding: 5px;
             height: 70px;
-
+            a {
+                color: rgb(37, 44, 65);
+                transition: all .3s ease;
+            }
             h4 {
                 font-size: 0.9rem;
                 font-weight: 600;
                 margin: 0;
+
             }
 
             .line-1 {

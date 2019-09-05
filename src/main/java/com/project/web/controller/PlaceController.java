@@ -24,12 +24,13 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.google.gson.Gson;
 import com.project.api.data.enums.LandingPageType;
 import com.project.api.data.enums.Language;
 import com.project.api.data.enums.MainType;
 import com.project.api.data.enums.PlaceType;
 import com.project.api.data.model.comment.Comment;
-import com.project.api.data.model.comment.PlaceCommentResponse;
+import com.project.api.data.model.comment.CommentResponse;
 import com.project.api.data.model.file.MyFile;
 import com.project.api.data.model.place.PlaceLandingPage;
 import com.project.api.data.model.place.PlaceRequest;
@@ -44,6 +45,9 @@ public class PlaceController {
 	private IPlaceService placeService;
 	@Autowired
 	private IFileService fileService;
+	
+	@Autowired
+	private Gson gson;
 
 	final Logger LOG = LoggerFactory.getLogger(PlaceController.class);
 
@@ -55,9 +59,7 @@ public class PlaceController {
 		placeRequest.setLanguage(Language.getByCode(language));
 		placeRequest.setLimit(10);
 		placeRequest.setRandom(Boolean.TRUE);
-		// List<PlaceLandingPage> pages =
-		// placeService.getPlaceLandingPages(placeRequest);
-		model.addAttribute("pages", placeService.getPlaceLandingPages(placeRequest));
+	//	model.addAttribute("pages", placeService.getPlaceLandingPages(placeRequest));
 
 		return new ModelAndView("places/index");
 	}
@@ -110,7 +112,7 @@ public class PlaceController {
 		placeRequest.setLimit(10);
 		placeRequest.setMainType(page.getPlace().getType().getMainType());
 		placeRequest.setRandom(Boolean.TRUE);
-		List<PlaceLandingPage> seoPages = placeService.getPlaceLandingPages(placeRequest);
+		List<PlaceLandingPage> seoPages = null; //placeService.getPlaceLandingPages(placeRequest);
 
 		String languageCode = WebUtils.getURILanguageCode(request.getRequestURI());
 		model.addAttribute("languageCode", languageCode);
@@ -118,24 +120,23 @@ public class PlaceController {
 
 		model.addAttribute("placeId", id);
 
-		// return new ModelAndView("places/page");
 		return new ModelAndView("places/page", model);
 	}
 
 	@GetMapping({ "/places/comments" })
-	public @ResponseBody PlaceCommentResponse getPlaceComments(Model model, @RequestParam(required = true) long id) {
-		return placeService.getPlaceCommentsByPlaceId(id);
+	public @ResponseBody CommentResponse getPlaceComments(Model model, @RequestParam(required = true) long id) {
+		return placeService.getCommentsByPlaceId(id);
 
 	}
 
 	@PostMapping("/places/{id}/comments")
-	public @ResponseBody PlaceCommentResponse postPlaceComment(@PathVariable long id, RequestEntity<Comment> requestEntity) {
+	public @ResponseBody CommentResponse postPlaceComment(@PathVariable long id, RequestEntity<Comment> requestEntity) {
 		Comment newComment = requestEntity.getBody();
 		if (newComment != null) {
-			placeService.savePlaceComment(newComment, id);
+			placeService.saveComment(newComment, id);
 		}
 
-		return placeService.getPlaceCommentsByPlaceId(id);
+		return placeService.getCommentsByPlaceId(id);
 	}
 
 	@GetMapping({ "/places/m/{slug}", "/{language}/places/m/{slug}" })
@@ -143,27 +144,37 @@ public class PlaceController {
 			@PathVariable(required = false, name = "language") String language, @PathVariable String slug) {
 
 		PlaceRequest placeRequest = null;
-
+		language = (language ==  null) ? "RU" : language;
 		if (MainType.getBySlug(slug) != MainType.NOTSET) {
 			placeRequest = new PlaceRequest();
 			placeRequest.setMainType(MainType.getBySlug(slug));
 			placeRequest.setLanguage(Language.getByCode(language));
+			placeRequest.setLimit(20);
+			placeRequest.setHideContent(true);
+			placeRequest.setHideImages(true);
+			placeRequest.setRandom(true);
+			model.addAttribute("mainType", MainType.getBySlug(slug));
 			model.addAttribute("pages", placeService.getPlaceLandingPages(placeRequest));
+			LOG.error(":..{}", gson.toJson(placeService.getPlaceLandingPages(placeRequest)));
 		}
-
 		return new ModelAndView("places/category");
 	}
 
 	@GetMapping({ "/places/t/{slug}", "/{language}/places/t/{slug}" })
 	public ModelAndView landingPageByTypes(Model model, HttpServletRequest request,
-			@PathVariable(required = false, name = "language") String language, @PathVariable String slug) {
+			@PathVariable(required = false, name = "language") String language,
+			@PathVariable String slug) {
 
 		PlaceRequest placeRequest = null;
-
+		language = (language ==  null) ? "RU" : language;
 		if (PlaceType.getBySlug(slug) != PlaceType.NOTSET) {
 			placeRequest = new PlaceRequest();
 			placeRequest.setType(PlaceType.getBySlug(slug));
 			placeRequest.setLanguage(Language.getByCode(language));
+			placeRequest.setHideContent(true);
+			placeRequest.setHideImages(true);
+			placeRequest.setRandom(true);
+			model.addAttribute("type", PlaceType.getBySlug(slug));
 			model.addAttribute("pages", placeService.getPlaceLandingPages(placeRequest));
 		}
 
@@ -172,7 +183,8 @@ public class PlaceController {
 
 	@PostMapping({ "/places/file-upload/single", "/{language}/places/file-upload/single" })
 	public @ResponseBody boolean landingPageByTypes(Model model, HttpServletRequest request,
-			@PathVariable(required = false, name = "language") String language, @RequestParam("file") MultipartFile[] files,
+			@PathVariable(required = false, name = "language") String language,
+			@RequestParam("file") MultipartFile[] files,
 			@RequestParam("userId") long userId, @RequestParam("pageId") long pageId) {
 		try {
 			fileService.saveFiles(files, userId, LandingPageType.PLACE.getId(), pageId);

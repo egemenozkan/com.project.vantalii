@@ -62,7 +62,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Bean
 	public FreeMarkerViewResolver freemarkerViewResolver() {
 		FreeMarkerViewResolver resolver = new FreeMarkerViewResolver();
-		resolver.setCache(true);
+		resolver.setCache(false);
 		resolver.setPrefix("");
 		resolver.setSuffix(".ftl");
 		resolver.setContentType("text/html;charset=UTF-8");

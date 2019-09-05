@@ -24,6 +24,7 @@ com/project/web/controller/UserController.class
 com/project/web/security/WebUserModel.class
 com/project/web/config/WebMvcConfig.class
 com/project/web/service/impl/EventService.class
+com/project/web/controller/SiteMapController.class
 com/project/web/service/impl/BaseApiService.class
 com/project/web/misc/service/GoogleUserAuthenticationService.class
 com/project/web/config/CustomWebSecurityConfigurerAdapter.class

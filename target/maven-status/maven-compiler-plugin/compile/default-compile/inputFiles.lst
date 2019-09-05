@@ -30,6 +30,7 @@
 /Devel/workspace/com.project.vantalii/src/main/java/com/project/web/misc/service/impl/GoogleApiService.java
 /Devel/workspace/com.project.vantalii/src/main/java/com/project/web/config/CustomWebSecurityConfigurerAdapter.java
 /Devel/workspace/com.project.vantalii/src/main/java/com/project/web/component/Translator.java
+/Devel/workspace/com.project.vantalii/src/main/java/com/project/web/controller/SiteMapController.java
 /Devel/workspace/com.project.vantalii/src/main/java/com/project/web/security/RefererAuthenticationSuccessHandler.java
 /Devel/workspace/com.project.vantalii/src/main/java/com/project/web/controller/EventControler.java
 /Devel/workspace/com.project.vantalii/src/main/java/com/project/web/misc/service/IGoogleApiService.java

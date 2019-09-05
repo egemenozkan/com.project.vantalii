@@ -21,3 +21,18 @@ import {LocalDate} from '../js/mydate';
    })
    
   
+   
+window.onscroll = function() {stickyNavbar()};
+
+// Get the header
+var navbar = document.getElementById("navbar");
+var sticky = navbar.offsetTop;
+
+// Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+function stickyNavbar() {
+  if (window.pageYOffset > sticky) {
+	  navbar.classList.add("navbar-sticky");
+  } else {
+	  navbar.classList.remove("navbar-sticky");
+  }
+}

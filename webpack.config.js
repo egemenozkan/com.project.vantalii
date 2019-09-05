@@ -16,9 +16,10 @@ module.exports = {
             events_index: './src/main/resources/static/js/events_index.js',
             events: './src/main/resources/static/js/events.js',
             places: './src/main/resources/static/js/places.js',
+            places_index: './src/main/resources/static/js/places_index.js',
             styles: ['./src/main/resources/static/styles/index.scss', 
                 './src/main/resources/static/styles/common.scss', './src/main/resources/static/styles/events.scss',
-                './src/main/resources/static/styles/places.scss']
+                './src/main/resources/static/styles/places.scss', './src/main/resources/static/styles/places_index.scss']
         },
   output: {
       path: path.resolve(__dirname, './src/main/resources/static/bundle'),

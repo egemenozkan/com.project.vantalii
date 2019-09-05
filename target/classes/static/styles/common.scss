@@ -1,33 +1,26 @@
 @import "bootstrap4/bootstrap";
 
-$mandalina-color: #EFBC53;
-$greyfurt-color: #E76649;
-$lime-color: #8FB82E;
-$uzum-color: #D3D035;
-$portakal-color: #F2873F;
-
-a {
-    color:  $greyfurt-color;
-}
-
 .logo {
-    color: $greyfurt-color !important;
+    color: $primary !important;
     font-weight: bold;
 }
 
 html,
 body {
     overflow-x: hidden;
-    /* Prevent scroll on narrow devices */
-    background-color: #FFFFFF !important;
+    background-color: #f4f7f6
 }
 
 body {
-    font-family: Poppins, Helvetica, sans-serif;
-    font-size: 14px;
-    line-height: 1.43;
-    color: #484848;
     margin: 0;
+    padding: 0;
+    line-height: 1.78;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: 'Montserrat', sans-serif;
+    /* color: #70778b; */
+    color: rgb(72, 72, 72);
+    letter-spacing: .02em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -36,15 +29,58 @@ li {
     list-style: none;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: rgb(34, 34, 34);
+}
+
+/*
+a {
+    color: #9facbd;
+    :hover {
+        color: #3c4859
+    }
+}
+ */
 .bg-light {
-    background-color: #fff !important;
+    background-color: #FFF !important;
     border-bottom: 1px solid #CCC;
-        box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.12);
 }
 
 .navbar-nav .nav-link {
     line-height: normal;
     vertical-align: middle;
+    background-color: #FFF
+}
+
+.navbar-fixed-top {
+    top: 0;
+    border-width: 0 0 1px;
+}
+
+.navbar-sticky {
+    background-color: #FFF !important;
+}
+
+@media (min-width: 768px) {
+
+    .navbar-fixed-top,
+    .navbar-fixed-bottom {
+        border-radius: 0;
+    }
+}
+
+.navbar-fixed-top,
+.navbar-fixed-bottom {
+    position: fixed;
+    right: 0;
+    left: 0;
+    z-index: 1030;
 }
 
 @media (max-width: 991.98px) {
@@ -72,6 +108,22 @@ li {
         transform: translateX(-100%);
     }
 }
+
+
+.v-parallax {
+    background: url(/img/plaj_bg.jpg) no-repeat center center fixed;
+    display: table;
+    height: 100%;
+    position: relative;
+    width: 100%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding-top: 50px;
+ /*   height: 100vh; */
+}
+
 
 .nav-scroller {
     position: relative;
@@ -141,6 +193,14 @@ li {
 
 .font-size-12 {
     font-size: 12px;
+}
+
+.font-size-14 {
+    font-size: 14px;
+}
+
+.font-size-16 {
+    font-size: 16px;
 }
 
 
@@ -249,17 +309,37 @@ ul.breadcrumb li {
 
 
 .page {
+
     .box {
-        background: #FFF;
-        padding: 10px;
-        border: 1px solid #e5e5e5;
-        border-radius: 2px;
         background-color: #fff;
-        box-sizing: border-box;
-        -webkit-box-shadow: 0 0 5px 0 rgba(50, 50, 50, .1);
-        -moz-box-shadow: 0 0 5px 0 rgba(50, 50, 50, .1);
-        box-shadow: 0 0 5px 0 rgba(50, 50, 50, .1);
-        border: 1px solid\9;
+        margin-bottom: 20px;
+        border: 1px solid #f3f3f6;
+
+        .box-header {
+            border-bottom: 1px solid #f3f3f6;
+            padding: 13px 20px;
+
+            h4 {
+                margin: 0;
+                display: inline-block;
+                vertical-align: middle;
+                color: #485273;
+                font-size: 10px;
+                line-height: 1.3em;
+                text-transform: uppercase;
+                letter-spacing: .1em;
+            }
+        }
+
+        .box-header.bg-event {
+            background-color: #6E8898;
+            color: rgb(34, 43, 43)
+        }
+
+        .box-body {
+            padding: 18px 20px;
+
+        }
     }
 
     h2 {
@@ -460,4 +540,37 @@ ul.breadcrumb li {
 
 .pastel-blue {
     color: #22DAFF;
+}
+
+.places-cards {
+    .card {
+        .card-body {
+            h5.card-title {
+                font-size: 1.1rem;
+                font-weight: bold;
+                margin-bottom: 0 !important;
+            }
+
+            padding: 0.5rem;
+
+            .region {
+                a {
+                    font-size: 0.8rem;
+                    line-height: 1rem;
+                }
+            }
+        }
+    }
+}
+
+
+.page.category {
+    .jumbotron {
+        background-color: #707070 !important;
+        color: #fff !important;
+
+        h1 {
+            font-size: 2rem;
+        }
+    }
 }

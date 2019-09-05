@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.project.api.data.model.comment.Comment;
-import com.project.api.data.model.comment.PlaceCommentResponse;
+import com.project.api.data.model.comment.CommentResponse;
 import com.project.api.data.model.place.PlaceLandingPage;
 import com.project.api.data.model.place.PlaceRequest;
 import com.project.web.service.IPlaceService;
@@ -48,11 +48,28 @@ public class PlaceService extends BaseApiService implements IPlaceService {
 		if (placeRequest.getRandom() != null && placeRequest.getRandom()) {
 			endpoint.queryParam("random", placeRequest.getRandom());
 		}
+		if (placeRequest.isHideAddress()) {
+			endpoint.queryParam("hideAddress", placeRequest.isHideAddress());
+		}
+		if (placeRequest.isHideContact()) {
+			endpoint.queryParam("hideContact", placeRequest.isHideContact());
+		}
+		if (placeRequest.isHideContent()) {
+			endpoint.queryParam("hideContent", placeRequest.isHideContent());
+		}
+		if (placeRequest.isHideImages()) {
+			endpoint.queryParam("hideImages", placeRequest.isHideImages());
+		}
+		if (placeRequest.isHideMainImage()) {
+			endpoint.queryParam("hideMainImage", placeRequest.isHideMainImage());
+		}
 
-		Object cacheValue = redisTemplate.opsForHash().get("PLACE", endpoint.toString());
+		Object cacheValue = null;//redisTemplate.opsForHash().get("PLACE", endpoint.toString());
 
 		if (cacheValue != null) {
-			logger.info("::cache getPlaceLandingPages");
+			if (logger.isDebugEnabled()) {
+				logger.debug("::cache getPlaceLandingPages");
+			}
 			return (List<PlaceLandingPage>) cacheValue;
 		} else {
 			List pages = getList(endpoint.toUriString(), new ParameterizedTypeReference<List<PlaceLandingPage>>() {});
@@ -90,18 +107,18 @@ public class PlaceService extends BaseApiService implements IPlaceService {
 	}
 
 	@Override
-	public PlaceCommentResponse getPlaceCommentsByPlaceId(long id) {
+	public CommentResponse getCommentsByPlaceId(long placeId) {
 		StringBuilder endpoint = new StringBuilder(authServerUrl);
-		endpoint.append("/api/v1/places/{id}/comments");
-		return (PlaceCommentResponse) getObject(endpoint.toString(), PlaceCommentResponse.class, id);
+		endpoint.append("/api/v1/events/{placeId}/comments");
+		return (CommentResponse) getObject(endpoint.toString(), CommentResponse.class, placeId);
 	}
 
 	@Override
-	public long savePlaceComment(Comment comment, long id) {
+	public long saveComment(Comment comment, long placeId) {
 		StringBuilder endpoint = new StringBuilder(authServerUrl);
-		endpoint.append("/api/v1/places/{id}/comments");
+		endpoint.append("/api/v1/events/{placeId}/comments");
 
-		return (long) postObject(endpoint.toString(), comment, Long.class, id);
+		return (long) postObject(endpoint.toString(), comment, Long.class, placeId);
 	}
 
 }

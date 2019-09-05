@@ -1,13 +1,13 @@
 <template>
 <div>
-    <div id="search-box">
+    <div id="search-box" class="v-parallax">
         <div class="container">
             <div class="row no-gutters">
                 <div class="col-lg-6">
                     <div id="search-form" class="row no-gutters">
                         <div class="col-lg-12 col-12">
-                            <h1 class="box-title">Antalya'yı keşfet</h1>
-                            <p class="box-desc">Nerede, ne zaman, ne var?</p>
+                            <h1 class="box-title">{{ m['page.home.content.h1']}}</h1>
+                            <h2 class="box-desc">{{ m['page.home.content.h2']}}</h2>
                             <VueCtkDateTimePicker  
                             v-model="datepicker"
                             :format="'YYYY-MM-DD'"
@@ -27,7 +27,7 @@
                                 @tag="addTag" />
                         </div>
                         <div class="col-lg-12 col-12">
-                            <button class="btn btn-search" v-on:click="searchEvent">SEARCH</button>
+                            <button class="btn btn-primary btn-search" v-on:click="searchEvent">SEARCH</button>
                         </div>
                     </div>
                     <!-- #search-form -->
@@ -41,7 +41,7 @@
     <div id="search-results-box" class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h2 class="font-size-14 pastel-blue">Etkinlikler</h2>
+                <!-- <h2 class="font-size-14 pastel-blue"></h2> -->
                 <div class="days-menu desktop-hide">
                     <span id="event-day-prev">
                         <i class="fas fa-chevron-circle-left"></i>
@@ -156,13 +156,16 @@ export default {
     types: [
         { name: localeMessages['events.type.CONCERT'], code: '2' },
         { name: localeMessages['events.type.DANCE_AND_BALLET'], code: '3' },
-        { name: localeMessages['events.type.VISITOR_ATTRACTIONS'], code: '14' }
+        { name: localeMessages['events.type.VISITOR_ATTRACTIONS'], code: '14' },
+        { name: localeMessages['events.type.SHOPPING'], code: '18'},    
+        { name: localeMessages['events.type.EXHIBITIONS'], code: '12'}                               
+
       ],
       options: [
            { name: localeMessages['events.type.CONCERT'], code: '2'},
            { name: localeMessages['events.type.DANCE_AND_BALLET'], code: '3'},
-          {  name: localeMessages['events.type.OPERA'], code: '4'},
-          {  name: localeMessages['events.type.MUSICALS'], code: '5'},
+           { name: localeMessages['events.type.OPERA'], code: '4'},
+           { name: localeMessages['events.type.MUSICALS'], code: '5'},
            { name: localeMessages['events.type.COMEDY'], code: '6'},
            { name: localeMessages['events.type.DRAMA'], code: '7'},
            { name: localeMessages['events.type.ATHLETICS'], code: '8'},
@@ -207,6 +210,7 @@ export default {
         searchEvent: function () {
             console.log("searchEvent");
             getEvents(this);
+            console.log(this.options)
         }
     },
     filters: {

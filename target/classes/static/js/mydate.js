@@ -28,9 +28,20 @@ Date.prototype.addDays = function(days) {
 	  _date.setDate(_date.getDate() + days);
 	  return _date;
 };
-var e3 = ["Paz", "Pzt", "Sal", "Çar", "Prş", "Cum", "Cmt"];
 
-var e4 = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+
+var days3 = {};
+var days4 = {};
+days3['tr'] = ["Paz", "Pzt", "Sal", "Çar", "Prş", "Cum", "Cmt"]
+days4['tr'] = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+days3['en'] = ["Sun", "Mon", "Tue", "Wed", "Thr", "Fri", "Sat"]
+days4['en'] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+days3['ru'] = ["воскресенье", "вторник", "вторник", "среда", "четверг", "пятница", "суббота"]
+days4['ru'] = ["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"];
+
+console.log(document.documentElement.lang);
+var e3 = days3[document.documentElement.lang == "" ? 'ru' : document.documentElement.lang];
+var e4 = days4[document.documentElement.lang == "" ? 'ru' : document.documentElement.lang]
 
 /*
  * "createDateTime":[2019,3,24,20,22,42]

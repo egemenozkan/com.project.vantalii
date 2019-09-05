@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.google.gson.Gson;
-import com.project.api.data.enums.EventPeriodType;
+import com.project.api.data.enums.PeriodType;
+import com.project.api.data.model.comment.Comment;
+import com.project.api.data.model.comment.CommentResponse;
 import com.project.api.data.model.event.Event;
 import com.project.api.data.model.event.EventLandingPage;
 import com.project.api.data.model.event.EventRequest;
@@ -33,21 +35,45 @@ public class EventService extends BaseApiService implements IEventService {
 	private String authServerUrl;
 
 	final Logger logger = LoggerFactory.getLogger(EventService.class);
-	
+
 	private static final String CACHE_KEY = "EVENT";
-	
+
 	@Autowired
 	Gson gson;
 
 	@Override
-	public EventLandingPage getEventLandingPage(long id, String language) {
+	public EventLandingPage getEventLandingPage(long id, String language, long timeTableId) {
 		StringBuilder endpoint = new StringBuilder(authServerUrl);
 		endpoint.append("/api/v1/events/{id}/pages");
+
 		if (language != null) {
 			endpoint.append("?language=");
 			endpoint.append(language);
 		}
-		return (EventLandingPage) getObject(endpoint.toString(), EventLandingPage.class, id);
+		if (language == null && timeTableId > 0) {
+			endpoint.append("?");
+		} else if (language != null && timeTableId > 0) {
+			endpoint.append("&");
+		}
+		if (timeTableId > 0) {
+			endpoint.append("timeTableId=");
+			endpoint.append(timeTableId);
+		}
+		Object cacheValue = null; //redisTemplate.opsForHash().get(CACHE_KEY, endpoint.toString());
+
+		if (cacheValue != null) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("::cache getEventLandingPage");
+			}
+			return (EventLandingPage) cacheValue;
+		} else {
+			EventLandingPage page = (EventLandingPage) getObject(endpoint.toString(), EventLandingPage.class, id);
+			if (page != null) {
+				redisTemplate.opsForHash().put(CACHE_KEY, endpoint.toString(), page);
+			}
+			return page;
+		}
+
 	}
 
 	@Override
@@ -89,7 +115,7 @@ public class EventService extends BaseApiService implements IEventService {
 			endpoint.queryParam("type", eventRequest.getType().getId());
 		}
 		if (eventRequest.getTypes() != null) {
-			endpoint.queryParam("types", String.join("," ,eventRequest.getTypes()));
+			endpoint.queryParam("types", String.join(",", eventRequest.getTypes()));
 		}
 		if (eventRequest.getRandom() != null && eventRequest.getRandom()) {
 			endpoint.queryParam("random", eventRequest.getRandom());
@@ -107,7 +133,7 @@ public class EventService extends BaseApiService implements IEventService {
 			endpoint.queryParam("periodType", eventRequest.getPeriodType().getId());
 		}
 
-		Object cacheValue = redisTemplate.opsForHash().get(CACHE_KEY, endpoint.toString());
+		Object cacheValue = null; //redisTemplate.opsForHash().get(CACHE_KEY, endpoint.toString());
 
 		if (cacheValue != null) {
 			logger.info("::cache getEvents");
@@ -125,15 +151,19 @@ public class EventService extends BaseApiService implements IEventService {
 
 	@Override
 	public Map<String, List<Event>> getEventsMap(EventRequest eventRequest) {
-		
-		if (eventRequest != null && eventRequest.getStartDate() !=null && eventRequest.getEndDate() == null) {
+
+		if (eventRequest != null && eventRequest.getStartDate() != null && eventRequest.getEndDate() == null) {
 			eventRequest.setEndDate(eventRequest.getStartDate());
 		}
-		if (eventRequest.getStartDate() == null && eventRequest.getEndDate() == null ) {
+		if (eventRequest.getStartDate() == null && eventRequest.getEndDate() == null) {
 			return null;
 		}
-		logger.error("eventRequest: {}", gson.toJson(eventRequest));
 		List<Event> events = getEvents(eventRequest);
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("::getEvents request: {}, response: {}", gson.toJson(eventRequest), gson.toJson(events));
+		}
+		logger.error("::getEvents request: {}, response: {}", gson.toJson(eventRequest), gson.toJson(events));
 
 		Map<String, List<Event>> eventsMap = new HashMap<>();
 		for (LocalDate eventDate = eventRequest.getStartDate(); eventDate
@@ -147,10 +177,8 @@ public class EventService extends BaseApiService implements IEventService {
 				}
 				switch (eventDate.getDayOfWeek()) {
 				case MONDAY:
-					if (event.getPeriodType() == EventPeriodType.MONDAYS
-							|| event.getPeriodType() == EventPeriodType.WEEKDAYS
-							|| event.getPeriodType() == EventPeriodType.ALL
-							|| event.getPeriodType() == EventPeriodType.ONEDAY) {
+					if (event.getPeriodType() == PeriodType.MONDAYS || event.getPeriodType() == PeriodType.WEEKDAYS
+							|| event.getPeriodType() == PeriodType.ALL || event.getPeriodType() == PeriodType.ONEDAY) {
 
 						if (mapEvents == null) {
 							mapEvents = new ArrayList<>();
@@ -165,10 +193,8 @@ public class EventService extends BaseApiService implements IEventService {
 					}
 					break;
 				case TUESDAY:
-					if (event.getPeriodType() == EventPeriodType.TUESDAYS
-							|| event.getPeriodType() == EventPeriodType.WEEKDAYS
-							|| event.getPeriodType() == EventPeriodType.ALL
-							|| event.getPeriodType() == EventPeriodType.ONEDAY) {
+					if (event.getPeriodType() == PeriodType.TUESDAYS || event.getPeriodType() == PeriodType.WEEKDAYS
+							|| event.getPeriodType() == PeriodType.ALL || event.getPeriodType() == PeriodType.ONEDAY) {
 						if (mapEvents == null) {
 							mapEvents = new ArrayList<>();
 							mapEvents.add(event);
@@ -181,10 +207,8 @@ public class EventService extends BaseApiService implements IEventService {
 					}
 					break;
 				case WEDNESDAY:
-					if (event.getPeriodType() == EventPeriodType.WEDNESDAYS
-							|| event.getPeriodType() == EventPeriodType.WEEKDAYS
-							|| event.getPeriodType() == EventPeriodType.ALL
-							|| event.getPeriodType() == EventPeriodType.ONEDAY) {
+					if (event.getPeriodType() == PeriodType.WEDNESDAYS || event.getPeriodType() == PeriodType.WEEKDAYS
+							|| event.getPeriodType() == PeriodType.ALL || event.getPeriodType() == PeriodType.ONEDAY) {
 						if (mapEvents == null) {
 							mapEvents = new ArrayList<>();
 							mapEvents.add(event);
@@ -197,10 +221,8 @@ public class EventService extends BaseApiService implements IEventService {
 					}
 					break;
 				case THURSDAY:
-					if (event.getPeriodType() == EventPeriodType.THURSDAYS
-							|| event.getPeriodType() == EventPeriodType.WEEKDAYS
-							|| event.getPeriodType() == EventPeriodType.ALL
-							|| event.getPeriodType() == EventPeriodType.ONEDAY) {
+					if (event.getPeriodType() == PeriodType.THURSDAYS || event.getPeriodType() == PeriodType.WEEKDAYS
+							|| event.getPeriodType() == PeriodType.ALL || event.getPeriodType() == PeriodType.ONEDAY) {
 						if (mapEvents == null) {
 							mapEvents = new ArrayList<>();
 							mapEvents.add(event);
@@ -213,11 +235,10 @@ public class EventService extends BaseApiService implements IEventService {
 					}
 					break;
 				case FRIDAY:
-					if (event.getPeriodType() == EventPeriodType.FRIDAYS
-							|| event.getPeriodType() == EventPeriodType.FRIDAYS_AND_SATURDAYS
-							|| event.getPeriodType() == EventPeriodType.WEEKDAYS
-							|| event.getPeriodType() == EventPeriodType.ALL
-							|| event.getPeriodType() == EventPeriodType.ONEDAY) {
+					if (event.getPeriodType() == PeriodType.FRIDAYS
+							|| event.getPeriodType() == PeriodType.FRIDAYS_AND_SATURDAYS
+							|| event.getPeriodType() == PeriodType.WEEKDAYS || event.getPeriodType() == PeriodType.ALL
+							|| event.getPeriodType() == PeriodType.ONEDAY) {
 						if (mapEvents == null) {
 							mapEvents = new ArrayList<>();
 							mapEvents.add(event);
@@ -230,11 +251,10 @@ public class EventService extends BaseApiService implements IEventService {
 					}
 					break;
 				case SATURDAY:
-					if (event.getPeriodType() == EventPeriodType.SATURDAYS
-							|| event.getPeriodType() == EventPeriodType.FRIDAYS_AND_SATURDAYS
-							|| event.getPeriodType() == EventPeriodType.WEEKENDS
-							|| event.getPeriodType() == EventPeriodType.ALL
-							|| event.getPeriodType() == EventPeriodType.ONEDAY) {
+					if (event.getPeriodType() == PeriodType.SATURDAYS
+							|| event.getPeriodType() == PeriodType.FRIDAYS_AND_SATURDAYS
+							|| event.getPeriodType() == PeriodType.WEEKENDS || event.getPeriodType() == PeriodType.ALL
+							|| event.getPeriodType() == PeriodType.ONEDAY) {
 						if (mapEvents == null) {
 							mapEvents = new ArrayList<>();
 							mapEvents.add(event);
@@ -247,10 +267,8 @@ public class EventService extends BaseApiService implements IEventService {
 					}
 					break;
 				case SUNDAY:
-					if (event.getPeriodType() == EventPeriodType.SUNDAYS
-							|| event.getPeriodType() == EventPeriodType.WEEKENDS
-							|| event.getPeriodType() == EventPeriodType.ALL
-							|| event.getPeriodType() == EventPeriodType.ONEDAY) {
+					if (event.getPeriodType() == PeriodType.SUNDAYS || event.getPeriodType() == PeriodType.WEEKENDS
+							|| event.getPeriodType() == PeriodType.ALL || event.getPeriodType() == PeriodType.ONEDAY) {
 						if (mapEvents == null) {
 							mapEvents = new ArrayList<>();
 							mapEvents.add(event);
@@ -270,6 +288,21 @@ public class EventService extends BaseApiService implements IEventService {
 		}
 
 		return eventsMap;
+	}
+
+	@Override
+	public CommentResponse getCommentsByEventId(long eventId) {
+		StringBuilder endpoint = new StringBuilder(authServerUrl);
+		endpoint.append("/api/v1/events/{eventId}/comments");
+		return (CommentResponse) getObject(endpoint.toString(), CommentResponse.class, eventId);
+	}
+
+	@Override
+	public long saveComment(Comment comment, long eventId) {
+		StringBuilder endpoint = new StringBuilder(authServerUrl);
+		endpoint.append("/api/v1/events/{eventId}/comments");
+
+		return (long) postObject(endpoint.toString(), comment, Long.class, eventId);
 	}
 
 }

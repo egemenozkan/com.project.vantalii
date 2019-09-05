@@ -10,8 +10,10 @@ div.file-listing img {
 
 <template>
     <div class="gallery">
+      <gallery :images="images" :index="index" @close="index = null"></gallery>
       <div class="images-by-users">
-        <span v-for="(image,index) in images" :style="image.background"></span>
+        <span v-for="(image,imageIndex) in images"   :key="imageIndex"
+      @click="index = imageIndex" :style="{ backgroundImage: 'url(' + image + ');'}"></span>
         <span style="background: transparent; text-align: center; vertical-align: middle;">
           <div v-if="online" class="upload-btn-wrapper">
             <button type="button">
@@ -39,6 +41,9 @@ div.file-listing img {
 <script>
 import axiosApi from "axios";
 import Vue from "vue";
+import VueGallery from 'vue-gallery';
+
+
 
 Vue.component("modalAddPhoto", {
   props: ["files", "uploadPercentage", "btnSubmit", "message"],
@@ -89,7 +94,8 @@ export default {
       },
       files: [],
       uploadPercentage: 0,
-      message: 'Mesaj'
+      message: 'Mesaj',
+      index: null
     };
   },
   /*
@@ -109,8 +115,7 @@ export default {
             var length = response.data.length;
             for (var i = 0; i < length; i++) {
               self.images.push({
-                background:
-                  "background-image: url(" + response.data[i].lgUrl + ");"
+                response.data[i].lgUrl
               });
             }
             console.log(self.images);
@@ -280,6 +285,8 @@ console.log(this.file.size);
 self.message = true;
     self.getPageImages();
     console.log("-->", self.images);
-  }
+  },components: {
+      'gallery': VueGallery
+    }
 };
 </script>

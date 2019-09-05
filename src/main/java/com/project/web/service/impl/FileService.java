@@ -12,6 +12,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.api.data.enums.LandingPageType;
 import com.project.api.data.model.file.MyFile;
 import com.project.api.data.model.file.UploadFileResponse;
 import com.project.web.service.IFileService;
@@ -54,8 +55,11 @@ public class FileService extends BaseApiService implements IFileService {
 	@Override
 	public List<MyFile> getFilesByPageId(int pageType, long pageId) {
 		StringBuilder endpoint = new StringBuilder(authServerUrl);
-		endpoint.append("/api/v1/places/{id}/files");
-
+		if (pageType == LandingPageType.PLACE.getId()) {
+			endpoint.append("/api/v1/places/{id}/files");
+		} else if (pageType == LandingPageType.EVENT.getId()) {
+			endpoint.append("/api/v1/events/{id}/files");			
+		}
 		return getList(endpoint.toString(), pageId);
 	}
 

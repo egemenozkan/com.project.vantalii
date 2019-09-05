@@ -14,22 +14,30 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.google.gson.Gson;
 import com.project.api.data.enums.EventType;
+import com.project.api.data.enums.LandingPageType;
 import com.project.api.data.enums.Language;
+import com.project.api.data.model.comment.Comment;
+import com.project.api.data.model.comment.CommentResponse;
 import com.project.api.data.model.event.Event;
 import com.project.api.data.model.event.EventLandingPage;
 import com.project.api.data.model.event.EventRequest;
+import com.project.api.data.model.file.MyFile;
 import com.project.web.service.IEventService;
+import com.project.web.service.IFileService;
 import com.project.web.utils.WebUtils;
 
 @Controller
@@ -37,7 +45,8 @@ public class EventControler {
 
 	@Autowired
 	private IEventService eventService;
-
+	@Autowired
+	private IFileService fileService;
 	final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
@@ -64,10 +73,13 @@ public class EventControler {
 		EventRequest eventRequest = new EventRequest();
 		eventRequest.setType(EventType.CONCERT);
 		eventRequest.setLanguage(Language.TURKISH);
+		
 		List<Event> events = eventService.getEvents(eventRequest);
+		
 		if (logger.isDebugEnabled()) {
 			logger.debug("::getEvents response: {}, request: {}", gson.toJson(events), gson.toJson(eventRequest));
 		}
+		
 		model.addAttribute("events", events);
 		
 		return events;
@@ -120,10 +132,14 @@ public class EventControler {
 
 	@GetMapping({ "/events/{slug}", "/{language}/events/{slug}" })
 	public ModelAndView getEventPage(Model model, HttpServletRequest request,
-			@PathVariable(required = false, name = "language") String language, @PathVariable String slug)
+			@PathVariable(required = false, name = "language") String language,
+			@PathVariable String slug,
+			@RequestParam(required = false, name = "tmid", defaultValue = "0") long timeTableId)
 			throws NoHandlerFoundException {
-		long id = WebUtils.getIdOfSlug(slug);
+
 		EventLandingPage page = null;
+
+		long id = WebUtils.getIdOfSlug(slug);
 
 		if (language == null) {
 			language = WebUtils.getCookieValue(request, "lang", Language.RUSSIAN.getCode().toLowerCase());
@@ -133,11 +149,13 @@ public class EventControler {
 		url.append(slug);
 
 		if (id > 0) {
-			page = eventService.getEventLandingPage(id, language);
+			page = eventService.getEventLandingPage(id, language, timeTableId);
 		}
 		/** REDIRECT - 404 **/
 		if (page == null) {
-			logger.warn("::redirect status 404  {}-> {}", url, "404");
+			if (logger.isWarnEnabled()) {
+				logger.warn("::redirect status 404  {}-> {}", url, "404");
+			}
 			throw new NoHandlerFoundException(HttpMethod.GET.toString(), url.toString(), new HttpHeaders());
 		}
 
@@ -147,11 +165,11 @@ public class EventControler {
 			if (!(request.getHeader("host").contains("vantalii.ru") && "ru".equalsIgnoreCase(language))) {
 				redirectUrl.append(page.getLanguage().getCode().toLowerCase());
 			}
-			redirectUrl.append("/events/");
-			redirectUrl.append(page.getSlug());
+			redirectUrl.append("/events/").append(page.getSlug());
 
-			logger.warn("::redirect status 301  {}-> {}", url, redirectUrl);
-
+			if (logger.isWarnEnabled()) {
+				logger.warn("::redirect status 301  {}-> {}", url, redirectUrl);
+			}
 			return new ModelAndView(redirectUrl.toString(), HttpStatus.PERMANENT_REDIRECT);
 		}
 //		
@@ -161,7 +179,7 @@ public class EventControler {
 //		/* Event */
 //		Event event = new Event();
 //		event.setType(EventType.CONCERT);
-//		event.setPeriodType(EventPeriodType.SATURDAYS);
+//		event.setPeriodType(PeriodType.SATURDAYS);
 //		/* Place */
 //		Place place = new Place();
 //		place.setName("Atatürk Kültür Merkezi");
@@ -187,5 +205,38 @@ public class EventControler {
 		model.addAttribute("page", page);
 
 		return new ModelAndView("events/page");
+	}
+	
+	@GetMapping({ "/events/comments" })
+	public @ResponseBody CommentResponse getPlaceComments(Model model, @RequestParam(required = true) long id) {
+		return eventService.getCommentsByEventId(id);
+
+	}
+
+	@PostMapping("/events/{id}/comments")
+	public @ResponseBody CommentResponse postPlaceComment(@PathVariable long id, RequestEntity<Comment> requestEntity) {
+		Comment newComment = requestEntity.getBody();
+		if (newComment != null) {
+			eventService.saveComment(newComment, id);
+		}
+
+		return eventService.getCommentsByEventId(id);
+	}
+	
+	@PostMapping({ "/events/file-upload/single", "/{language}/events/file-upload/single" })
+	public @ResponseBody boolean landingPageByTypes(Model model, HttpServletRequest request,
+			@PathVariable(required = false, name = "language") String language, @RequestParam("file") MultipartFile[] files,
+			@RequestParam("userId") long userId, @RequestParam("pageId") long pageId) {
+		try {
+			fileService.saveFiles(files, userId, LandingPageType.EVENT.getId(), pageId);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return true;
+	}
+
+	@GetMapping({ "/events/{id}/files" })
+	public @ResponseBody List<MyFile> getFilesById(Model model, @PathVariable long id) {
+		return fileService.getFilesByPageId(LandingPageType.EVENT.getId(), id);
 	}
 }

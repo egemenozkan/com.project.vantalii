@@ -1,8 +1,10 @@
+<#ftl encoding="utf-8">
+
 <#import "*/imports/spring.ftl" as spring/>
 <#import "*/imports/formatter.ftl" as formatter/>
  
 <!doctype html>
-<html lang="${ webPage.language.code?lower_case }" data-language="${ webPage.language }" data-user-id="<#if (user??)>${ user.id! }<#else>0</#if>" data-place-id="${ pageId!0 }">
+<html lang="${ webPage.language.code?lower_case }"  class="page places" data-language="${ webPage.language }" data-user-id="<#if (user??)>${ user.id! }<#else>0</#if>" data-place-id="${ pageId!0 }">
    <head>
 		<@layout.block name="head">
 		 <title>${ title! } | <@spring.message "title.brand"/></title>

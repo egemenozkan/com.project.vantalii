@@ -1,7 +1,6 @@
 package com.project.web.controller;
 
 import java.util.Collections;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.api.data.enums.Language;
-import com.project.api.data.model.place.PlaceLandingPage;
 import com.project.api.data.model.place.PlaceRequest;
 import com.project.web.service.impl.PlaceService;
 import com.project.web.utils.WebUtils;
@@ -39,7 +37,7 @@ public class HomeController {
 		placeRequest.setRandom(Boolean.TRUE);
 //		List<PlaceLandingPage> pages = placeService.getPlaceLandingPages(placeRequest);
 
-		model.addAttribute("pages", Collections.EMPTY_LIST);
+		model.addAttribute("pages", Collections.emptyList());
 
 		return "index";
 	}

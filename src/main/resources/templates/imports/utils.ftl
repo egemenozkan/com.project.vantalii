@@ -29,6 +29,16 @@
 </@compress>    
 </#macro>
 
+
+<#macro placeMainTypeUrl placeMainType>
+<@compress single_line=true>
+    <#assign message>
+        <@spring.message "places.mainType.${ placeMainType }"  />
+    </#assign>
+    ${ webPage.baseUrl! }/places/m/${ message?lower_case }
+</@compress>    
+</#macro>
+
 <#macro address address>
 <@compress single_line=true>
     <#if address??>

@@ -19,6 +19,7 @@
 	</head>
     <body>
     	<div class="wrapper">
+			<div>
 			<@layout.block name="header">
 				<#include '*/common/header.ftl'>
 			</@layout.block>

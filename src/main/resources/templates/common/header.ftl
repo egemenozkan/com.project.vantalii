@@ -1,11 +1,13 @@
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<#ftl encoding="utf-8">
+
+	<nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
 	   <div class="container">
 		  <a class="navbar-brand mr-auto mr-lg-0 logo" href="/"><@spring.message "logo.text" /></a>
 		  <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
 		    <span class="navbar-toggler-icon"></span>
 		  </button>
 		
-		  <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+		  <div class="navbar-collapse offcanvas-collapse" >
 		    <ul class="navbar-nav ml-auto">
 		      <li class="nav-item dropdown">
 		        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><@spring.message "languages.${ webPage.language }" /></a>
@@ -21,9 +23,11 @@
 		          </#if>
 		        </div>
 		      </li>
+		      <!--  
 		      <li class="nav-item">
 		        <a class="nav-link" href="<@utils.url url="/places" />"><@spring.message "nav.a.places" /></a>
 		      </li>
+		      -->
 		      <li class="nav-item">
 		        <a class="nav-link" href="<@utils.url url="/events" />"><@spring.message "nav.a.events" /></a>
 		      </li>
