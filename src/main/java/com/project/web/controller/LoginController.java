@@ -2,7 +2,6 @@ package com.project.web.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,7 +33,6 @@ import com.google.api.client.http.apache.ApacheHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.oauth2.Oauth2;
-import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.project.common.model.User;
 import com.project.web.service.IUserService;

@@ -6,8 +6,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-import io.netty.handler.codec.http.HttpHeaders.Values;
-
 //@EnableWebSecurity
 //@Configuration
 public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {

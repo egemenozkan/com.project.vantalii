@@ -29,7 +29,7 @@
 	<div id="" class="row mt-3">
         <div class="col-lg-12">
             <div class="row places-cards">
-                <#list pages as page>
+                <#list pages! as page>
                     <div class="col-4">
                         <div class="card">
                             <img class="card-img-top" src="/static/img/${ page.place.type! }.jpg" alt="Card image cap">

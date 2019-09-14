@@ -8,51 +8,66 @@ div.file-listing img {
 }
 
 .photo-by-users .photo {
-   position: relative;
-    padding-top: 100%;
-    background-size: cover;
-    background-position: 50% 50%;
- }
-
+  position: relative;
+  padding-top: 100%;
+  background-size: cover !important;
+  background-position: 50% 50% !important;
+}
 </style>
 
 <template>
-    <div class="gallery">
-      <div class="row photo-by-users">
-        <div v-for="(image,index) in images" class="col-6 col-sm-3" style="padding: 2px!important;'">
-          <div  style="position:relative;">
+  <div class="gallery">
+    <div class="row photo-by-users">
+      <gallery :images="lgImages" :index="index" @close="index = null"></gallery>
+      <div
+        v-for="(image,imageIndex) in mdImages"
+        :key="imageIndex"
+        @click="index = imageIndex"
+        class="col-6 col-sm-3"
+        style="padding: 2px!important;'"
+      >
+        <div style="position:relative;">
           <div style="overflow: hidden;">
-            <div class="photo" :style="image.background"></div>
-          </div>
-          </div>
-        </div>
-        <div class="col-6 col-sm-3" style="padding: 2px!important; background: transparent; text-align: center; vertical-align: middle;">
-          <div v-if="online" class="upload-btn-wrapper">
-            <button type="button">
-              <i class="fa fa-camera"></i>
-            </button>
-            <input
-              type="file"
-              id="files"
-              ref="files"
-              accept="image/*"
-              v-on:change="handleFilesUpload()"
-            >
-          </div>
-          <div v-if="!online" class="upload-btn-wrapper">
-            <button type="button" data-toggle="modal" data-target="#modal-signIn">
-              <i class="fa fa-camera"></i>
-            </button>
+            <div class="photo" :style="'background: url(' + image + ')'"></div>
           </div>
         </div>
       </div>
-      <modalAddPhoto :files="files" :message="message" :btnSubmit="submitFiles" :uploadPercentage="uploadPercentage"></modalAddPhoto>
+      <div
+        class="col-6 col-sm-3"
+        style="padding: 2px!important; background: transparent; text-align: center; vertical-align: middle;"
+      >
+        <div v-if="online" class="upload-btn-wrapper">
+          <button type="button">
+            <i class="fa fa-camera"></i>
+          </button>
+          <input
+            type="file"
+            id="files"
+            ref="files"
+            accept="image/*"
+            v-on:change="handleFilesUpload()"
+          />
+        </div>
+        <div v-if="!online" class="upload-btn-wrapper">
+          <button type="button" data-toggle="modal" data-target="#modal-signIn">
+            <i class="fa fa-camera"></i>
+          </button>
+        </div>
+      </div>
     </div>
+    <modalAddPhoto
+      :files="files"
+      :message="message"
+      :btnSubmit="submitFiles"
+      :uploadPercentage="uploadPercentage"
+    ></modalAddPhoto>
+  </div>
 </template>
 
 <script>
 import axiosApi from "axios";
 import Vue from "vue";
+import VueGallery from "vue-gallery";
 
 Vue.component("modalAddPhoto", {
   props: ["files", "uploadPercentage", "btnSubmit", "message"],
@@ -94,16 +109,18 @@ export default {
   /*
       Defines the data used by the component
     */
-  data() {
+data() {
     return {
-      images: [],
+      lgImages: [],
+      xsImages: [],
       online: false,
       image: {
         background: ""
       },
       files: [],
       uploadPercentage: 0,
-      message: 'Mesaj'
+      message: "Mesaj",
+      index: null
     };
   },
   /*
@@ -113,24 +130,23 @@ export default {
     getPageImages: function() {
       var self = this;
 
-      const getUrl = self.usePlaceImages ? "/places/" + self.placeId + "/files" : "/events/" + self.eventId + "/files";
+      const getUrl = "/places/" + self.placeId + "/files";
       axiosApi
         .get(getUrl, {
           params: {}
         })
         .then(function(response) {
           if (response.data) {
-            self.images = [];
+            self.lgImages = [];
+            self.mdImages = [];
             var length = response.data.length;
             for (var i = 0; i < length; i++) {
-              self.images.push({
-                background:
-                  "background-image: url(" + response.data[i].lgUrl + ");"
-              });
+              self.mdImages.push(response.data[i].mdUrl);
+              self.lgImages.push(response.data[i].lgUrl);
             }
-            console.log(self.images);
             for (var j = 3; j > length; j--) {
-              self.images.push({ background: "background-image: url(/img/nophoto.jpg);" });
+              // self.images.push({ background: "background-image: url(/img/nophoto.jpg);" });
+              self.mdImages.push("/img/nophoto.jpg");
             }
 
             console.log(self.images);

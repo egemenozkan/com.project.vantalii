@@ -1,7 +1,7 @@
 package com.project.web.security;
 
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -40,14 +41,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		if (!checkPassword(password, user.getPassword())) {
 			throw new BadCredentialsException("Wrong password.");
 		}
-		Collection<GrantedAuthority> allAuthorities = null;
-		if (user.getAuthorities() != null) {
-			allAuthorities = new HashSet<>(user.getAuthorities().size());
-
-			for (GrantedAuthority role : user.getAuthorities())
-				allAuthorities.add(role);
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		if (user.getRoles() != null) {
+			user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
 		}
-		UsernamePasswordAuthenticationToken loggedIn = new UsernamePasswordAuthenticationToken(user, password, allAuthorities);
+
+		UsernamePasswordAuthenticationToken loggedIn = new UsernamePasswordAuthenticationToken(user, password, authorities);
 		loggedIn.setDetails(user);
 		SecurityContextHolder.getContext().setAuthentication(loggedIn);
 

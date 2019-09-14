@@ -10,8 +10,8 @@ div.file-listing img {
 .photo-by-users .photo {
   position: relative;
   padding-top: 100%;
-  background-size: cover;
-  background-position: 50% 50%;
+  background-size: cover !important;
+  background-position: 50% 50% !important;
 }
 </style>
 
@@ -146,7 +146,7 @@ export default {
             }
             for (var j = 3; j > length; j--) {
               // self.images.push({ background: "background-image: url(/img/nophoto.jpg);" });
-              self.images.push("/img/nophoto.jpg");
+              self.mdImages.push("/img/nophoto.jpg");
             }
 
             console.log(self.images);

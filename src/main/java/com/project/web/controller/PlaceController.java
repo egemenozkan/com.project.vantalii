@@ -1,5 +1,6 @@
 package com.project.web.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -155,7 +156,9 @@ public class PlaceController {
 			placeRequest.setRandom(true);
 			model.addAttribute("mainType", MainType.getBySlug(slug));
 			model.addAttribute("pages", placeService.getPlaceLandingPages(placeRequest));
-			LOG.error(":..{}", gson.toJson(placeService.getPlaceLandingPages(placeRequest)));
+		} else {
+			LOG.error("not found {}", request.getPathInfo());
+			model.addAttribute("pages", Collections.emptyList());
 		}
 		return new ModelAndView("places/category");
 	}
