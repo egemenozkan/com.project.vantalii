@@ -2,7 +2,7 @@
 <#import "*/imports/formatter.ftl" as formatter/>
  
 <!doctype html>
-<html  lang="${ webPage.language.code?lower_case }" class="page places" data-language="${ webPage.language }" data-user-id="<#if (user??)>${ user.id?c! }<#else>0</#if>" data-place-id="${ page.place.id?c!0 }">
+<html  lang="${ webPage.language.code?lower_case }" class="page places" data-language="${ webPage.language }" data-user-id="<#if (user?? &&  user.id??)>${ user.id?c! }<#else>0</#if>" data-place-id="${ page.place.id?c!0 }">
    <head>
 		<@layout.block name="head">
 		<#compress>

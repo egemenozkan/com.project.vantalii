@@ -2,7 +2,7 @@
 <#import "*/imports/formatter.ftl" as formatter/>
  
 <!doctype html>
-<html lang="${ webPage.language.code }" class="page events" data-language="${ webPage.language }" data-user-id="<#if (user??)>${ user.id?c! }<#else>0</#if>" data-event-id="${ page.event.id?c!0 }" data-place-id="${ page.event.place.id?c!0 }" data-use-place-images="false">
+<html lang="${ webPage.language.code }" class="page events" data-language="${ webPage.language }" data-user-id="<#if (user?? &&  user.id??)>${ user.id?c! }<#else>0</#if>" data-event-id="${ page.event.id?c!0 }" data-place-id="${ page.event.place.id?c!0 }" data-use-place-images="false">
    <head>
 		<@layout.block name="head">
 		 <title>${ title! } | <@spring.message "title.brand"/></title>
