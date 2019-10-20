@@ -1,6 +1,7 @@
 package com.project.web.controller;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +28,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.google.gson.Gson;
-import com.project.api.data.enums.EventType;
 import com.project.api.data.enums.LandingPageType;
 import com.project.api.data.enums.Language;
 import com.project.api.data.model.comment.Comment;
@@ -35,6 +35,7 @@ import com.project.api.data.model.comment.CommentResponse;
 import com.project.api.data.model.event.Event;
 import com.project.api.data.model.event.EventLandingPage;
 import com.project.api.data.model.event.EventRequest;
+import com.project.api.data.model.event.EventType;
 import com.project.api.data.model.file.MyFile;
 import com.project.web.service.IEventService;
 import com.project.web.service.IFileService;
@@ -100,7 +101,8 @@ public class EventControler {
 		if (type > 1) {
 			eventRequest.setType(EventType.getById(type));
 		}
-		if (types != null && !types.isBlank()) {
+		if (types != null && !types.isBlank() 
+				&& !Arrays.asList(types.split(",")).contains(String.valueOf(EventType.ALL.getId()))) {
 			eventRequest.setTypes(types.split(","));
 		}
 		if (limit > 0) {

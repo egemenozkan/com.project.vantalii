@@ -38,19 +38,19 @@
 	       			<a href="${ webPage.baseUrl! }/places/m/${ page.place.type.mainType.slug }"><@spring.message "places.mainType.${ page.place.type.mainType! }" /></a>
 	       		</span>
 	       		<span class="category">
+	       			<i class="fas fa-greater-than"></i>
 	       			<a href="${ webPage.baseUrl! }/places/t/${ page.place.type.slug }"><@spring.message "places.type.${ page.place.type! }" /></a>
 	       		</span>
 	       		<span class="place">
 	       		<i class="fas fa-map-marker-alt"></i>
-<!-- 	     	  	<#if page.place?has_content> -->
-<!-- 		          	<a href="${ webPage.baseUrl! }/">${ page.place.address.city! }</a> <i class="fas fa-greater-than"></i> -->
-<!-- 		        </#if> -->
-		        
-				<#if page.place.address.subregion?has_content>
-					<a href="${ webPage.baseUrl! }/">${ page.place.address.subregion! }</a>
+	     	  	<#if page.place?has_content>
+		          	<a href="${ webPage.baseUrl! }/">${ page.place.address.city! }</a> 
+		        </#if>
+				<#if page.place.address.district?has_content>
+					<i class="fas fa-greater-than"></i> <a href="${ webPage.baseUrl! }/">${ page.place.address.district! }</a>
 				</#if>
 				<#if page.place.address.region?has_content>
-					<a href="${ webPage.baseUrl! }/">${ page.place.address.region! }</a>
+					<i class="fas fa-greater-than"></i> <a href="${ webPage.baseUrl! }/">${ page.place.address.region! }</a>
 				</#if>
 		        </span>
 			</div>
@@ -141,7 +141,7 @@
 				        	<i class="fas fa-map-marker-alt"></i><span class="font-size-14 pl-1">${  page.place.name! }</span><br>
 				    	</#if>
 			              <span class="address" data-coords="${ page.place.address.lat! }, ${ page.place.address.lng! }">${ page.place.address.address! } ${ page.place.address.postCode! } 
-			              ${ page.place.address.region! },${ page.place.address.subregion! }, ${ page.place.address.city! }</span>
+			              ${ page.place.address.region! }, ${ page.place.address.district! }/${ page.place.address.city! }</span>
 			        	</address>
 			        </#if>
 			        <#if page.place?has_content>
