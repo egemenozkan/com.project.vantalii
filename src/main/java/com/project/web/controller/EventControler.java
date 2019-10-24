@@ -1,6 +1,7 @@
 package com.project.web.controller;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -100,7 +101,8 @@ public class EventControler {
 		if (type > 1) {
 			eventRequest.setType(EventType.getById(type));
 		}
-		if (types != null && !types.isBlank()) {
+		if (types != null && !types.isBlank() 
+				&& !Arrays.asList(types.split(",")).contains(String.valueOf(EventType.ALL.getId()))) {
 			eventRequest.setTypes(types.split(","));
 		}
 		if (limit > 0) {
