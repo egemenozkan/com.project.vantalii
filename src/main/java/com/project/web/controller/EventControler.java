@@ -27,7 +27,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.google.gson.Gson;
-import com.project.api.data.enums.EventType;
 import com.project.api.data.enums.LandingPageType;
 import com.project.api.data.enums.Language;
 import com.project.api.data.model.comment.Comment;
@@ -35,6 +34,7 @@ import com.project.api.data.model.comment.CommentResponse;
 import com.project.api.data.model.event.Event;
 import com.project.api.data.model.event.EventLandingPage;
 import com.project.api.data.model.event.EventRequest;
+import com.project.api.data.model.event.EventType;
 import com.project.api.data.model.file.MyFile;
 import com.project.web.service.IEventService;
 import com.project.web.service.IFileService;
