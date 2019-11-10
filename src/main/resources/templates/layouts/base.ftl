@@ -18,7 +18,7 @@
 		</@layout.block>
 	</head>
     <body>
-    	<div class="wrapper">
+    	<div id="app1" class="wrapper">
 			<div>
 			<@layout.block name="header">
 				<#include '*/common/header.ftl'>

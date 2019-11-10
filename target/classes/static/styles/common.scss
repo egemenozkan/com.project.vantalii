@@ -48,8 +48,7 @@ a {
  */
 .bg-light {
     background-color: #FFF !important;
-    border-bottom: 1px solid #CCC;
-    box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.12);
+    height: 80px;
 }
 
 .navbar-nav .nav-link {
@@ -121,7 +120,7 @@ a {
     -o-background-size: cover;
     background-size: cover;
     padding-top: 50px;
- /*   height: 100vh; */
+    /*   height: 100vh; */
 }
 
 

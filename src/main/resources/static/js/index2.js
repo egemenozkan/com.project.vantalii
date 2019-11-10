@@ -1,6 +1,6 @@
 import '../js/common';
 import Vue from 'vue';
-import VueSearchForm from '../vue/components/VueSearchForm.vue'
+import VueEventDays from '../vue/components/VueEventDays.vue'
 import {LocalDate} from '../js/mydate';
 
 
@@ -18,5 +18,5 @@ Vue.mixin({
 /* eslint-disable no-new */
 const app1 = new Vue({
   el: '#app1',
-  components: { 'search-form': VueSearchForm}
+  components: { 'vue-event-days': VueEventDays}
 })

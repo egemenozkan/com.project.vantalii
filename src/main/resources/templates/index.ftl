@@ -9,15 +9,21 @@
 <#assign page="index">
 <#assign styles=[]>
 <#assign javascripts=[]>
-<#assig  bundle="index"> 
+<#assign  bundle="index"> 
 
 
 <@layout.extends name="layouts/base.ftl">
 	<@layout.put block="header"> </@layout.put>
 	<@layout.put block="contents">
-	<div id="app1">
-		<vue-event-days></vue-event-days>
-	</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+						Burası
+				</div>
+			</div>
+		</div>
+		<search-form />
+
 	</@layout.put> 
 	<@layout.put block="footer">
 	</@layout.put>

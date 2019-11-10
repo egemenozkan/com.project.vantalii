@@ -18,11 +18,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.google.gson.Gson;
 import com.project.api.data.enums.PeriodType;
+import com.project.api.data.model.autocomplete.AutocompleteResponse;
 import com.project.api.data.model.comment.Comment;
 import com.project.api.data.model.comment.CommentResponse;
 import com.project.api.data.model.event.Event;
 import com.project.api.data.model.event.EventLandingPage;
 import com.project.api.data.model.event.EventRequest;
+import com.project.web.model.AutocompleteRequest;
 import com.project.web.service.IEventService;
 
 @Service
@@ -59,7 +61,7 @@ public class EventService extends BaseApiService implements IEventService {
 			endpoint.append("timeTableId=");
 			endpoint.append(timeTableId);
 		}
-		Object cacheValue = null; //redisTemplate.opsForHash().get(CACHE_KEY, endpoint.toString());
+		Object cacheValue = null; // redisTemplate.opsForHash().get(CACHE_KEY, endpoint.toString());
 
 		if (cacheValue != null) {
 			if (logger.isDebugEnabled()) {
@@ -133,7 +135,7 @@ public class EventService extends BaseApiService implements IEventService {
 			endpoint.queryParam("periodType", eventRequest.getPeriodType().getId());
 		}
 
-		Object cacheValue = null; //redisTemplate.opsForHash().get(CACHE_KEY, endpoint.toString());
+		Object cacheValue = null; // redisTemplate.opsForHash().get(CACHE_KEY, endpoint.toString());
 
 		if (cacheValue != null) {
 			logger.info("::cache getEvents");
@@ -303,6 +305,18 @@ public class EventService extends BaseApiService implements IEventService {
 		endpoint.append("/api/v1/events/{eventId}/comments");
 
 		return (long) postObject(endpoint.toString(), comment, Long.class, eventId);
+	}
+
+	@Override
+	public AutocompleteResponse callAutocomplete(AutocompleteRequest autocompleteRequest) {
+		UriComponentsBuilder endpoint = UriComponentsBuilder
+				.fromUriString(authServerUrl + "/api/v1/events/autocomplete");
+
+		if (autocompleteRequest.getLanguage() != null) {
+			endpoint.queryParam("language", autocompleteRequest.getLanguage().getCode());
+		}
+		endpoint.queryParam("query", autocompleteRequest.getQuery());
+		return (AutocompleteResponse) getObject(endpoint.toUriString(), AutocompleteResponse.class);
 	}
 
 }

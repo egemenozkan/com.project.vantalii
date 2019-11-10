@@ -30,6 +30,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import com.google.gson.Gson;
 import com.project.api.data.enums.LandingPageType;
 import com.project.api.data.enums.Language;
+import com.project.api.data.model.autocomplete.AutocompleteResponse;
 import com.project.api.data.model.comment.Comment;
 import com.project.api.data.model.comment.CommentResponse;
 import com.project.api.data.model.event.Event;
@@ -37,6 +38,7 @@ import com.project.api.data.model.event.EventLandingPage;
 import com.project.api.data.model.event.EventRequest;
 import com.project.api.data.model.event.EventType;
 import com.project.api.data.model.file.MyFile;
+import com.project.web.model.AutocompleteRequest;
 import com.project.web.service.IEventService;
 import com.project.web.service.IFileService;
 import com.project.web.utils.WebUtils;
@@ -240,5 +242,10 @@ public class EventControler {
 	@GetMapping({ "/events/{id}/files" })
 	public @ResponseBody List<MyFile> getFilesById(Model model, @PathVariable long id) {
 		return fileService.getFilesByPageId(LandingPageType.EVENT.getId(), id);
+	}
+	
+	@GetMapping({ "/events/autocomplete" })
+	public @ResponseBody AutocompleteResponse callAutocomplete(@RequestParam String query, @RequestParam(defaultValue = "TR", required = false) String language) {
+		return eventService.callAutocomplete(new AutocompleteRequest(query, Language.getByCode(language)));
 	}
 }
