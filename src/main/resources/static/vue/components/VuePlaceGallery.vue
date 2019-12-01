@@ -19,19 +19,23 @@ div.file-listing img {
   <div class="gallery">
     <div class="row photo-by-users">
       <gallery :images="lgImages" :index="index" @close="index = null"></gallery>
-      <div
-        v-for="(image,imageIndex) in mdImages"
-        :key="imageIndex"
-        @click="index = imageIndex"
-        class="col-6 col-sm-3"
-        style="padding: 2px!important;'"
-      >
-        <div style="position:relative;">
-          <div style="overflow: hidden;">
-            <div class="photo" :style="'background: url(' + image + ')'"></div>
-          </div>
-        </div>
-      </div>
+      <ul id="lightgallery" class="row">
+        <li
+          v-for="(image,imageIndex) in mdImages"
+          :key="imageIndex"
+          @click="index = imageIndex"
+          class="col-md-3 col-6"
+        >
+          <!-- <div style="position:relative;">
+            <div style="overflow: hidden;">
+              <div class="photo" :style="'background: url(' + image + ')'"></div>
+            </div>
+          </div> -->
+<a href="#">
+            <img :src="image" />
+            </a>
+        </li>
+      </ul>
       <div
         class="col-6 col-sm-3"
         style="padding: 2px!important; background: transparent; text-align: center; vertical-align: middle;"
@@ -146,10 +150,10 @@ export default {
             }
             for (var j = 3; j > length; j--) {
               // self.images.push({ background: "background-image: url(/img/nophoto.jpg);" });
-              self.mdImages.push("/img/nophoto.jpg");
+              self.mdImages.push("/static/img/nophoto.jpg");
             }
 
-            console.log(self.images);
+            console.log(self.mdImages);
           }
         })
         .catch(function(error) {

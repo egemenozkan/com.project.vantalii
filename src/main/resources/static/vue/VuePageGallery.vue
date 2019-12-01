@@ -11,10 +11,20 @@ div.file-listing img {
 <template>
     <div class="gallery">
       <gallery :images="images" :index="index" @close="index = null"></gallery>
-      <div class="images-by-users">
-        <span v-for="(image,imageIndex) in images"   :key="imageIndex"
-      @click="index = imageIndex" :style="{ backgroundImage: 'url(' + image + ');'}"></span>
-        <span style="background: transparent; text-align: center; vertical-align: middle;">
+      
+      <ul class="row">
+        <li v-for="(image,imageIndex) in images"   :key="imageIndex" @click="index = imageIndex" class="col-md-3 col-6" 
+            data-responsive="static/img/1-375.jpg 375, static/img/1-480.jpg 480, static/img/1.jpg 800"
+            data-src="static/img/1-1600.jpg"
+            data-sub-html="<h4>Fading Light</h4><p>Classic view from Rigwood Jetty on Coniston Water an old archive shot similar to an old post but a little later on.</p>"
+            data-pinterest-text="Pin it1" data-tweet-text="share on twitter 1">
+            <a href="">
+                <img class="img-responsive" src="static/img/thumb-1.jpg" alt="Thumb-1">
+            </a>
+        </li>
+      </ul>  
+    </div>
+        <!-- <span style="background: transparent; text-align: center; vertical-align: middle;">
           <div v-if="online" class="upload-btn-wrapper">
             <button type="button">
               <i class="fa fa-camera"></i>
@@ -35,7 +45,7 @@ div.file-listing img {
         </span>
       </div>
       <modalAddPhoto :files="files" :message="message" :btnSubmit="submitFiles" :uploadPercentage="uploadPercentage"></modalAddPhoto>
-    </div>
+    </div> -->
 </template>
 
 <script>

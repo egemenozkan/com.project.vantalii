@@ -1,8 +1,5 @@
 package com.project.web.config;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -23,11 +20,6 @@ import com.project.web.interceptor.SessionTimerInterceptor;
 import com.project.web.interceptor.SiteInterceptor;
 import com.project.web.interceptor.UserInterceptor;
 
-import freemarker.template.TemplateModel;
-import kr.pe.kwonnam.freemarker.inheritance.BlockDirective;
-import kr.pe.kwonnam.freemarker.inheritance.ExtendsDirective;
-import kr.pe.kwonnam.freemarker.inheritance.PutDirective;
-
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = "com.project.web")
@@ -47,14 +39,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new SessionTimerInterceptor());
 	}
 
-	@Bean
-	public Map<String, TemplateModel> freemarkerLayoutDirectives() {
-		Map<String, TemplateModel> freemarkerLayoutDirectives = new HashMap<>();
-		freemarkerLayoutDirectives.put("extends", new ExtendsDirective());
-		freemarkerLayoutDirectives.put("block", new BlockDirective());
-		freemarkerLayoutDirectives.put("put", new PutDirective());
-		return freemarkerLayoutDirectives;
-	}
 
 	@Bean
 	public FreeMarkerViewResolver freemarkerViewResolver() {
@@ -74,10 +58,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	public FreeMarkerConfigurer freemarkerConfig() {
 		FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
 		freeMarkerConfigurer.setTemplateLoaderPath("classpath:templates");
-		Map<String, Object> freemarkerVariables = new HashMap<>();
-		freemarkerVariables.put("layout", freemarkerLayoutDirectives());
-
-		freeMarkerConfigurer.setFreemarkerVariables(freemarkerVariables);
 		return freeMarkerConfigurer;
 	}
 

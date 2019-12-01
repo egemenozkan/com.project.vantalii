@@ -9,30 +9,39 @@ function sliceDate(param) {
      var dateArray = this.valueOf();
      return sliceDate(dateArray[2]) + '.' + sliceDate(dateArray[1]) + '.' + dateArray[0]
      + "  " + sliceDate(dateArray[3]) + ':' + sliceDate(dateArray[4]) + ':' + sliceDate(dateArray[5]);
- }   
-import {LocalDate} from '../js/mydate';
+ } 
 
- $(function () {
-     'use strict'
 
-     $('[data-toggle="offcanvas"]').on('click', function () {
-       $('.offcanvas-collapse').toggleClass('open')
-     })
-   })
-   
-  
-   
-window.onscroll = function() {stickyNavbar()};
+// When the user scrolls the page, execute myFunction
+window.onscroll = function() {
+	stickyHeader()
+};
 
 // Get the header
-var navbar = document.getElementById("navbar");
-var sticky = navbar.offsetTop;
+var header = document.getElementById("v-sticky-header");
 
-// Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
-function stickyNavbar() {
-  if (window.pageYOffset > sticky) {
-	  navbar.classList.add("navbar-sticky");
-  } else {
-	  navbar.classList.remove("navbar-sticky");
-  }
+// Get the offset position of the navbar
+var sticky = header.offsetTop;
+
+function stickyHeader() {
+	if (window.pageYOffset > sticky) {
+		header.classList.add("js-sticky");
+	} else {
+		header.classList.remove("js-sticky");
+	}
 }
+
+$(function() {
+	$(".v-collapse .v-collapse_header a").click(function() {
+		$(this).parent().parent().find(".v-collapse_body").toggle();
+	});
+
+	$(".btn-menu").click(function() {
+		$("#v-nav_menu").toggleClass("show");
+		if ($("#v-nav_menu").hasClass("show")) {
+			$(this).find("i").html("close");
+		} else {
+			$(this).find("i").html("menu");
+		}
+	})
+})

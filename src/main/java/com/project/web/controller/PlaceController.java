@@ -1,5 +1,6 @@
 package com.project.web.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,6 +31,7 @@ import com.project.api.data.enums.LandingPageType;
 import com.project.api.data.enums.Language;
 import com.project.api.data.enums.MainType;
 import com.project.api.data.enums.PlaceType;
+import com.project.api.data.model.DailyWorkingHours;
 import com.project.api.data.model.comment.Comment;
 import com.project.api.data.model.comment.CommentResponse;
 import com.project.api.data.model.file.MyFile;
@@ -37,6 +39,7 @@ import com.project.api.data.model.place.PlaceLandingPage;
 import com.project.api.data.model.place.PlaceRequest;
 import com.project.web.service.IFileService;
 import com.project.web.service.IPlaceService;
+import com.project.web.service.ITimeService;
 import com.project.web.utils.WebUtils;
 
 @Controller
@@ -46,11 +49,13 @@ public class PlaceController {
 	private IPlaceService placeService;
 	@Autowired
 	private IFileService fileService;
+	@Autowired
+	private ITimeService timeService;
 	
 	@Autowired
 	private Gson gson;
 
-	final Logger LOG = LoggerFactory.getLogger(PlaceController.class);
+	final Logger logger = LoggerFactory.getLogger(PlaceController.class);
 
 	@SuppressWarnings("unchecked")
 	@GetMapping({ "/places", "/{language}/places" })
@@ -85,7 +90,7 @@ public class PlaceController {
 		}
 		/** REDIRECT - 404 **/
 		if (page == null) {
-			LOG.warn("::redirect status 404  {}-> {}", url, "404");
+			logger.warn("::redirect status 404  {}-> {}", url, "404");
 			throw new NoHandlerFoundException(HttpMethod.GET.toString(), url.toString(), new HttpHeaders());
 		}
 		//
@@ -99,7 +104,7 @@ public class PlaceController {
 			redirectUrl.append("places/");
 			redirectUrl.append(page.getSlug());
 
-			LOG.warn("::redirect status 301  {}-> {}", url, redirectUrl);
+			logger.warn("::redirect status 301  {}-> {}", url, redirectUrl);
 			RedirectView redirect = new RedirectView(redirectUrl.toString(), false);
 			redirect.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
 			redirect.setExposeModelAttributes(false);
@@ -120,8 +125,10 @@ public class PlaceController {
 		model.addAttribute("seoPages", seoPages);
 
 		model.addAttribute("placeId", id);
-
-		return new ModelAndView("places/page", model);
+		model.addAttribute("dailyWorkingHours", timeService.getDailyWorkingHours(id));
+		;
+		
+		return new ModelAndView("places/detail", model);
 	}
 
 	@GetMapping({ "/places/comments" })
@@ -157,7 +164,7 @@ public class PlaceController {
 			model.addAttribute("mainType", MainType.getBySlug(slug));
 			model.addAttribute("pages", placeService.getPlaceLandingPages(placeRequest));
 		} else {
-			LOG.error("not found {}", request.getPathInfo());
+			logger.error("not found {}", request.getPathInfo());
 			model.addAttribute("pages", Collections.emptyList());
 		}
 		return new ModelAndView("places/category");

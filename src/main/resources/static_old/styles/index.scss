@@ -1,0 +1,31 @@
+@import "common";
+
+#searchForm {
+    height: 300px;
+    background: #f9f9f9;
+    border-top: 1px solid #EAEAEA;
+    border-bottom: 1px solid #EAEAEA;
+    padding: 45px 0px;
+    z-index: 10;
+}
+
+.i-input {
+    background-color: rgb(255, 255, 255) !important;
+    label {
+        margin: 0px;
+        font-size:12px;
+        font-weight: bold;
+    }
+
+    input[type="text"] {
+        font-size: 17px !important;
+        background-color: transparent !important;
+        border: 0px none !important;
+        margin: 0px !important;
+        padding: 0px !important;
+        width: 100% !important;
+        text-overflow: ellipsis !important;
+        border-bottom: 3px solid #ff7538 !important;
+    }
+
+}

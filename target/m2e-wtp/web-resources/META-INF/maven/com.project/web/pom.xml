@@ -42,7 +42,7 @@
 		<org.springframework.version>5.1.7.RELEASE</org.springframework.version>
 		<org.springframework.security-version>5.1.2.RELEASE</org.springframework.security-version>
 		<org.springframework.social-version>1.1.6.RELEASE</org.springframework.social-version>
-		<org.freemarker-version>2.3.28</org.freemarker-version>
+		<org.freemarker-version>2.3.29</org.freemarker-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<jedis.version>2.9.0</jedis.version>
@@ -106,12 +106,6 @@
 			<groupId>commons-validator</groupId>
 			<artifactId>commons-validator</artifactId>
 			<version>1.6</version>
-		</dependency>
-
-		<dependency>
-			<groupId>kr.pe.kwonnam.freemarker</groupId>
-			<artifactId>freemarker-template-inheritance</artifactId>
-			<version>0.4.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>no.api.freemarker</groupId>

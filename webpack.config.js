@@ -12,14 +12,13 @@ module.exports = {
         mode: 'production',
         watch: true,
         entry: {
-            index: './src/main/resources/static/js/index.js',
-            events_index: './src/main/resources/static/js/events_index.js',
-            events: './src/main/resources/static/js/events.js',
-            places: './src/main/resources/static/js/places.js',
-            places_index: './src/main/resources/static/js/places_index.js',
+//            index: './src/main/resources/static/js/index.js',
+//            events_index: './src/main/resources/static/js/events_index.js',
+//            events: './src/main/resources/static/js/events.js',
+            place_detail: './src/main/resources/static/js/place_detail.js',
+//            places_index: './src/main/resources/static/js/places_index.js',
             styles: ['./src/main/resources/static/styles/index.scss', 
-                './src/main/resources/static/styles/common.scss', './src/main/resources/static/styles/events.scss',
-                './src/main/resources/static/styles/places.scss', './src/main/resources/static/styles/places_index.scss']
+                './src/main/resources/static/styles/common.scss', './src/main/resources/static/styles/place_detail.scss']
         },
   output: {
       path: path.resolve(__dirname, './src/main/resources/static/bundle'),
@@ -70,7 +69,7 @@ module.exports = {
       {
           test: /\.vue$/,
           loader: 'vue-loader'
-      },      { test: /\.(gif|svg|jpg|png)$/, loader: 'file-loader' }
+      },      { test: /\.(gif|svg|jpg|png)$/, loader: 'file-loader' },
     ]
   },
   plugins: [
