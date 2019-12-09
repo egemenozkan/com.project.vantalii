@@ -1,17 +1,23 @@
 package com.project.web.service.impl;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.project.api.data.model.event.Event;
+import com.project.web.component.RequestFactory;
 
 @Repository
 public abstract class BaseApiService<T> {
@@ -60,7 +66,7 @@ public abstract class BaseApiService<T> {
 
 		return result;
 	}
-	
+
 	public List<T> getList(String url, ParameterizedTypeReference<List<T>> ptr) {
 		List<T> result = Collections.emptyList();
 		ResponseEntity<List<T>> responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, ptr);
@@ -122,6 +128,17 @@ public abstract class BaseApiService<T> {
 			return null;
 		}
 
+		return responseEntity.getBody();
+	}
+
+	/* TODO: Araştır, GET metodunda request entity içerisindeki body kayboluyor. */
+	public Object getResponse(URI endpoint, Object requestObject, Class<T> responseType) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		HttpEntity<Object> requestEntity = new HttpEntity<>(requestObject, headers);
+
+		ResponseEntity<T> responseEntity = restTemplate.exchange(endpoint, HttpMethod.GET, requestEntity, responseType);
 		return responseEntity.getBody();
 	}
 

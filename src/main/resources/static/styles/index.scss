@@ -591,13 +591,19 @@ body {
 }
 
 
-.v-form .v-form_inner .region {}
+.v-form .v-form_inner .region>div,
+.v-form .v-form_inner .search>div,
+    .v-form .v-form_inner .time>div {
+    display: inline-block;
+    width: calc(100% - 30px);
+}
 
 .v-form .v-form_inner .search input,
-.v-form .v-form_inner .region input {
+.v-form .v-form_inner .region input,
+.v-form .v-form_inner .time input {
     height: 65px;
     font-size: 14px;
-    width: 82%;
+    width: 100%;
     background-color: transparent;
     padding-left: 5px;
 }

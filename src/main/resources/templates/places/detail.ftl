@@ -3,8 +3,10 @@
 <#import "*/imports/formatter.ftl" as formatter />
 <#import "*/imports/utils.ftl" as utils /> 
 <!-- Page Properties -->
-<#assign title> <@spring.message "page.home.title" /> </#assign>
-<#assign description> <@spring.message "page.home.description" /></#assign>
+<#assign title>
+    ${ page.title! }
+</#assign>
+<#assign description>${ page.description! }</#assign>
 <#assign V_PRODUCT="place">
 <#assign V_CATEGORY="detail">
 <#assign V_PAGE="detail">
@@ -15,6 +17,7 @@
 <!DOCTYPE html>
 <html lang="${ webPage.language.code?lower_case }" class="page places" data-language="${ webPage.language }" data-user-id="<#if (user?? &&  user.id??)>${ user.id?c! }<#else>0</#if>" data-place-id="${ page.place.id?c!0 }">
 <head>
+    <title>${title} - Vantalii.com</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" crossorigin="anonymous">
 
     <link type="text/css" href="/static/assets/lightbox/css/lightgallery.min.css" rel="stylesheet" />
@@ -114,18 +117,21 @@
                                         </main>
                                         <footer></footer>
                                     </div>
+                                    <#if page.contents?? >
                                     <div class="v-box">
                                         <header class="v-before v-after">
                                             <div>
-                                                <h2 class="title"><span>Hakkında</span></h2>
+                                                <h2 class="title"><span><@spring.message "overview" /></span></h2>
                                             </div>
                                         </header>
                                         <main>
-
-
+                                            <#list page.contents! as content>
+                                                ${ content.text! }
+                                            </#list>
                                         </main>
                                         <footer></footer>
                                     </div>
+                                    </#if>
                                     <div id="facilities" class="v-box">
                                         <header class="v-before v-after">
                                             <div>

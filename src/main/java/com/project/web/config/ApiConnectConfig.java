@@ -2,6 +2,7 @@ package com.project.web.config;
 
 import static java.util.Arrays.asList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,21 +12,22 @@ import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResour
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 
+import com.project.web.component.RequestFactory;
+
 @Configuration
 @EnableOAuth2Client
 public class ApiConnectConfig {
 
-    
-    @Value("${security.api.auth-server-url}")
-   	private String authServerUrl;
-    
-    @Value("${security.api.token-path}")
-   	private String tokenPath;
-    
-    @Value("${security.api.authorize-path}")
-   	private String authorizePath;
-    
-    @Value("${security.api.client-id}")
+	@Value("${security.api.auth-server-url}")
+	private String authServerUrl;
+
+	@Value("${security.api.token-path}")
+	private String tokenPath;
+
+	@Value("${security.api.authorize-path}")
+	private String authorizePath;
+
+	@Value("${security.api.client-id}")
 	private String clientId;
 
 	@Value("${security.api.client-secret}")
@@ -37,8 +39,10 @@ public class ApiConnectConfig {
 	@Value("${security.api.scope}")
 	private String scope;
 
+
 	
-    
+
+
 	@Bean
 	public OAuth2ProtectedResourceDetails apiServerId() {
 		ClientCredentialsResourceDetails resourceDetails = new ClientCredentialsResourceDetails();
@@ -52,6 +56,8 @@ public class ApiConnectConfig {
 
 	@Bean
 	public OAuth2RestTemplate restTemplate(OAuth2ClientContext clientContext) {
-		return new OAuth2RestTemplate(apiServerId(), clientContext);
+		RequestFactory requestFactory = new RequestFactory(apiServerId(), clientContext);
+		return requestFactory.getRestTemplate();
 	}
+
 }

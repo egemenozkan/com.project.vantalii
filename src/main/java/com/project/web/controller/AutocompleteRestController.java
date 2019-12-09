@@ -1,5 +1,7 @@
 package com.project.web.controller;
 
+import java.net.URISyntaxException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +20,7 @@ public class AutocompleteRestController {
 	private IDatapoolService datapoolService;
 
 	@GetMapping({ "/autocomplete", "/{language}/autocomplete" })
-	public @ResponseBody AutocompleteResponse getAutocompleteResponse(@PathVariable(required = false, name = "language") String language, @RequestParam String query) {
+	public @ResponseBody AutocompleteResponse getAutocompleteResponse(@PathVariable(required = false, name = "language") String language, @RequestParam String query) throws URISyntaxException {
 		return datapoolService.getAutocompleteResponse(new AutocompleteRequest(query));
 	}
 }

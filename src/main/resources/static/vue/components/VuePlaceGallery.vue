@@ -36,13 +36,10 @@ div.file-listing img {
             </a>
         </li>
       </ul>
-      <div
-        class="col-6 col-sm-3"
-        style="padding: 2px!important; background: transparent; text-align: center; vertical-align: middle;"
-      >
+      <div class="mt-2 mx-auto" style="text-align: center;"> 
         <div v-if="online" class="upload-btn-wrapper">
-          <button type="button">
-            <i class="fa fa-camera"></i>
+          <button class="btn btn-white" type="button">
+              Fotoğraf Ekle
           </button>
           <input
             type="file"
@@ -53,8 +50,8 @@ div.file-listing img {
           />
         </div>
         <div v-if="!online" class="upload-btn-wrapper">
-          <button type="button" data-toggle="modal" data-target="#modal-signIn">
-            <i class="fa fa-camera"></i>
+          <button type="button" class="btn btn-white" data-toggle="modal" data-target="#modal-signIn">
+              Fotoğraf Ekle
           </button>
         </div>
       </div>
@@ -148,7 +145,7 @@ export default {
               self.mdImages.push(response.data[i].mdUrl);
               self.lgImages.push(response.data[i].lgUrl);
             }
-            for (var j = 3; j > length; j--) {
+            for (var j = 4; j > length; j--) {
               // self.images.push({ background: "background-image: url(/img/nophoto.jpg);" });
               self.mdImages.push("/static/img/nophoto.jpg");
             }

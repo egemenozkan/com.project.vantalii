@@ -1,6 +1,11 @@
 package com.project.web.model;
 
-public class AutocompleteItem {
+import java.io.Serializable;
+
+public class AutocompleteItem implements Serializable {
+
+	private static final long serialVersionUID = -1004453840935332588L;
+	
 	private String label;
 	private String name;
 	private String code;

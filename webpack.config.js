@@ -12,7 +12,7 @@ module.exports = {
         mode: 'production',
         watch: true,
         entry: {
-//            index: './src/main/resources/static/js/index.js',
+            index: './src/main/resources/static/js/index.js',
 //            events_index: './src/main/resources/static/js/events_index.js',
 //            events: './src/main/resources/static/js/events.js',
             place_detail: './src/main/resources/static/js/place_detail.js',
