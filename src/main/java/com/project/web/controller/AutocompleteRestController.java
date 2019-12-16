@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.api.data.enums.Language;
 import com.project.web.model.AutocompleteRequest;
 import com.project.web.model.AutocompleteResponse;
 import com.project.web.service.IDatapoolService;
@@ -21,6 +22,6 @@ public class AutocompleteRestController {
 
 	@GetMapping({ "/autocomplete", "/{language}/autocomplete" })
 	public @ResponseBody AutocompleteResponse getAutocompleteResponse(@PathVariable(required = false, name = "language") String language, @RequestParam String query) throws URISyntaxException {
-		return datapoolService.getAutocompleteResponse(new AutocompleteRequest(query));
+		return datapoolService.getAutocompleteResponse(new AutocompleteRequest(query,Language.getByCode("RU")));
 	}
 }

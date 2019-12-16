@@ -13,12 +13,17 @@ public class AutocompleteItem implements Serializable {
 
 	private String url;
 
+	public AutocompleteItem() {
+	}
+	
 	public AutocompleteItem(String label, String name, String code, String url) {
 		this.label = label;
 		this.name = name;
 		this.code = code;
 		this.url = url;
 	}
+	
+
 	public String getLabel() {
 		return label;
 	}

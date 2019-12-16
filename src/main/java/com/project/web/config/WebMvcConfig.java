@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.project.web.interceptor.ExtendedCookieLocaleResolver;
 import com.project.web.interceptor.ExtendedLocaleChangeInterceptor;
 import com.project.web.interceptor.ExtendedResourceBundleMessageSource;
+import com.project.web.interceptor.SearchFormInterceptor;
 import com.project.web.interceptor.SessionTimerInterceptor;
 import com.project.web.interceptor.SiteInterceptor;
 import com.project.web.interceptor.UserInterceptor;
@@ -37,6 +38,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addInterceptor(siteInteceptor());
         registry.addInterceptor(new UserInterceptor());
         registry.addInterceptor(new SessionTimerInterceptor());
+        registry.addInterceptor(searchFormInterceptor());
 	}
 
 
@@ -109,6 +111,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Bean
 	public SiteInterceptor siteInteceptor() {
 		return new SiteInterceptor();
+	}
+	
+	@Bean
+	public SearchFormInterceptor searchFormInterceptor() {
+		return new SearchFormInterceptor();
 	}
 
 	@Bean

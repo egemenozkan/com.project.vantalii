@@ -167,7 +167,7 @@ public class PlaceController {
 			logger.error("not found {}", request.getPathInfo());
 			model.addAttribute("pages", Collections.emptyList());
 		}
-		return new ModelAndView("places/category");
+		return new ModelAndView("places/list");
 	}
 
 	@GetMapping({ "/places/t/{slug}", "/{language}/places/t/{slug}" })
@@ -188,7 +188,7 @@ public class PlaceController {
 			model.addAttribute("pages", placeService.getPlaceLandingPages(placeRequest));
 		}
 
-		return new ModelAndView("places/category");
+		return new ModelAndView("places/list");
 	}
 
 	@PostMapping({ "/places/file-upload/single", "/{language}/places/file-upload/single" })

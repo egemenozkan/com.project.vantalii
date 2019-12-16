@@ -9,16 +9,18 @@ const webpack = require('webpack');
 const compiler = require('vue-template-compiler')
 
 module.exports = {
-        mode: 'production',
+        mode: 'development',
         watch: true,
         entry: {
             index: './src/main/resources/static/js/index.js',
 //            events_index: './src/main/resources/static/js/events_index.js',
 //            events: './src/main/resources/static/js/events.js',
             place_detail: './src/main/resources/static/js/place_detail.js',
+            place_list: './src/main/resources/static/js/place_list.js',
+
 //            places_index: './src/main/resources/static/js/places_index.js',
             styles: ['./src/main/resources/static/styles/index.scss', 
-                './src/main/resources/static/styles/common.scss', './src/main/resources/static/styles/place_detail.scss']
+                './src/main/resources/static/styles/common.scss', './src/main/resources/static/styles/place_detail.scss', './src/main/resources/static/styles/place_list.scss']
         },
   output: {
       path: path.resolve(__dirname, './src/main/resources/static/bundle'),

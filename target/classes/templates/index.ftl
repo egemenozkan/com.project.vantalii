@@ -16,6 +16,10 @@
 <html>
 <head>
 	<#include '*/common/styles.ftl'>
+    <script type="text/javascript">
+        var popularPlaces = ${ popularPlaces };
+
+    </script>
 </head>
 
 <body>
@@ -34,7 +38,6 @@
                         </div>
                     </div>
                 </header>
-
                 <!-- .v-detail_top -->
                 <div class="v-body">
                     <div class="container">
