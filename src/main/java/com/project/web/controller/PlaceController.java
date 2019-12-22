@@ -1,6 +1,5 @@
 package com.project.web.controller;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,7 +30,6 @@ import com.project.api.data.enums.LandingPageType;
 import com.project.api.data.enums.Language;
 import com.project.api.data.enums.MainType;
 import com.project.api.data.enums.PlaceType;
-import com.project.api.data.model.DailyWorkingHours;
 import com.project.api.data.model.comment.Comment;
 import com.project.api.data.model.comment.CommentResponse;
 import com.project.api.data.model.file.MyFile;

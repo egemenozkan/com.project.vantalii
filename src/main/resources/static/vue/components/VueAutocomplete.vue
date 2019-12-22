@@ -1,12 +1,15 @@
 <template>
-    <div>
+    <div v-closable="{
+    exclude: ['suggestions', 'populars'],
+    handler: 'onClose'
+  }">
         <input type="text" name="" :placeholder="placeholder" :value="owner.value" @click="showPopulars" @input="getSuggestions($event.target.value)" />
-        <div :class="'i-suggestions ' + (suggestions.visible ? 'show' : '')">
+        <div :class="'i-suggestions ' + (suggestions.visible ? 'show' : '')" ref="suggestions" >
             <ul>
                 <li v-for="(item,index) in suggestions.list" v-html="item.label" @click="selectSuggestion(index)"></li>
             </ul>
         </div>
-        <div  :class="'i-populars ' + (populars.visible ? 'show' : '')">
+        <div  :class="'i-populars ' + (populars.visible ? 'show' : '')" ref="populars">
             <ul>
                 <li v-for="(item, index) in populars.list" :class="index == 0 ? 'active' : ''" @click="selectPopular(index)"> <span v-html="item.label"></span></li>
             </ul>
@@ -24,7 +27,13 @@ export default {
         slass: String,
         placeholder: String,
         autocompleteUrl: String,
-        popularsdata: Array
+        popularsdata: Array,
+        properties: {
+            type: Object,
+            default: function () {
+                return { suggestions: true, populars: true, debug: false }
+            }
+        }
     },
     data() {
         return {
@@ -42,9 +51,13 @@ export default {
     },
     methods: {
         showPopulars() {
-            this.owner.value = "";
-            this.populars.visible = true;
-            console.log("clicked");
+            var self =  this;
+            if (!self.properties) {
+                return;
+            }
+
+            self.owner.value = "";
+            self.populars.visible = true;
         },
         update: function(text) {
             var self = this;
@@ -52,7 +65,6 @@ export default {
                 self.populars.visible = false;
                 self.suggestions.visible = true;
                 self.getSuggestions(text);
-                console.log(text);
             } else {
                 self.suggestions.visible = false;
             }
@@ -72,7 +84,6 @@ export default {
         },
         blur(target) {
             var self = this;
-            console.log(target);
             self.suggestions.visible = false;
             self.populars.visible = false;
         }, // For highlighting element
@@ -100,11 +111,14 @@ export default {
             }
         },
         getSuggestions: function(text) {
-            if (text.length < 3) {
+            var self = this;
+
+            if (self.properties.suggestions && text.length < 3) {
                 return;
             }
 
-            var self = this;
+            self.populars.visible = false;
+
             var regexp = new RegExp('(' + text + ')', 'gi');
             var autocompleteUrl = self.autocompleteUrl + '?query=' + text;
             axiosApi.get(autocompleteUrl).then(function(response) {
@@ -139,7 +153,6 @@ export default {
     mounted() {
         var self = this;
         self.populars.list = self.owner.populars;
-        console.log("-->a2", self.populars.list);
     }
 };
 </script>

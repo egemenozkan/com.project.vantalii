@@ -1,5 +1,6 @@
 package com.project.web.service.impl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,15 +14,13 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-
 import com.project.api.data.enums.PeriodType;
 import com.project.api.data.model.DailyWorkingHours;
 import com.project.api.data.model.event.TimeTable;
 import com.project.web.service.ITimeService;
 
 @Service
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class TimeService extends BaseApiService implements ITimeService {
 	@Autowired
 	private RedisTemplate<String, Object> redisTemplate;
@@ -36,7 +35,7 @@ public class TimeService extends BaseApiService implements ITimeService {
 	@Override
 	public List<DailyWorkingHours> getDailyWorkingHours(long id) {
 		StringBuilder endpoint = new StringBuilder(authServerUrl);
-		endpoint.append("/api/v1/places/" + String.valueOf(id) + "/time-table");
+		endpoint.append("/api/v1/places/" + id + "/time-table");
 
 		List<TimeTable> timetables = getList(endpoint.toString(), new ParameterizedTypeReference<List<TimeTable>>() {
 		});
@@ -45,7 +44,7 @@ public class TimeService extends BaseApiService implements ITimeService {
 			return Collections.emptyList();
 		}
 
-		List<DailyWorkingHours> dailyWorkingHours = new ArrayList<DailyWorkingHours>();
+		List<DailyWorkingHours> dailyWorkingHours = new ArrayList<>();
 		if (timetables.size() == 1 && timetables.get(0).getStartDate() != null
 				&& timetables.get(0).getEndDate() != null) {
 

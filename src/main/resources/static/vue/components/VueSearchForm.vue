@@ -16,8 +16,7 @@
                 </div>
                 <div class="region">
                     <i class="material-icons">near_me</i>
-                    <autocomplete id="" :owner="region" placeholder="What are you looking for?"
-                        autocompleteUrl="/places/autocomplete" />
+                    <popularregions :owner="region" />
                 </div>
                 <div class="v-button">
                     <button type="button" class="btn btn-submit" @click="searchPlace">Ara</button>
@@ -28,22 +27,17 @@
             <div class="v-form_inner event-search">
                 <div class="search">
                     <i class="material-icons">search</i>
-                    <autocomplete :owner="event" placeholder="Etkinlik, mekan" autocompleteUrl="/events/autocomplete" />
+                    <autocomplete :owner="event" placeholder="Etkinlik, mekan" autocompleteUrl="/events/autocomplete"  />
                 </div>
                 <div class="region">
                     <i class="material-icons">near_me</i>
-                    <autocomplete :owner="region" placeholder="What are you looking for?"
-                        autocompleteUrl="/places/autocomplete" />
+                    <popularregions :owner="region" />
+
                 </div>
                 <div class="time">
                     <i class="material-icons">access_time</i>
-                    <VueCtkDateTimePicker 
-                        v-model="dateTimePicker"
-                        :format="'YYYY-MM-DD'"
-                         :custom-shortcuts="customShortcuts"
-                        label="Zaman"
-                        color="#000000"
-                        :range="true" />
+                    <VueCtkDateTimePicker v-model="dateTimePicker" :format="'YYYY-MM-DD'"
+                        :custom-shortcuts="customShortcuts" formatted="LL" label="Zaman" color="#c50143" :range="true" />
                 </div>
                 <div class="v-button">
                     <button type="button" class="btn btn-submit" @click="searchEvent">Ara</button>
@@ -56,37 +50,79 @@
 <script>
     import axiosApi from 'axios';
     import autocomplete from '../components/VueAutocomplete.vue';
+    import popularRegions from '../components/VuePopularRegion.vue';
+
     import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
     import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
-
-    console.log("popopop", popularPlaces);
+    var moment = require('moment');
     export default {
         name: 'searchForm',
         components: {
             'autocomplete': autocomplete,
+            'popularregions': popularRegions,
             VueCtkDateTimePicker,
 
         },
         data() {
             return {
                 activeForm: 'place',
+                gis: {
+                    districts: []
+                },
                 place: {
                     populars: popularPlaces
                 },
                 region: {},
                 event: {},
-                dateTimePicker:"",
+                dateTimePicker: "",
                 eventDays: [],
-                customShortcuts:[
-  { key: 'thisWeek', label: 'This week', value: 'isoWeek' },
-  { key: 'lastWeek', label: 'Last week', value: '-isoWeek' },
-  { key: 'last7Days', label: 'Last 7 days', value: 7 },
-  { key: 'last30Days', label: 'Last 30 days', value: 30 },
-  { key: 'thisMonth', label: 'This month', value: 'month' },
-  { key: 'lastMonth', label: 'Last month', value: '-month' },
-  { key: 'thisYear', label: 'This year', value: 'year' },
-  { key: 'lastYear', label: 'Last year', value: '-year' }
-],
+                customShortcuts: [{
+                        key: 'thisWeek',
+                        label: 'This week',
+                        value: 'isoWeek'
+                    },
+                    {
+                        key: 'last7Days',
+                        label: 'Last 7 days',
+                        value: 7
+                    },
+                    {
+                        key: 'last30Days',
+                        label: 'Last 30 days',
+                        value: 30
+                    },
+                    {
+                        key: 'thisMonth',
+                        label: 'This month',
+                        value: 'month'
+                    },
+                    {
+                        key: 'thisYear',
+                        label: 'This year',
+                        value: 'year'
+                    },
+                    {
+                        key: 'tomorrow',
+                        label: localeMessages['datepicker.tomorrow'],
+                        value: 'day'
+                    },
+                    {
+                        key: 'customValue',
+                        label: 'My custom thing',
+                        value: () => {
+                            return {
+                                start: moment(),
+                                end: moment().add(2, 'days')
+                            }
+                        },
+                        callback: ({
+                            start,
+                            end
+                        }) => {
+                            console.log('My shortcut was clicked with values: ', start, end)
+                        }
+                    }
+                ],
                 // customShortcuts: [{
                 //     key: 'tomorrow',
                 //         label: localeMessages['datepicker.tomorrow'],
@@ -229,7 +265,6 @@
             searchPlace: function () {
                 var self = this;
                 location.href = self.place.url;
-                console.log(self.place);
             },
             searchEvent: function () {
                 var self = this;
@@ -251,7 +286,7 @@
 
         },
         mounted() {
-
+            
         }
     }
 </script>

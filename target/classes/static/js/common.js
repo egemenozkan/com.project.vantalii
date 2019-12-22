@@ -1,4 +1,6 @@
 import 'bootstrap';
+import '../js/vue_common';
+
 window.jQuery = $;
 window.$ = $;
 function sliceDate(param) {

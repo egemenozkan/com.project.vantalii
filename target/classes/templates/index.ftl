@@ -32,7 +32,7 @@
                     <div class="v-overlay"></div>
                     <div class="container">
                         <div class="row align-items-center justify-content-center">
-                            <div id="app1" class="col-lg-10">
+                            <div id="app1" class="col-lg-12">
                                 <search-form></search-form>
                             </div>
                         </div>
