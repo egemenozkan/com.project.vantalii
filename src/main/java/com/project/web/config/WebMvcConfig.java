@@ -1,5 +1,7 @@
 package com.project.web.config;
 
+import java.io.IOException;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +22,9 @@ import com.project.web.interceptor.SearchFormInterceptor;
 import com.project.web.interceptor.SessionTimerInterceptor;
 import com.project.web.interceptor.SiteInterceptor;
 import com.project.web.interceptor.UserInterceptor;
+
+import freemarker.cache.NullCacheStorage;
+import freemarker.template.TemplateException;
 
 @EnableWebMvc
 @Configuration
@@ -52,17 +57,38 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		resolver.setExposeRequestAttributes(true);
 		resolver.setExposeSessionAttributes(true);
 		resolver.setExposeSpringMacroHelpers(true);
-
 		return resolver;
 	}
 
-	@Bean
-	public FreeMarkerConfigurer freemarkerConfig() {
-		FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
-		freeMarkerConfigurer.setTemplateLoaderPath("classpath:templates");
-		return freeMarkerConfigurer;
-	}
+//	@Bean
+//	public FreeMarkerConfigurer freemarkerConfig() {
+//		FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
+//		freeMarkerConfigurer.setTemplateLoaderPath("classpath:templates");
+//		
+//		return freeMarkerConfigurer;
+//	}
 
+	
+	@Bean
+	public FreeMarkerConfigurer freeMarkerConfigurer() throws IOException, TemplateException
+	{
+	    FreeMarkerConfigurer configurer = new FreeMarkerConfigurer()
+	    {
+
+	        @Override
+	        protected void postProcessConfiguration(freemarker.template.Configuration config) throws IOException, TemplateException
+	        { 
+	            config.setCacheStorage(new NullCacheStorage()); 
+	        	config.setTemplateUpdateDelayMilliseconds(0);
+	        }
+	    };
+	    configurer.setDefaultEncoding("UTF-8"); 
+	    configurer.setPreferFileSystemAccess(false);
+	    configurer.setTemplateLoaderPath("classpath:templates");
+
+	    return configurer;
+	}
+	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");

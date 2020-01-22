@@ -1,5 +1,5 @@
 #!/bin/sh
-mvn -f /Devel/workspace/com.project.contract/ clean install
+mvn -f /Users/Egemen/Devel/workspace/com.project.contract/ clean install
 mvn clean install -DskipTests -Pprod
 
 #StaticFiles

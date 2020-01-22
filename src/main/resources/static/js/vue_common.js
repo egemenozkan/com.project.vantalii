@@ -26,7 +26,6 @@ Vue.directive('closable', {
 
                     if (typeof excludedEl !== 'undefined' && excludedEl) {
                         clickedOnExcludedEl = excludedEl.contains(e.target);
-                        console.log("excludeed", excludedEl);
                     }
                 }
             }); // We check to see if the clicked element is not

@@ -1,42 +1,44 @@
 package com.project.web.interceptor;
 
-import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.context.MessageSource;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.google.gson.Gson;
-import com.project.api.data.enums.Language;
 import com.project.api.data.enums.MainType;
-import com.project.api.data.enums.PlaceType;
-import com.project.web.component.Translator;
+import com.project.api.data.model.event.EventType;
 import com.project.web.model.AutocompleteItem;
-import com.project.web.model.WebPageModel;
-import com.project.web.utils.WebUtils;
 
-public class SearchFormInterceptor extends HandlerInterceptorAdapter {
+public class SearchFormInterceptor extends HandlerInterceptorAdapter implements InitializingBean {
 
 	private static Logger logger = LoggerFactory.getLogger(SearchFormInterceptor.class);
-	
+
+	@Autowired
+	private MessageSource messageSource;
+
 	@Autowired
 	Gson gson;
-	
+
+	private static final List<AutocompleteItem> popularPlaces = new ArrayList<>();
+	private static final List<AutocompleteItem> popularEvents = new ArrayList<>();
+
 	/**
 	 * Executed before actual handler is executed
 	 **/
 	@Override
-	public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
+	public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler)
+			throws Exception {
 		return true;
 	}
 
@@ -50,12 +52,10 @@ public class SearchFormInterceptor extends HandlerInterceptorAdapter {
 //			logger.info("::postHandle modelAndVİew: {}", gson.toJson(modelAndView));
 			return;
 		}
-		
-	
-		List<AutocompleteItem>  popularPlaces = new ArrayList<>();
-		popularPlaces.add(new AutocompleteItem("Alışveriş2", "Alışveriş", "SHOPPING", MainType.SHOPPING.getSlug()));
-		
-		modelAndView.getModel().put("popularPlaces", gson.toJson(popularPlaces));
+
+//		modelAndView.getModel().put("popularPlaces", gson.toJson(popularPlaces));
+//
+//		modelAndView.getModel().put("popularEvents", gson.toJson(popularEvents));
 
 	}
 
@@ -63,12 +63,33 @@ public class SearchFormInterceptor extends HandlerInterceptorAdapter {
 	 * Executed after complete request is finished
 	 **/
 	@Override
-	public void afterCompletion(final HttpServletRequest request, final HttpServletResponse response, final Object handler,
-			final Exception ex) throws Exception {
+	public void afterCompletion(final HttpServletRequest request, final HttpServletResponse response,
+			final Object handler, final Exception ex) throws Exception {
+		for (int i = 0; i < MainType.values().length; i++) {
+			if (MainType.values()[i].getSlug().length() == 0) {
+				continue;
+			}
+			popularPlaces.add(new AutocompleteItem(
+					messageSource.getMessage("places.mainType." + MainType.values()[i].name(), null, new Locale("tr")),
+					messageSource.getMessage("places.mainType." + MainType.values()[i].name(), null, new Locale("tr")),
+					MainType.values()[i].toString(), "/ru/places/m/" + MainType.values()[i].getSlug()));
+		}
 
-		
-		
-		
+		for (int j = 0; j < EventType.values().length; j++) {
+			if (EventType.values()[j].getSlug().length() == 0) {
+				continue;
+			}
+			popularEvents.add(new AutocompleteItem(
+					messageSource.getMessage("events.type." + EventType.values()[j].name(), null, new Locale("tr")),
+					messageSource.getMessage("events.type." + EventType.values()[j].name(), null, new Locale("tr")),
+					EventType.values()[j].toString(), "/ru/events/m/" + EventType.values()[j].getSlug()));
+		}
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -1,12 +1,12 @@
 <template>
     <div v-closable="{
-        exclude: ['populars'],
-        handler: 'onClose'
-      }">
+                        exclude: ['populars'],
+                        handler: 'onClose'
+                      }">
         <input type="text" name="" :value="owner.value" @click="showPopulars" />
         <div :class="'i-populars ' + (populars.visible ? 'show' : '')" ref="populars">
             <div class="popular-cities">
-                <span :class="(selections.districts.length == 0 && selections.regions.length == 0) ? 'selected' : ''" @click="selectCity" >{{ populars.cities[0].name }}</span>
+                <span :class="(selections.districts.length == 0 && selections.regions.length == 0) ? 'selected' : ''" @click="selectCity">{{ populars.cities[0].name }}</span>
             </div>
             <div class="popular-districts">
                 <h5>İlçeler</h5>
@@ -14,7 +14,7 @@
             </div>
             <div class="popular-regions" v-if="populars.regions.length > 0">
                 <h5>Bölgeler</h5>
-                <span v-for="(region, index) in populars.regions" :class="selections.regions.indexOf(region.id) != -1 ? 'selected' : ''"  @click="selectRegion(region.id)">{{ region.name }}</span>
+                <span v-for="(region, index) in populars.regions" :class="selections.regions.indexOf(region.id) != -1 ? 'selected' : ''" @click="selectRegion(region.id)">{{ region.name }}</span>
             </div>
         </div>
     </div>
@@ -40,11 +40,11 @@ export default {
             selections: {
                 cities: [1],
                 districts: [],
-                regions:[],    
+                regions: [],
             },
             populars: {
                 visible: false,
-                cities:[{id:1, name: "Tüm Antalya"}],
+                cities: [{ id: 1, name: "Tüm Antalya" }],
                 districts: [],
                 regions: []
             },
@@ -65,40 +65,52 @@ export default {
         selectCity() {
             var self = this;
             self.selections.districts = [];
-            self.popular.regions = [];
             self.selections.regions = [];
+            self.populars.regions = [];
+            queryStringGenerator(self);
+
+
         },
         selectDistrict(id) {
             var self = this;
+            self.selections.cities = [];
             var index = self.selections.districts.indexOf(id);
             if (index != -1) {
                 self.$delete(self.selections.districts, index)
             } else {
                 self.selections.districts = [];
                 getRegionsByDistrict(self, id);
-                console.log("-->Districts:",id,  self.populars.districts.find(element => element.id == id).name);
                 self.populars.districts.find(element => element.id == id);
                 self.owner.value = self.populars.districts.find(element => element.id == id).name;
                 self.selections.districts.push(id);
             }
-            
-            console.log(self.selections.districts);
+            queryStringGenerator(self);
+
+
         },
         selectRegion(id) {
             var self = this;
             var index = self.selections.regions.indexOf(id);
             if (index != -1) {
                 self.$delete(self.selections.regions, index)
-            }  else {
+            } else {
                 self.selections.regions.push(id);
             }
+            queryStringGenerator(self);
+
+
         },
         onClose() {
             var self = this;
             self.populars.visible = false;
-            if (self.selections.districts.length == 0 && selections.regions.length == 0) {
+            if (self.selections.districts.length == 0 && self.selections.regions.length == 0) {
                 self.owner.value = self.populars.cities[0].name;
+            } else if (self.selections.regions.length > 0) {
+                self.owner.value = self.populars.regions.filter(v => self.selections.regions.indexOf(v.id) != -1).map(v => v.name).join(", ");
+            } else if (self.selections.districts.length > 0) {
+                self.owner.value = self.populars.districts.filter(v => self.selections.districts.indexOf(v.id) != -1).map(v => v.name).join(", ");
             }
+
         }
 
     },
@@ -125,15 +137,37 @@ function getRegionsByDistrict(self, districtId) {
     axiosApi.get(getRegionsUrl).then(function(response) {
         if (response && response.data) {
             self.populars.regions = response.data;
-            console.log("regions:::",self.populars.regions);
             self.selections.regions = [];
-            for (var i = 0; i < self.populars.regions.length; i++){
+            for (var i = 0; i < self.populars.regions.length; i++) {
                 self.selections.regions.push(self.populars.regions[i].id);
             }
         }
     }).catch(function(error) { // handle error 
         console.log(error);
     }).finally(function() {});
+}
+
+function queryStringGenerator(self) {
+    self.owner.queryString = "";
+    if (self.selections.cities.length > 0) {
+        self.selections.cities.forEach(function(element, index, array) {
+            self.owner.queryString += index == 0 ? '?' : '&'
+            self.owner.queryString += "city=";
+            self.owner.queryString += element;
+        });
+    } else if (self.selections.regions.length == self.populars.regions.length) {
+        self.selections.districts.forEach(function(element, index, array) {
+            self.owner.queryString += index == 0 ? '?' : '&'
+            self.owner.queryString += "district=";
+            self.owner.queryString += element;
+        });
+    } else {
+        self.selections.regions.forEach(function(element, index, array) {
+            self.owner.queryString += index == 0 ? '?' : '&'
+            self.owner.queryString += "region=";
+            self.owner.queryString += element;
+        });
+    }
 }
 </script>
 
@@ -160,7 +194,7 @@ function getRegionsByDistrict(self, districtId) {
 .i-populars .popular-districts span.selected,
 .i-populars .popular-regions span.selected {
     background-color: #FE8A4F;
-    color:#FFF;
+    color: #FFF;
     border: none;
 }
 

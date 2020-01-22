@@ -255,6 +255,7 @@ body {
     position: relative;
     line-height: 1.2em;
     margin: 0;
+    display: inline-block;
 }
 
 .v-page .v-content .v-content_top .left .v-page_title h1>span {
@@ -620,8 +621,9 @@ body {
 }
 
 .v-form .v-form_inner.place-search .region input {
-    width:92%;
+    width: 92%;
 }
+
 .v-form input,
 select,
 textarea {
@@ -753,11 +755,10 @@ textarea {
     color: #FFF;
 }
 
-.v-categories .v-category.shops {
-    background: url(https://www.vantalii.ru//static/img/MALL.jpg);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
+.v-categories .v-category {
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important; 
 }
 
 .v-categories .v-category::before {
@@ -1398,4 +1399,65 @@ ul.list li i {
 
 ul.list li a {}
 
+.event-title {
+    display: table;
+    margin: 10px 0 0 10px;
 
+    .leaf {
+        display: table-cell;
+        line-height: 4rem;
+        border-right: 1px solid #333;
+        width: -webkit-max-content;
+        width: -moz-max-content;
+        width: max-content;
+        padding-right: 1rem;
+        font-weight: bold;
+        line-height: normal;
+
+        .date {
+            display: block;
+            font-size: 2.1rem;
+            text-align: center;
+        }
+
+        .month {
+            display: block;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .day {}
+    }
+
+    h1 {
+        display: table-cell;
+        margin: 0;
+        padding-left: 1rem;
+        font-size: 1.4rem;
+        font-weight: bold;
+        vertical-align: middle
+    }
+}
+
+.event-base-info {
+    padding: 0;
+    margin:0 0 0 10px;
+    li {
+        display: inline-block;
+    margin-right: 1.6rem;
+
+        label {
+            font-size: 0.8rem;
+            margin:0;
+            line-height: normal;
+        }
+
+        span {
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: block;
+            padding: 0;
+            line-height: normal;
+        }
+    }
+}

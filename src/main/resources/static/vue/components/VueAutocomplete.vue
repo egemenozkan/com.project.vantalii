@@ -1,15 +1,15 @@
 <template>
     <div v-closable="{
-    exclude: ['suggestions', 'populars'],
-    handler: 'onClose'
-  }">
-        <input type="text" name="" :placeholder="placeholder" :value="owner.value" @click="showPopulars" @input="getSuggestions($event.target.value)" />
-        <div :class="'i-suggestions ' + (suggestions.visible ? 'show' : '')" ref="suggestions" >
+        exclude: ['suggestions', 'populars'],
+        handler: 'onClose'
+      }">
+        <input type="text" name="" :placeholder="placeholder" v-model="owner.value" @click="showPopulars" @keyup="getSuggestions($event.target.value)" />
+        <div :class="'i-suggestions ' + (suggestions.visible ? 'show' : '')" ref="suggestions">
             <ul>
                 <li v-for="(item,index) in suggestions.list" v-html="item.label" @click="selectSuggestion(index)"></li>
             </ul>
         </div>
-        <div  :class="'i-populars ' + (populars.visible ? 'show' : '')" ref="populars">
+        <div :class="'i-populars ' + (populars.visible ? 'show' : '')" ref="populars">
             <ul>
                 <li v-for="(item, index) in populars.list" :class="index == 0 ? 'active' : ''" @click="selectPopular(index)"> <span v-html="item.label"></span></li>
             </ul>
@@ -21,7 +21,7 @@
 import axiosApi from 'axios';
 
 export default {
-    name: 'searchForm',
+    name: 'autocomplete',
     props: {
         owner: Object,
         slass: String,
@@ -30,7 +30,7 @@ export default {
         popularsdata: Array,
         properties: {
             type: Object,
-            default: function () {
+            default: function() {
                 return { suggestions: true, populars: true, debug: false }
             }
         }
@@ -51,11 +51,11 @@ export default {
     },
     methods: {
         showPopulars() {
-            var self =  this;
+            var self = this;
             if (!self.properties) {
                 return;
             }
-
+            self.populars.list = self.owner.populars;
             self.owner.value = "";
             self.populars.visible = true;
         },
@@ -113,14 +113,17 @@ export default {
         getSuggestions: function(text) {
             var self = this;
 
-            if (self.properties.suggestions && text.length < 3) {
+            // if (self.properties.suggestions && text.length < 3) {
+            //     return;
+            // }
+     if (text.length < 3) {
                 return;
             }
-
+            console.log("-->",text);
             self.populars.visible = false;
 
             var regexp = new RegExp('(' + text + ')', 'gi');
-            var autocompleteUrl = self.autocompleteUrl + '?query=' + text;
+            var autocompleteUrl = self.autocompleteUrl + '?language=' + self.language + '&query=' + text;
             axiosApi.get(autocompleteUrl).then(function(response) {
                 if (response && response.data) {
                     if (response.data.success) {
@@ -150,9 +153,25 @@ export default {
         }
 
     },
+    computed: {
+        now: function() {
+            return Date.now()
+        },
+        language: function() {
+            return document.getElementsByTagName("html")[0].getAttribute("data-language");
+        },
+        id: function() {
+            return document.getElementsByTagName("html")[0].getAttribute("data-place-id");
+        },
+        userId: function() {
+            return document.getElementsByTagName("html")[0].getAttribute("data-user-id");
+        }
+
+    },
     mounted() {
         var self = this;
-        self.populars.list = self.owner.populars;
+        // self.populars.list = self.owner.populars;
+        // console.log(self.owner);
     }
 };
 </script>
@@ -263,6 +282,7 @@ export default {
         left: 20px;
     }
 }
+
 .i-populars.show {
     transition: 1s;
     display: block;

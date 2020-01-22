@@ -63,8 +63,14 @@ public class PlaceService extends BaseApiService implements IPlaceService {
 		if (placeRequest.isHideMainImage()) {
 			endpoint.queryParam("hideMainImage", placeRequest.isHideMainImage());
 		}
+		if (placeRequest.getDistricts() != null) {
+			endpoint.queryParam("districts", String.join(",", placeRequest.getDistricts()));
+		}
+		if (placeRequest.getRegions() != null) {
+			endpoint.queryParam("regions", String.join(",", placeRequest.getRegions()));
+		}
 
-		Object cacheValue = null;//redisTemplate.opsForHash().get("PLACE", endpoint.toString());
+		Object cacheValue = redisTemplate.opsForHash().get("PLACE", endpoint.toString());
 
 		if (cacheValue != null) {
 			if (logger.isDebugEnabled()) {

@@ -24,6 +24,7 @@ import com.project.api.data.model.comment.CommentResponse;
 import com.project.api.data.model.event.Event;
 import com.project.api.data.model.event.EventLandingPage;
 import com.project.api.data.model.event.EventRequest;
+import com.project.api.data.model.event.TimeTable;
 import com.project.web.model.AutocompleteRequest;
 import com.project.web.service.IEventService;
 
@@ -88,7 +89,12 @@ public class EventService extends BaseApiService implements IEventService {
 		if (eventRequest.getType() != null) {
 			endpoint.queryParam("type", eventRequest.getType().getId());
 		}
-
+		if (eventRequest.getDistricts() != null) {
+			endpoint.queryParam("districts", String.join(",", eventRequest.getDistricts()));
+		}
+		if (eventRequest.getRegions() != null) {
+			endpoint.queryParam("regions", String.join(",", eventRequest.getRegions()));
+		}
 		Object cacheValue = redisTemplate.opsForHash().get(CACHE_KEY, endpoint.toString());
 
 		if (cacheValue != null) {
@@ -317,6 +323,14 @@ public class EventService extends BaseApiService implements IEventService {
 		}
 		endpoint.queryParam("query", autocompleteRequest.getQuery());
 		return (AutocompleteResponse) getObject(endpoint.toUriString(), AutocompleteResponse.class);
+	}
+	
+	@Override
+	public List<TimeTable> getTimeTableByEventId(long eventId) {
+		StringBuilder endpoint = new StringBuilder(authServerUrl);
+		endpoint.append("/api/v1/events/" + eventId + "/time-table");
+		return getList(endpoint.toString(), new ParameterizedTypeReference<List<TimeTable>>() {
+		});
 	}
 
 }

@@ -68,7 +68,6 @@ public class PlaceController {
 		return new ModelAndView("places/index");
 	}
 
-	@SuppressWarnings("unchecked")
 	@GetMapping({ "/places/{slug}", "/{language}/places/{slug}" })
 	public ModelAndView placeLandingPage(ModelMap model, HttpServletRequest request,
 			@PathVariable(required = false, name = "language") String language, @PathVariable String slug) throws NoHandlerFoundException {
@@ -147,7 +146,9 @@ public class PlaceController {
 
 	@GetMapping({ "/places/m/{slug}", "/{language}/places/m/{slug}" })
 	public ModelAndView landingPageByMainTypes(Model model, HttpServletRequest request,
-			@PathVariable(required = false, name = "language") String language, @PathVariable String slug) {
+			@PathVariable(required = false, name = "language") String language, @PathVariable String slug,
+			@RequestParam(required = false, defaultValue = "0", name = "district") String[] districts,
+			@RequestParam(required = false, defaultValue = "0", name = "region") String[] regions) {
 
 		PlaceRequest placeRequest = null;
 		language = (language ==  null) ? "RU" : language;
@@ -158,7 +159,8 @@ public class PlaceController {
 			placeRequest.setLimit(20);
 			placeRequest.setHideContent(true);
 			placeRequest.setHideImages(true);
-			placeRequest.setRandom(true);
+			placeRequest.setDistricts(districts);
+			placeRequest.setRegions(regions);
 			model.addAttribute("mainType", MainType.getBySlug(slug));
 			model.addAttribute("pages", placeService.getPlaceLandingPages(placeRequest));
 		} else {
@@ -171,7 +173,9 @@ public class PlaceController {
 	@GetMapping({ "/places/t/{slug}", "/{language}/places/t/{slug}" })
 	public ModelAndView landingPageByTypes(Model model, HttpServletRequest request,
 			@PathVariable(required = false, name = "language") String language,
-			@PathVariable String slug) {
+			@PathVariable String slug,
+			@RequestParam(required = false, defaultValue = "0", name = "district") String[] districts,
+			@RequestParam(required = false, defaultValue = "0", name = "region") String[] regions) {
 
 		PlaceRequest placeRequest = null;
 		language = (language ==  null) ? "RU" : language;

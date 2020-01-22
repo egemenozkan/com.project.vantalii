@@ -29,8 +29,8 @@
 		"webpack-cli": "^3.3.10"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.7.5",
-		"@babel/preset-env": "^7.7.6",
+		"@babel/core": "^7.7.7",
+		"@babel/preset-env": "^7.7.7",
 		"babel-loader": "^8.0.6",
 		"clean-webpack-plugin": "^1.0.1",
 		"css-loader": "^2.1.1",
@@ -49,7 +49,7 @@
 		"vue": "^2.6.11",
 		"vue-loader": "^15.8.3",
 		"vue-template-compiler": "^2.6.11",
-		"webpack": "^4.41.3",
+		"webpack": "^4.41.5",
 		"webpack-md5-hash": "0.0.6"
 	}
 }

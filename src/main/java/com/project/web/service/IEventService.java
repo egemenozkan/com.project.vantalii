@@ -9,6 +9,7 @@ import com.project.api.data.model.comment.CommentResponse;
 import com.project.api.data.model.event.Event;
 import com.project.api.data.model.event.EventLandingPage;
 import com.project.api.data.model.event.EventRequest;
+import com.project.api.data.model.event.TimeTable;
 import com.project.web.model.AutocompleteRequest;
 
 public interface IEventService {
@@ -19,4 +20,5 @@ public interface IEventService {
 	CommentResponse getCommentsByEventId(long eventId);
 	long saveComment(Comment comment, long eventId);
 	AutocompleteResponse callAutocomplete(AutocompleteRequest autocompleteRequest);
+	List<TimeTable> getTimeTableByEventId(long eventId);
 }

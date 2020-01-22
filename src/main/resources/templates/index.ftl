@@ -13,15 +13,14 @@
 <#assign  bundle="index"> 
 
 <!DOCTYPE html>
-<html>
+<html lang="${ webPage.language.code?lower_case }" class="page places" data-language="${ webPage.language.code?lower_case }" data-user-id="<#if (user?? &&  user.id??)>${ user.id?c! }<#else>0</#if>" data-place-id="0">
 <head>
 	<#include '*/common/styles.ftl'>
     <script type="text/javascript">
-        var popularPlaces = ${ popularPlaces };
-
+        var popularPlaces = '';
+        var popularEvents = '';
     </script>
 </head>
-
 <body>
     <div class="page-wrap">
         <#include '*/layout/header.ftl'>
@@ -52,33 +51,34 @@
                                 </div>
                             </div>
                             <div class="col-lg-4">
-                                <div class="v-category shops">
-                                    <h4 class="category-info-title"> Nightlife </h4>
-                                    <span class="category-number">3 Listings</span>
+                                <div class="v-category shopping">
+                                    <h4 class="category-info-title"> Shopping </h4>
+                                    <#--  <span class="category-number">3 Listings</span>  -->
+                                    <a href="/places/m/shopping" class="stretched-link"></a>
                                 </div>
                             </div>
                             <div class="col-lg-8">
-                                <div class="v-category shops">
-                                    <h4 class="category-info-title"> Nightlife </h4>
-                                    <span class="category-number">3 Listings</span>
+                                <div class="v-category food_and_beverage">
+                                    <h4 class="category-info-title"> Food & Beverage </h4>
+                                    <a href="/places/m/food-and-beverage" class="stretched-link"></a>
                                 </div>
                             </div>
                             <div class="col-lg-4">
-                                <div class="v-category shops">
+                                <div class="v-category night_life">
                                     <h4 class="category-info-title"> Nightlife </h4>
-                                    <span class="category-number">3 Listings</span>
+                                    <a href="/places/m/night-life" class="stretched-link"></a>
                                 </div>
                             </div>
                             <div class="col-lg-4">
-                                <div class="v-category shops">
-                                    <h4 class="category-info-title"> Nightlife </h4>
-                                    <span class="category-number">3 Listings</span>
+                                <div class="v-category beach">
+                                    <h4 class="category-info-title"> Beach </h4>
+                                    <a href="/places/t/beach" class="stretched-link"></a>
                                 </div>
                             </div>
                             <div class="col-lg-4">
-                                <div class="v-category shops">
-                                    <h4 class="category-info-title"> Nightlife </h4>
-                                    <span class="category-number">3 Listings</span>
+                                <div class="v-category taxi_station">
+                                    <h4 class="category-info-title"> Taxi Station </h4>
+                                     <a href="/places/t/taxi-station" class="stretched-link"></a>
                                 </div>
                             </div>
                         </div>
