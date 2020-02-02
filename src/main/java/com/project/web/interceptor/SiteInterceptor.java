@@ -52,7 +52,7 @@ public class SiteInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public void postHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler,
 			final ModelAndView modelAndView) throws Exception {
-		if (modelAndView == null || (modelAndView != null && modelAndView.getStatus() != null && modelAndView.getStatus().is3xxRedirection())) {
+		if (modelAndView == null || (modelAndView.getStatus() != null && modelAndView.getStatus().is3xxRedirection())) {
 			logger.info("::postHandle modelAndVİew: {}", gson.toJson(modelAndView));
 			return;
 		}
@@ -88,7 +88,7 @@ public class SiteInterceptor extends HandlerInterceptorAdapter {
 			logger.info("webPage: {}", gson.toJson(webPage));
 		}
 
-		modelAndView.getModelMap().addAttribute("webPage", webPage);
+		modelAndView.getModel().put("webPage", webPage);
 
 		Principal auth = request.getUserPrincipal();
 		if (auth != null) {

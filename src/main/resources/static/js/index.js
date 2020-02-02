@@ -4,7 +4,6 @@ import VueSearchForm from '../vue/components/VueSearchForm.vue'
 
 import {} from '../js/mydate';
 
-console.error("called--i");
 
 Vue.config.productionTip = false
 
@@ -15,6 +14,7 @@ Vue.mixin({
       }
     }
   })
+ console.log("-->", localeMessages);
 const app1 = new Vue({
   el: '#app1',
   components: { 'search-form': VueSearchForm}

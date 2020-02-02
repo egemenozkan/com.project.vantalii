@@ -277,13 +277,14 @@ body {
 }
 
 .v-page .v-content .v-content_top .left .v-page_title .v-page_region li::after {
-    content: "\f105";
-    font-style: normal;
-    font-weight: 400;
-    font-family: 'icomoon' !important;
+  content: "\f531";
+  font-style: normal;
+  font-weight: 400;
+  font-family: 'Font Awesome 5 Pro' !important;
     position: absolute;
     right: 0;
     top: -1px;
+    color: rgb(118, 118, 118);
 }
 
 .v-page .v-content .v-content_top .left .v-page_title .v-page_region li:last-child::after {

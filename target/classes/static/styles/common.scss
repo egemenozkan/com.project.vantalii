@@ -1,5 +1,5 @@
 @import "bootstrap4/bootstrap";
-@import "fonts";
+// @import "fonts";
 
 body {
     line-height: 1.78;
@@ -84,7 +84,7 @@ body {
 
 .page-wrap>header .v-nav_wrapper nav ul li.v-nav_buttons {
     padding-left: 15px;
-    float: right;
+
 }
 
 
@@ -117,7 +117,7 @@ body {
     width: 100%;
     height: 100%;
     z-index: -2;
-    background-image: url("https://i0.wp.com/wilcity.com/wp-content/uploads/2018/05/Hanoi_1.jpg?fit=1200%2C800&ssl=1");
+    background-image: url("/static/img/plaj_bg.jpg");
     background-size: cover;
     background-position: 50% 50%;
 }
@@ -279,10 +279,10 @@ body {
 }
 
 .v-page .v-content .v-content_top .left .v-page_title .v-page_region li::after {
-    content: "\f105";
+    content: "\f531";
     font-style: normal;
     font-weight: 400;
-    font-family: 'icomoon' !important;
+font-family: 'Font Awesome 5 Pro';
     position: absolute;
     right: 0;
     top: -1px;
@@ -470,7 +470,7 @@ body {
     width: 100%;
     height: 100%;
     z-index: -2;
-    background-image: url("https://i0.wp.com/wilcity.com/wp-content/uploads/2018/05/Hanoi_1.jpg?fit=1200%2C800&ssl=1");
+    background-image: url("/static/img/plaj_bg.jpg");
     background-size: cover;
     background-position: 50% 50%;
 }
@@ -502,7 +502,7 @@ body {
     width: 100%;
     height: 100%;
     z-index: -2;
-    background-image: url("https://i0.wp.com/wilcity.com/wp-content/uploads/2018/05/Hanoi_1.jpg?fit=1200%2C800&ssl=1");
+    background-image: url("/static/img/plaj_bg.jpg");
     background-size: cover;
     background-position: 50% 50%;
 }
@@ -581,11 +581,11 @@ body {
 
 .v-form .v-form_inner>div i {
     position: relative;
-    top: 5px;
+    top: 3px;
     left: 2px;
     color: #FF505F;
     font-size: 1.3rem;
-    width: 20px;
+    width: 25px !important;
 }
 
 .v-form .v-form_inner>div:first-child i {
@@ -722,6 +722,12 @@ textarea {
         border-top-left-radius: 0;
         border-top-right-radius: 0;
     }
+
+    .pt-searchForm {
+        padding-top: 100px !important;
+        min-height: inherit !important;
+
+    }
 }
 
 
@@ -758,7 +764,7 @@ textarea {
 .v-categories .v-category {
     background-position: center center !important;
     background-repeat: no-repeat !important;
-    background-size: cover !important; 
+    background-size: cover !important;
 }
 
 .v-categories .v-category::before {
@@ -808,6 +814,12 @@ textarea {
     position: relative;
     color: #FFF;
     z-index: 4;
+}
+
+@media screen and (max-width: 991px) {
+    .v-categories .v-category .category-info-title {
+        padding-left: 15px;
+    }
 }
 
 .v-categories .v-category .category-number {
@@ -860,6 +872,7 @@ textarea {
     box-shadow: 3px 3px 11px rgba(0, 0, 0, 0.07);
     background-color: #fff;
     margin-bottom: 30px;
+    position: relative;
 }
 
 .v-box.v-box-list>main {
@@ -948,7 +961,7 @@ textarea {
 .v-box.v-box-list>main .v-box_list_detail .content .meta i {
     font-size: 1rem;
     position: relative;
-    top: 4px;
+    top: 1px;
 }
 
 .v-box.v-box-list>main .v-box_list_detail .content .meta span {
@@ -1441,14 +1454,15 @@ ul.list li a {}
 
 .event-base-info {
     padding: 0;
-    margin:0 0 0 10px;
+    margin: 0 0 0 10px;
+
     li {
         display: inline-block;
-    margin-right: 1.6rem;
+        margin-right: 1.6rem;
 
         label {
             font-size: 0.8rem;
-            margin:0;
+            margin: 0;
             line-height: normal;
         }
 
@@ -1461,3 +1475,5 @@ ul.list li a {}
         }
     }
 }
+
+

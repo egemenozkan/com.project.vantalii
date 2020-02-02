@@ -11,7 +11,7 @@
         </div>
         <div :class="'i-populars ' + (populars.visible ? 'show' : '')" ref="populars">
             <ul>
-                <li v-for="(item, index) in populars.list" :class="index == 0 ? 'active' : ''" @click="selectPopular(index)"> <span v-html="item.label"></span></li>
+                <li v-for="(item, index) in populars.list" :class="index == 0 ? 'active' : ''" @click="selectPopular(index)"> <span>{{ item.label }}</span></li>
             </ul>
         </div>
     </div>
@@ -55,6 +55,7 @@ export default {
             if (!self.properties) {
                 return;
             }
+            console.log("-->", self.owner.populars[0]);
             self.populars.list = self.owner.populars;
             self.owner.value = "";
             self.populars.visible = true;

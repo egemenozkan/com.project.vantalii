@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.Ordered;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -40,10 +41,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		// registry.addInterceptor(localisationInteceptor());
 		registry.addInterceptor(localeChangeInterceptor());
-		registry.addInterceptor(siteInteceptor());
+        registry.addInterceptor(searchFormInterceptor());
+		registry.addInterceptor(siteInterceptor());
         registry.addInterceptor(new UserInterceptor());
         registry.addInterceptor(new SessionTimerInterceptor());
-        registry.addInterceptor(searchFormInterceptor());
 	}
 
 
@@ -135,7 +136,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	}
 
 	@Bean
-	public SiteInterceptor siteInteceptor() {
+	public SiteInterceptor siteInterceptor() {
 		return new SiteInterceptor();
 	}
 	

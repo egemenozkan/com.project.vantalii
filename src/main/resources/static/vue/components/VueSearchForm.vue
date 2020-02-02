@@ -1,41 +1,40 @@
 <template>
     <div id="searchForm2">
         <ul class="v-form_nav list">
-            <li :class="activeForm =='place' ? 'active' : ''" @click="changeForm('place')"><i class="material-icons">near_me</i><button>Places</button></li>
-            <li :class="activeForm =='event' ? 'active' : ''" @click="changeForm('event')"><i class="material-icons">local_activity</i><button>Events</button></li>
+            <li :class="activeForm =='place' ? 'active' : ''" @click="changeForm('place')"><i class="far fa-map-marker-alt"></i><button>{{ m['searchForm.places'] }}</button></li>
+            <li :class="activeForm =='event' ? 'active' : ''" @click="changeForm('event')"><i class="far fa-calendar"></i><button>{{ m['searchForm.events'] }}</button></li>
         </ul>
         <form class="v-form" v-if="activeForm == 'place'">
             <div class="v-form_inner place-search">
                 <div class="search">
-                    <i class="material-icons">search</i>
-                    <autocomplete id="" :owner="place" placeholder="Ne arıyorsunuz" autocompleteUrl="/places/autocomplete" />
+                    <i class="far fa-search"></i>
+                    <autocomplete id="" :owner="place" :placeholder="m['searchForm.places.placeholder']" autocompleteUrl="/places/autocomplete" />
                 </div>
                 <div class="region">
-                    <i class="material-icons">near_me</i>
+                    <i class="far fa-location"></i>
                     <popularregions :owner="region" />
                 </div>
                 <div class="v-button">
-                    <button type="button" class="btn btn-submit" @click="searchPlace">Ara</button>
+                    <button type="button" class="btn btn-submit" @click="searchPlace">{{ m['searchForm.button.search'] }}</button>
                 </div>
             </div>
         </form>
         <form class="v-form" v-if="activeForm == 'event'">
             <div class="v-form_inner event-search">
                 <div class="search">
-                    <i class="material-icons">search</i>
-                    <autocomplete id="" :owner="event" placeholder="Etkinlik, mekan" autocompleteUrl="/events/autocomplete" />
+                    <i class="far fa-search"></i>
+                    <autocomplete id="" :owner="event" :placeholder="m['searchForm.places.placeholder']" autocompleteUrl="/events/autocomplete" />
                 </div>
                 <div class="region">
-                    <i class="material-icons">near_me</i>
+                    <i class="far fa-location"></i>
                     <popularregions :owner="region" />
-    
                 </div>
                 <div class="time">
-                    <i class="material-icons">access_time</i>
+                    <i class="far fa-clock"></i>
                     <VueCtkDateTimePicker v-model="dateTimePicker" :format="'YYYY-MM-DD'" :custom-shortcuts="customShortcuts" formatted="LL" label="Zaman" color="#c50143" :range="true" :first-day-of-week="1" :locale="language" />
                 </div>
                 <div class="v-button">
-                    <button type="button" class="btn btn-submit" @click="searchEvent">Ara</button>
+                    <button type="button" class="btn btn-submit" @click="searchEvent">{{ m['searchForm.button.search'] }}</button>
                 </div>
             </div>
         </form>

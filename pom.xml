@@ -118,11 +118,11 @@
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>${org.slf4j.version}</version>
 		</dependency>
-			<dependency>
-		<groupId>ch.qos.logback</groupId>
-		<artifactId>logback-classic</artifactId>
-		<version>1.2.3</version>
-	</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.2.3</version>
+		</dependency>
 		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -225,7 +225,7 @@
 		<dependency>
 			<groupId>com.project</groupId>
 			<artifactId>contract</artifactId>
-			<version>1.0</version>
+			<version>1.1</version>
 		</dependency>
 		<!-- Utils -->
 		<!-- Apache Commons FileUpload -->
@@ -247,7 +247,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
+				<version>3.8.1</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
@@ -256,18 +256,27 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>3.2.1</version>
+				<version>3.2.3</version>
 				<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
+				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin -->
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.6</version>
+				<version>3.1.0</version>
+
 				<configuration>
 					<!-- specify UTF-8, ISO-8859-1 or any other file encoding -->
 					<encoding>${project.build.sourceEncoding}</encoding>
+					<nonFilteredFileExtensions>
+						<nonFilteredFileExtension>eot</nonFilteredFileExtension>
+						<nonFilteredFileExtension>svg</nonFilteredFileExtension>
+						<nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+						<nonFilteredFileExtension>woff</nonFilteredFileExtension>
+						<nonFilteredFileExtension>woff2</nonFilteredFileExtension>
+
+					</nonFilteredFileExtensions>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -279,6 +288,9 @@
 			<resource>
 				<directory>${resource.directory}</directory>
 				<filtering>true</filtering>
+				<!-- <excludes> -->
+				<!-- <exclude>static/webfonts/**</exclude> -->
+				<!-- </excludes> -->
 			</resource>
 		</resources>
 	</build>

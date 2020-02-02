@@ -55,6 +55,9 @@ public class PlaceController {
 
 	final Logger logger = LoggerFactory.getLogger(PlaceController.class);
 
+	
+	private static final String PAGES = "pages";
+	
 	@SuppressWarnings("unchecked")
 	@GetMapping({ "/places", "/{language}/places" })
 	public ModelAndView placesHomepage(Model model, HttpServletRequest request,
@@ -147,8 +150,8 @@ public class PlaceController {
 	@GetMapping({ "/places/m/{slug}", "/{language}/places/m/{slug}" })
 	public ModelAndView landingPageByMainTypes(Model model, HttpServletRequest request,
 			@PathVariable(required = false, name = "language") String language, @PathVariable String slug,
-			@RequestParam(required = false, defaultValue = "0", name = "district") String[] districts,
-			@RequestParam(required = false, defaultValue = "0", name = "region") String[] regions) {
+			@RequestParam(required = false, defaultValue = "", name = "districts") String[] districts,
+			@RequestParam(required = false, defaultValue = "", name = "regions") String[] regions) {
 
 		PlaceRequest placeRequest = null;
 		language = (language ==  null) ? "RU" : language;
@@ -161,21 +164,24 @@ public class PlaceController {
 			placeRequest.setHideImages(true);
 			placeRequest.setDistricts(districts);
 			placeRequest.setRegions(regions);
-			model.addAttribute("mainType", MainType.getBySlug(slug));
-			model.addAttribute("pages", placeService.getPlaceLandingPages(placeRequest));
+			
+			model.addAttribute(PAGES, placeService.getPlaceLandingPages(placeRequest));
 		} else {
 			logger.error("not found {}", request.getPathInfo());
-			model.addAttribute("pages", Collections.emptyList());
+			model.addAttribute(PAGES, Collections.emptyList());
 		}
-		return new ModelAndView("places/list");
+		
+		model.addAttribute("mainType", MainType.getBySlug(slug));
+		model.addAttribute("slug", slug);
+		
+		return new ModelAndView("places/listMainType");
 	}
 
 	@GetMapping({ "/places/t/{slug}", "/{language}/places/t/{slug}" })
 	public ModelAndView landingPageByTypes(Model model, HttpServletRequest request,
-			@PathVariable(required = false, name = "language") String language,
-			@PathVariable String slug,
-			@RequestParam(required = false, defaultValue = "0", name = "district") String[] districts,
-			@RequestParam(required = false, defaultValue = "0", name = "region") String[] regions) {
+			@PathVariable(required = false, name = "language") String language, @PathVariable String slug,
+			@RequestParam(required = false, defaultValue = "", name = "districts") String[] districts,
+			@RequestParam(required = false, defaultValue = "", name = "regions") String[] regions) {
 
 		PlaceRequest placeRequest = null;
 		language = (language ==  null) ? "RU" : language;

@@ -20,8 +20,8 @@ public class AutocompleteRestController {
 	@Autowired
 	private IDatapoolService datapoolService;
 
-	@GetMapping({ "/autocomplete", "/{language}/autocomplete" })
-	public @ResponseBody AutocompleteResponse getAutocompleteResponse(@PathVariable(required = false, name = "language") String language, @RequestParam String query) throws URISyntaxException {
-		return datapoolService.getAutocompleteResponse(new AutocompleteRequest(query,Language.getByCode("RU")));
+	@GetMapping({ "/autocomplete", "/places/autocomplete" })
+	public @ResponseBody AutocompleteResponse getAutocompleteResponse(@RequestParam String query, @RequestParam String language) throws URISyntaxException {
+		return datapoolService.getAutocompleteResponse(new AutocompleteRequest(query,Language.getByCode(language)));
 	}
 }

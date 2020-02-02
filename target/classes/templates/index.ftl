@@ -13,12 +13,14 @@
 <#assign  bundle="index"> 
 
 <!DOCTYPE html>
-<html lang="${ webPage.language.code?lower_case }" class="page places" data-language="${ webPage.language.code?lower_case }" data-user-id="<#if (user?? &&  user.id??)>${ user.id?c! }<#else>0</#if>" data-place-id="0">
+<html lang="${ webPage.language.code?lower_case }" class="page" data-language="${ webPage.language.code?lower_case }" data-user-id="<#if (user?? &&  user.id??)>${ user.id?c! }<#else>0</#if>" data-place-id="0">
 <head>
-	<#include '*/common/styles.ftl'>
+    <title>${ title } - Vantalii</title>
+    <#include "*/common/head.ftl"/>
+	<#include '*/common/styles.ftl'/>
     <script type="text/javascript">
-        var popularPlaces = '';
-        var popularEvents = '';
+        var popularPlaces = ${ popularPlaces!'{}' };
+        var popularEvents = ${ popularEvents!'{}' };
     </script>
 </head>
 <body>
@@ -30,7 +32,7 @@
                     <div class="v-hero_img"></div>
                     <div class="v-overlay"></div>
                     <div class="container">
-                        <div class="row align-items-center justify-content-center">
+                        <div class="row align-items-center justify-content-center pt-searchForm">
                             <div id="app1" class="col-lg-12">
                                 <search-form></search-form>
                             </div>
@@ -43,41 +45,40 @@
                         <div class="row mx--1 v-categories">
                             <div class="col-lg-12">
                                 <div class="v-categories_header">
-                                    <h2 class="widget-title">
-                                        <span>Featured Categories</span>
-                                    </h2>
-                                    <div class="description">
-                                        What do you need to find? </div>
+                                    <h1 class="widget-title">
+                                        <span><@spring.message "page.home.content.h1" /></span>
+                                    </h1>
+                                    <h2 class="description"><@spring.message "page.home.content.h2" /></h2>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="v-category shopping">
-                                    <h4 class="category-info-title"> Shopping </h4>
+                                    <h4 class="category-info-title"> <@spring.message "places.mainType.SHOPPING" />  </h4>
                                     <#--  <span class="category-number">3 Listings</span>  -->
                                     <a href="/places/m/shopping" class="stretched-link"></a>
                                 </div>
                             </div>
                             <div class="col-lg-8">
                                 <div class="v-category food_and_beverage">
-                                    <h4 class="category-info-title"> Food & Beverage </h4>
+                                    <h4 class="category-info-title"> <@spring.message "places.mainType.FOOD_AND_BEVERAGE" /> </h4>
                                     <a href="/places/m/food-and-beverage" class="stretched-link"></a>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="v-category night_life">
-                                    <h4 class="category-info-title"> Nightlife </h4>
+                                    <h4 class="category-info-title"> <@spring.message "places.mainType.NIGHT_LIFE" />  </h4>
                                     <a href="/places/m/night-life" class="stretched-link"></a>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="v-category beach">
-                                    <h4 class="category-info-title"> Beach </h4>
+                                    <h4 class="category-info-title"> <@spring.message "places.type.BEACH" /> </h4>
                                     <a href="/places/t/beach" class="stretched-link"></a>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="v-category taxi_station">
-                                    <h4 class="category-info-title"> Taxi Station </h4>
+                                    <h4 class="category-info-title"> <@spring.message "places.type.TAXI_STATION" /></h4>
                                      <a href="/places/t/taxi-station" class="stretched-link"></a>
                                 </div>
                             </div>

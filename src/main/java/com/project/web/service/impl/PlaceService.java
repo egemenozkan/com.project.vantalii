@@ -28,7 +28,8 @@ public class PlaceService extends BaseApiService implements IPlaceService {
 	private String authServerUrl;
     
 	final Logger logger = LoggerFactory.getLogger(PlaceService.class);
-
+	
+	private boolean cacheAvailable = true;
 	
 	@Override
 	public List<PlaceLandingPage> getPlaceLandingPages(PlaceRequest placeRequest) {
@@ -63,10 +64,10 @@ public class PlaceService extends BaseApiService implements IPlaceService {
 		if (placeRequest.isHideMainImage()) {
 			endpoint.queryParam("hideMainImage", placeRequest.isHideMainImage());
 		}
-		if (placeRequest.getDistricts() != null) {
+		if (placeRequest.getDistricts() != null && placeRequest.getDistricts().length > 0) {
 			endpoint.queryParam("districts", String.join(",", placeRequest.getDistricts()));
 		}
-		if (placeRequest.getRegions() != null) {
+		if (placeRequest.getRegions() != null && placeRequest.getRegions().length > 0) {
 			endpoint.queryParam("regions", String.join(",", placeRequest.getRegions()));
 		}
 
@@ -96,20 +97,19 @@ public class PlaceService extends BaseApiService implements IPlaceService {
 		}
 
 		String cacheKey = "place_" + id + "_" + language ;
-		return (PlaceLandingPage) getObject(endpoint.toString(), PlaceLandingPage.class, id);
+		
+		Object cacheValue = redisTemplate.opsForHash().get("PLACE", cacheKey);
 
-//		Object cacheValue = redisTemplate.opsForHash().get("PLACE", cacheKey);
-//
-//		if (cacheValue != null) {
-//			logger.info("::cache getPlaceLandingPage id: {} language: {}", id, language);
-//			return (PlaceLandingPage) cacheValue;
-//		} else {
-//			PlaceLandingPage page = (PlaceLandingPage) getObject(endpoint.toString(), PlaceLandingPage.class, id);
-//			if (page != null) {
-//				redisTemplate.opsForHash().put("PLACE", cacheKey, page);
-//			}
-//			return page;
-//		}
+		if (cacheAvailable && cacheValue != null) {
+			logger.info("::cache getPlaceLandingPage id: {} language: {}", id, language);
+			return (PlaceLandingPage) cacheValue;
+		} else {
+			PlaceLandingPage page = (PlaceLandingPage) getObject(endpoint.toString(), PlaceLandingPage.class, id);
+			if (cacheAvailable && page != null) {
+				redisTemplate.opsForHash().put("PLACE", cacheKey, page);
+			}
+			return page;
+		}
 	}
 
 	@Override
@@ -125,6 +125,14 @@ public class PlaceService extends BaseApiService implements IPlaceService {
 		endpoint.append("/api/v1/events/{placeId}/comments");
 
 		return (long) postObject(endpoint.toString(), comment, Long.class, placeId);
+	}
+
+	public boolean isCacheAvailable() {
+		return cacheAvailable;
+	}
+
+	public void setCacheAvailable(boolean cacheAvailable) {
+		this.cacheAvailable = cacheAvailable;
 	}
 
 }

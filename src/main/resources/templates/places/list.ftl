@@ -4,13 +4,9 @@
 <#import "*/imports/utils.ftl" as utils /> 
 <!-- Page Properties -->
 <#assign title> 
-    <#if mainType??>
-        <@spring.message "places.mainType.${ mainType }" />
-    <#else>
         <@spring.message "places.type.${ type }" />
-    </#if>  
 </#assign>
-<#assign description> <@spring.message "page.home.description" /></#assign>
+<#assign description> <@spring.message "description.places.type.${ type }" /></#assign>
 <#assign product="place">
 <#assign category="list">
 <#assign page="list">
@@ -20,11 +16,18 @@
 <!DOCTYPE html>
 <html lang="${ webPage.language.code?lower_case }" class="page places" data-language="${ webPage.language }" data-user-id="<#if (user?? &&  user.id??)>${ user.id?c! }<#else>0</#if>" data-place-id="0">
 <head>
-    <title>- Vantalii.com</title>
+    <title>${ title }- Vantalii</title>
+    <meta name="description" content="${ description! }" />
+    <link rel="canonical" href="${ webPage.canonical! }" />
+    <link href="https://www.vantalii.com/tr/places/t/${ slug! }" hreflang="tr" rel="alternate">
+    <link href="https://www.vantalii.com/en/places/t/${ slug! }" hreflang="en" rel="alternate">
+    <link href="https://www.vantalii.ru/places/t/${ slug! }" hreflang="ru" rel="alternate">
+
+    <#include '*/common/head.ftl'>
     <#include '*/common/styles.ftl'>
     <script type="text/javascript">
-        var popularPlaces = '';
-        var popularEvents = '';
+        var popularPlaces = ${ popularPlaces!'{}' };
+        var popularEvents = ${ popularEvents!'{}' };
     </script>
 </head>
 
@@ -37,7 +40,7 @@
                     <div class="v-hero_img"></div>
                     <div class="v-overlay"></div>
                     <div class="container">
-                        <div class="row align-items-center justify-content-center">
+                        <div class="row align-items-center justify-content-center pt-searchForm">
                             <div class="col-lg-12">
                                 <div id="app1">
                                     <search-form></search-form>
@@ -67,16 +70,12 @@
                                                     <h3><a href="${ webPage.baseUrl! }/places/${ page.slug! }" class="stretched-link">${ page.title! }</a></h3>
                                                     <div class="meta">
                                                         <div class="location">
-                                                            <i class="material-icons">
-                                                                beenhere
-                                                            </i>
+                                                            <i class="far fa-map-marker"></i>
                                                             <span>${ page.place.address.city! } ${ page.place.address.district?has_content?string(", " +  page.place.address.district!,"") }  ${ page.place.address.region?has_content?string(", " +  page.place.address.region!,"") }</span>
                                                         </div>
                                                         <#if page.place.contact?has_content && page.place.contact.phone?has_content>
                                                             <div class="number">
-                                                                <i class="material-icons">
-                                                                    phone
-                                                                </i><span>${ page.place.contact.phone! }</span>
+                                                                <i class="far fa-phone"></i><span>${ page.place.contact.phone! }</span>
                                                             </div>
                                                         </#if>
                                                     </div>

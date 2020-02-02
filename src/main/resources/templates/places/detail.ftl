@@ -3,9 +3,7 @@
 <#import "*/imports/formatter.ftl" as formatter />
 <#import "*/imports/utils.ftl" as utils /> 
 <!-- Page Properties -->
-<#assign title>
-    ${ page.title! }
-</#assign>
+<#assign title>${ page.title! }</#assign>
 <#assign description>${ page.description! }</#assign>
 <#assign V_PRODUCT="place">
 <#assign V_CATEGORY="detail">
@@ -15,24 +13,30 @@
 <#assign  bundle="place_detail"> 
 
 <!DOCTYPE html>
-<html lang="${ webPage.language.code?lower_case }" class="page places" data-language="${ webPage.language }" data-user-id="<#if (user?? &&  user.id??)>${ user.id?c! }<#else>0</#if>" data-place-id="${ page.place.id?c!0 }">
+<html lang="${ webPage.language.code?lower_case }" class="page places" data-language="${ webPage.language.code?lower_case }" data-user-id="<#if (user?? &&  user.id??)>${ user.id?c! }<#else>0</#if>" data-place-id="0">
 <head>
-    <title>${title} - Vantalii.com</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" crossorigin="anonymous">
-
-    <link type="text/css" href="/static/assets/lightbox/css/lightgallery.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
-        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-        crossorigin="" />
-    <!-- Make sure you put this AFTER Leaflet's CSS -->
-    <#include '*/common/styles.ftl'>
-    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
-        integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
-        crossorigin=""></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+		<#compress>
+		 <title>${ title! } | <@spring.message "title.brand"/></title>
+		 <meta name="description" content="${ description! }" />
+		 <link rel="canonical" href="${ webPage.canonical! }" />
+		 </#compress>
+         <#if page.place.localisation?has_content>
+             <#if page.place.localisation['TURKISH']?has_content>
+             <link href="https://www.vantalii.com/tr/places/${ page.place.localisation['TURKISH'].slug }" hreflang="tr" rel="alternate">
+             </#if>
+             <#if page.place.localisation['ENGLISH']?has_content>
+             <link href="https://www.vantalii.com/en/places/${ page.place.localisation['ENGLISH'].slug }" hreflang="en" rel="alternate">
+             </#if>
+             <#if page.place.localisation['RUSSIAN']?has_content>
+             <link href="https://www.vantalii.ru/places/${ page.place.localisation['RUSSIAN'].slug }" hreflang="ru" rel="alternate">
+             </#if>   
+         </#if>
+		 <#include '*/common/head.ftl'>
+	<#include '*/common/styles.ftl'>
+    <script type="text/javascript">
+        var popularPlaces = '';
+        var popularEvents = '';
     </script>
-    <script type="text/javascript" src="/static/assets/lightbox/js/lightgallery.min.js"></script>
 </head>
 
 <body>
@@ -49,7 +53,7 @@
                             <div class="left">
                                 <div class="v-page_logo v-after">
                                     <div class="bg-cover"
-                                        style="background-image: url(https://fastly.4sqi.net/img/user/88x88/414624660_Vv3vMNtS_ZNUiXAQfYgECkPwIa-WifDOrIIisMxKEKmDpWFhN1i00cN5bhu6yftgGsi3SuyoK.png);">
+                                        style="background-image: url(/static/img/plaj_bg.png);">
                                         <a href="#"></a>
                                     </div>
                                 </div>
@@ -58,24 +62,24 @@
                                         <span>${ page.place.name! }</span>
                                         <em class="opened">Açık</em>
                                     </h1>
-                                    <span class="v-page_category"><a href="${ webPage.baseUrl! }/places/m/${ page.place.type.mainType.slug }"><@spring.message "places.mainType.${ page.place.type.mainType! }" /></a>, <a href="${ webPage.baseUrl! }/places/t/${ page.place.type.slug }"><@spring.message "places.type.${ page.place.type! }" /></span>
+                                    <span class="v-page_category"><a href="${ webPage.baseUrl! }/places/m/${ page.place.type.mainType.slug! }"><@spring.message "places.mainType.${ page.place.type.mainType! }" /></a>, <a href="${ webPage.baseUrl! }/places/t/${ page.place.type.slug }"><@spring.message "places.type.${ page.place.type! }" /></span>
                                     <ul class="v-page_region list-inline">
 							     	  	<#if page.place?has_content>
-								          	<li><a href="${ webPage.baseUrl! }/">${ page.place.address.city! }</a></li> 
+								          	<li><a href="${ webPage.baseUrl! }/">${ page.place.address.city!"" }</a></li> 
 								        </#if>
 										<#if page.place.address.district?has_content>
-											<li><a href="${ webPage.baseUrl! }/">${ page.place.address.district! }</a></li>
+											<li><a href="${ webPage.baseUrl! }/">${ page.place.address.district!"" }</a></li>
 										</#if>
 										<#if page.place.address.region?has_content>
-											<li><a href="${ webPage.baseUrl! }/">${ page.place.address.region! }</a></li>
+											<li><a href="${ webPage.baseUrl! }/">${ page.place.address.region!"" }</a></li>
 										</#if>
                                     </ul>
                                 </div>
                             </div>
                             <div class="right">
                                 <div class="v-page_share v-after">
-                                    <button class="btn"><i class="material-icons">favorite_border</i><span>Beğen</span></button>
-                                    <button class="btn"><i class="material-icons">share</i><span>Paylaş</span></button>
+                                    <button class="btn"><i class="far fa-thumbs-up"></i><span>Beğen</span></button>
+                                    <button class="btn"><i class="fas fa-share-alt"></i><span>Paylaş</span></button>
                                 </div>
                             </div>
                         </div>
@@ -86,10 +90,10 @@
                             <nav>
                                 <ul>
                                     <li class="active">
-                                        <a href=""><i class="icon-add_a_photo"></i><span>Tanım</span></a>
+                                        <a href=""><span>Tanım</span></a>
                                     </li>
                                     <li>
-                                        <a href=""><span>Tanım 2</span></a>
+                                        <a href=""><i class="far fa-image"></i><span>Fotoğraflar</span></a>
                                     </li>
                                 </ul>
                             </nav>
@@ -142,22 +146,22 @@
                                         <main>
                                             <ul>
                                                 <li>
-                                                    <i class="material-icons">fastfood</i><span>Yeme&İçme</span>
+                                                    <i class="far fa-burger-soda"></i><span>Yeme&İçme</span>
                                                 </li>
                                                 <li>
-                                                    <i class="material-icons">fastfood</i><span>Yeme&İçme</span>
+                                                    <i class="far fa-burger-soda"></i><span>Yeme&İçme</span>
                                                 </li>
                                                 <li>
-                                                    <i class="material-icons">fastfood</i><span>Yeme&İçme</span>
+                                                    <i class="far fa-burger-soda"></i><span>Yeme&İçme</span>
                                                 </li>
                                                 <li>
-                                                    <i class="material-icons">fastfood</i><span>Yeme&İçme</span>
+                                                    <i class="far fa-burger-soda"></i><span>Yeme&İçme</span>
                                                 </li>
                                                 <li>
-                                                    <i class="material-icons">fastfood</i><span>Yeme&İçme</span>
+                                                    <i class="far fa-burger-soda"></i><span>Yeme&İçme</span>
                                                 </li>
                                                 <li>
-                                                    <i class="material-icons">fastfood</i><span>Yeme&İçme</span>
+                                                    <i class="far fa-burger-soda"></i><span>Yeme&İçme</span>
                                                 </li>
                                             </ul>
 
@@ -173,9 +177,9 @@
                                         </header>
                                         <main class="v-box_content">
                                             <div class="v-box_content_header">
-                                                <i class="material-icons">chevron_left</i>
+                                                <i class="fas fa-chevron-left"></i>
                                                 <span>Ocak</span>
-                                                <i class="material-icons">chevron_right</i>
+                                                <i class="fas fa-chevron-right"></i>
                                             </div>
                                             <div class="v-collapse">
                                                 <div class="v-collapse_header">
@@ -187,7 +191,7 @@
                                                                 Mehmet Kuzuloğlu Söyleşisi
                                                             </div>
                                                         </div>
-                                                        <i class="material-icons">expand_more</i>
+                                                        <i class="fas fa-caret-down"></i>
                                                     </a>
                                                 </div>
                                                 <div class="v-collapse_body">
@@ -211,7 +215,7 @@
                                                                 Söyleşisi
                                                             </div>
                                                         </div>
-                                                        <i class="material-icons">expand_more</i>
+                                                        <i class="fas fa-caret-down"></i>
                                                     </a>
                                                 </div>
                                                 <div class="v-collapse_body">
@@ -238,7 +242,7 @@
                                                                 Söyleşisi
                                                             </div>
                                                         </div>
-                                                        <i class="material-icons">expand_more</i>
+                                                        <i class="fas fa-caret-down"></i>
                                                     </a>
                                                 </div>
                                                 <div class="v-collapse_body">
