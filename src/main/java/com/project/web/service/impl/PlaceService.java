@@ -97,19 +97,20 @@ public class PlaceService extends BaseApiService implements IPlaceService {
 		}
 
 		String cacheKey = "place_" + id + "_" + language ;
-		
-		Object cacheValue = redisTemplate.opsForHash().get("PLACE", cacheKey);
-
-		if (cacheAvailable && cacheValue != null) {
-			logger.info("::cache getPlaceLandingPage id: {} language: {}", id, language);
-			return (PlaceLandingPage) cacheValue;
-		} else {
-			PlaceLandingPage page = (PlaceLandingPage) getObject(endpoint.toString(), PlaceLandingPage.class, id);
-			if (cacheAvailable && page != null) {
-				redisTemplate.opsForHash().put("PLACE", cacheKey, page);
-			}
-			return page;
-		}
+		PlaceLandingPage page = (PlaceLandingPage) getObject(endpoint.toString(), PlaceLandingPage.class, id);
+return page;
+//		Object cacheValue = redisTemplate.opsForHash().get("PLACE", cacheKey);
+//
+//		if (cacheAvailable && cacheValue != null) {
+//			logger.info("::cache getPlaceLandingPage id: {} language: {}", id, language);
+//			return (PlaceLandingPage) cacheValue;
+//		} else {
+//			PlaceLandingPage page = (PlaceLandingPage) getObject(endpoint.toString(), PlaceLandingPage.class, id);
+//			if (cacheAvailable && page != null) {
+//				redisTemplate.opsForHash().put("PLACE", cacheKey, page);
+//			}
+//			return page;
+//		}
 	}
 
 	@Override

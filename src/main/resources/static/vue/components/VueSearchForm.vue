@@ -281,6 +281,7 @@ datepicker.nextMonth=Gelecek ay */
 
             var queryParam = "";
             if (self.region.queryString) {
+                queryParam +=  (queryParam.length > 0) ? "&" : "?";
                 queryParam += self.region.queryString;
             }
             if (self.dateTimePicker) {
@@ -290,7 +291,7 @@ datepicker.nextMonth=Gelecek ay */
                    queryParam += "&e=" + self.dateTimePicker.end;
                }
             }
-            location.href = url;
+            location.href = url + queryParam;
         }
     },
     computed: {

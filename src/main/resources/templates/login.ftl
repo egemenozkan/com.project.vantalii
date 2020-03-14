@@ -27,7 +27,7 @@
                     </div>
                   </div>
                   <a href="https://www.facebook.com/v3.2/dialog/oauth?client_id=287713494586438&response_type=code&redirect_uri=https://www.vantalii.com/login/facebook">Facebook</a>
-                  <a href="https://oauth.vk.com/authorize?client_id=6942392&display=page&redirect_uri=https://www.vantalii.com/login/vkontakte&scope=friends,email&response_type=code&v=5.95">VKontakte</a>  
+                  <a href="https://oauth.vk.com/authorize?client_id=6954043 &display=page&redirect_uri=https://www.vantalii.com/login/vkontakte&scope=friends,email&response_type=code&v=5.95">VKontakte</a>  
               </form>
 			</div>
 		</div>

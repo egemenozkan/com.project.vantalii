@@ -5,13 +5,12 @@ import java.net.URISyntaxException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.api.data.enums.Language;
+import com.project.api.data.model.autocomplete.AutocompleteResponse;
 import com.project.web.model.AutocompleteRequest;
-import com.project.web.model.AutocompleteResponse;
 import com.project.web.service.IDatapoolService;
 
 @Controller

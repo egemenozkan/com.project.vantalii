@@ -43,6 +43,7 @@ import com.project.api.data.model.comment.CommentResponse;
 import com.project.api.data.model.event.Event;
 import com.project.api.data.model.event.EventLandingPage;
 import com.project.api.data.model.event.EventRequest;
+import com.project.api.data.model.event.EventStatus;
 import com.project.api.data.model.event.EventType;
 import com.project.api.data.model.event.TimeTable;
 import com.project.api.data.model.file.MyFile;
@@ -98,7 +99,7 @@ public class EventControler {
 
 	@GetMapping({ "/events/json/map" })
 	@ResponseBody
-	public Map<String, List<Event>> eventsMap(@RequestParam(defaultValue = "RU") String language,
+	public Map<LocalDate, List<Event>> eventsMap(@RequestParam(defaultValue = "RU") String language,
 			@RequestParam(required = false, defaultValue = "1") int type,
 			@RequestParam(required = false, defaultValue = "") String types,
 			@RequestParam(required = false, defaultValue = "0") int limit,
@@ -133,7 +134,7 @@ public class EventControler {
 
 		eventRequest.setLanguage(Language.getByCode(language));
 
-		Map<String, List<Event>> eventsMap = eventService.getEventsMap(eventRequest);
+		Map<LocalDate, List<Event>> eventsMap = eventService.getEventsMap(eventRequest);
 
 		if (logger.isDebugEnabled()) {
 			logger.debug("::getEventsMap: {}", gson.toJson(eventsMap));
@@ -452,21 +453,42 @@ public class EventControler {
 	@GetMapping({ "/events/m/{slug}", "/{language}/events/m/{slug}" })
 	public ModelAndView landingPageByType(Model model, HttpServletRequest request,
 			@PathVariable(required = false, name = "language") String language, @PathVariable String slug,
-			@RequestParam(required = false, defaultValue = "0", name = "district") String[] districts,
-			@RequestParam(required = false, defaultValue = "0", name = "region") String[] regions) {
+			@RequestParam(required = false, name = "b") @DateTimeFormat(iso = ISO.DATE) LocalDate startDate,
+			@RequestParam(required = false, name = "e") @DateTimeFormat(iso = ISO.DATE) LocalDate endDate,
+			@RequestParam(required = false, defaultValue = "", name = "district") String[] districts,
+			@RequestParam(required = false, defaultValue = "", name = "region") String[] regions) {
 
 		EventRequest eventRequest = new EventRequest();
 		eventRequest.setLanguage(Language.getByCode((language == null) ? "RU" : language));
 		eventRequest.setType(EventType.getBySlug(slug));
+		eventRequest.setStatus(EventStatus.ACTIVE);
 		eventRequest.setRegions(regions);
 		eventRequest.setDistricts(districts);
-		List<EventLandingPage> pages = eventService.getEventLandingPages(eventRequest);
-
-		if (logger.isWarnEnabled() && CollectionUtils.isEmpty(pages)) {
-			logger.warn("::landingPageByType({}) response is empty", slug);
+	
+		
+		
+		if (startDate == null) {
+			startDate = LocalDate.now();
 		}
+		
+		if (endDate == null) {
+			endDate =  startDate.plusDays(7L);
+		}
+		
+		eventRequest.setStartDate(startDate);
+		eventRequest.setEndDate(endDate);
+		
+//		List<Event> events = eventService.getEvents(eventRequest);
+//
+//		if (logger.isWarnEnabled() && CollectionUtils.isEmpty(events)) {
+//			logger.warn("::landingPageByType({}) response is empty", slug);
+//		}
+//		model.addAttribute("events", events);
+		
+		Map<LocalDate, List<Event>> eventsMap = eventService.getEventsMap(eventRequest);
+		model.addAttribute("eventsMap", eventsMap);
+		model.addAttribute("eventRequest", eventRequest);
 
-		model.addAttribute("pages", pages);
 
 		return new ModelAndView("events/list");
 	}

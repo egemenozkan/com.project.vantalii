@@ -1,5 +1,6 @@
 package com.project.web.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +17,7 @@ public interface IEventService {
 	EventLandingPage getEventLandingPage(long id, String language, long timeTableId);
 	List<EventLandingPage> getEventLandingPages(EventRequest eventRequest);
 	List<Event> getEvents(EventRequest eventRequest);
-	Map<String,List<Event>> getEventsMap(EventRequest eventRequest);
+	Map<LocalDate,List<Event>> getEventsMap(EventRequest eventRequest);
 	CommentResponse getCommentsByEventId(long eventId);
 	long saveComment(Comment comment, long eventId);
 	AutocompleteResponse callAutocomplete(AutocompleteRequest autocompleteRequest);

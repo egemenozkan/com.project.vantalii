@@ -94,11 +94,12 @@ export default {
         selectPopular: function(index) {
             var self = this;
             if (self.populars.list[index]) {
-                self.owner.value = self.populars.list[index].name;
+                self.owner.value = self.populars.list[index].label;
                 // self.owner.id = self.populars.list[index].id;
                 self.current = index;
                 self.owner.url = self.populars.list[index].url;
                 self.populars.visible = false;
+                console.log(self.owner);
             }
         },
         selectSuggestion: function(index) {

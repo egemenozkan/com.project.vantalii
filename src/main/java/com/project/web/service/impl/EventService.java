@@ -2,10 +2,10 @@ package com.project.web.service.impl;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,6 +89,10 @@ public class EventService extends BaseApiService implements IEventService {
 		if (eventRequest.getType() != null) {
 			endpoint.queryParam("type", eventRequest.getType().getId());
 		}
+
+		if (eventRequest.getStatus() != null) {
+			endpoint.queryParam("status", eventRequest.getStatus().getId());
+		}
 		if (eventRequest.getDistricts() != null) {
 			endpoint.queryParam("districts", String.join(",", eventRequest.getDistricts()));
 		}
@@ -101,7 +105,9 @@ public class EventService extends BaseApiService implements IEventService {
 			logger.info("::cache getEventLandingPages");
 			return (List<EventLandingPage>) cacheValue;
 		} else {
-			List<EventLandingPage> pages = getList(endpoint.toUriString());
+			List<EventLandingPage> pages = getList(endpoint.toUriString(),
+					new ParameterizedTypeReference<List<EventLandingPage>>() {
+					});
 			if (pages != null) {
 				redisTemplate.opsForHash().put(CACHE_KEY, endpoint.toString(), pages);
 			}
@@ -141,6 +147,15 @@ public class EventService extends BaseApiService implements IEventService {
 			endpoint.queryParam("periodType", eventRequest.getPeriodType().getId());
 		}
 
+		if (eventRequest.getStatus() != null) {
+			endpoint.queryParam("status", eventRequest.getStatus().getId());
+		}
+		if (eventRequest.getDistricts() != null) {
+			endpoint.queryParam("districts", String.join(",", eventRequest.getDistricts()));
+		}
+		if (eventRequest.getRegions() != null) {
+			endpoint.queryParam("regions", String.join(",", eventRequest.getRegions()));
+		}
 		Object cacheValue = null; // redisTemplate.opsForHash().get(CACHE_KEY, endpoint.toString());
 
 		if (cacheValue != null) {
@@ -158,7 +173,7 @@ public class EventService extends BaseApiService implements IEventService {
 	}
 
 	@Override
-	public Map<String, List<Event>> getEventsMap(EventRequest eventRequest) {
+	public Map<LocalDate, List<Event>> getEventsMap(EventRequest eventRequest) {
 
 		if (eventRequest != null && eventRequest.getStartDate() != null && eventRequest.getEndDate() == null) {
 			eventRequest.setEndDate(eventRequest.getStartDate());
@@ -173,10 +188,10 @@ public class EventService extends BaseApiService implements IEventService {
 		}
 		logger.error("::getEvents request: {}, response: {}", gson.toJson(eventRequest), gson.toJson(events));
 
-		Map<String, List<Event>> eventsMap = new HashMap<>();
+		Map<LocalDate, List<Event>> eventsMap = new TreeMap<>();
 		for (LocalDate eventDate = eventRequest.getStartDate(); eventDate
 				.compareTo(eventRequest.getEndDate()) < 1; eventDate = eventDate.plusDays(1L)) {
-			String mapKey = eventDate.toString();
+			LocalDate mapKey = eventDate;
 			for (Iterator<Event> iterator = events.iterator(); iterator.hasNext();) {
 				Event event = iterator.next();
 				List<Event> mapEvents = eventsMap.get(mapKey);
@@ -324,7 +339,7 @@ public class EventService extends BaseApiService implements IEventService {
 		endpoint.queryParam("query", autocompleteRequest.getQuery());
 		return (AutocompleteResponse) getObject(endpoint.toUriString(), AutocompleteResponse.class);
 	}
-	
+
 	@Override
 	public List<TimeTable> getTimeTableByEventId(long eventId) {
 		StringBuilder endpoint = new StringBuilder(authServerUrl);

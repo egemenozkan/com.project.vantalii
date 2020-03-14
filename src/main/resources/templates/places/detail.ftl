@@ -13,7 +13,7 @@
 <#assign  bundle="place_detail"> 
 
 <!DOCTYPE html>
-<html lang="${ webPage.language.code?lower_case }" class="page places" data-language="${ webPage.language.code?lower_case }" data-user-id="<#if (user?? &&  user.id??)>${ user.id?c! }<#else>0</#if>" data-place-id="0">
+<html lang="${ webPage.language.code?lower_case }" class="page places" data-language="${ webPage.language }" data-user-id="<#if (user?? &&  user.id??)>${ user.id?c! }<#else>0</#if>" data-place-id="${ page.place.id?c!0 }">
 <head>
 		<#compress>
 		 <title>${ title! } | <@spring.message "title.brand"/></title>
@@ -32,7 +32,16 @@
              </#if>   
          </#if>
 		 <#include '*/common/head.ftl'>
-	<#include '*/common/styles.ftl'>
+         <link type="text/css" href="<@utils.staticUrl source="/assets/lightbox/css/lightgallery.min.css" />" rel="stylesheet" />
+         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+	    <#include '*/common/styles.ftl'>
+
+         <script type="text/javascript" src="<@utils.staticUrl source="/assets/lightbox/js/lightgallery.min.js" />"></script>
+        <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+        integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+        crossorigin=""></script>
     <script type="text/javascript">
         var popularPlaces = '';
         var popularEvents = '';
@@ -54,7 +63,7 @@
                                 <div class="v-page_logo v-after">
                                     <div class="bg-cover"
                                         style="background-image: url(/static/img/plaj_bg.png);">
-                                        <a href="#"></a>
+                                        <a href="#"><i class="v-page-icon fad ${ page.place.type.icon! }"></i></a>
                                     </div>
                                 </div>
                                 <div class="v-page_title">
@@ -102,7 +111,9 @@
                     <!-- .v-page_nav-->
                     <div class="v-body">
                         <div class="container">
-                            <div id="mapid" class="v-map"></div>
+                            <div class="v-map">
+                                <div id="mapid" ></div>
+                            </div>
                             <div class="row mx--1">
                                 <div class="col-lg-8">
                                     <div id="photos" class="v-box">

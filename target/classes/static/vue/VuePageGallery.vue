@@ -1,11 +1,18 @@
 <style>
-input[type="file"] {
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
   position: absolute;
-  top: -500px;
+  left: 0;
+  top: 0;
+  opacity: 0;
 }
-div.file-listing img {
-  max-width: 90%;
-}
+
 </style>
 
 <template>

@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.project.api.data.model.autocomplete.AutocompleteResponse;
 import com.project.web.model.AutocompleteRequest;
-import com.project.web.model.AutocompleteResponse;
 import com.project.web.service.IDatapoolService;
 
 @SuppressWarnings("rawtypes")

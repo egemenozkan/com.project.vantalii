@@ -58,54 +58,67 @@
                 <!-- .v-detail_top -->
                 <div class="v-body">
                     <div class="container">
-                        <div class="row mx--1">
-                            <div class="col-lg-8">
-                                <#list pages as page>
-                                    <div class="v-box v-box-list">
-                                        <main class="">
-                                            <div class="v-box_thumbnail">
-                                                <figure>
-                                                    <img src="https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=370"
-                                                        width="370" />
-                                                </figure>
-                                            </div>
-                                            <div class="v-box_list_detail">
-                                                <div class="content">
-                                                    <h3><a href="${ webPage.baseUrl! }/places/${ page.slug! }" class="stretched-link">${ page.title! }</a></h3>
-                                                    <div class="meta">
-                                                        <div class="location">
-                                                            <i class="far fa-map-marker"></i>
-                                                            <span>${ page.place.address.city! } ${ page.place.address.district?has_content?string(", " +  page.place.address.district!,"") }  ${ page.place.address.region?has_content?string(", " +  page.place.address.region!,"") }</span>
-                                                        </div>
-                                                        <#if page.place.contact?has_content && page.place.contact.phone?has_content>
-                                                            <div class="number">
-                                                                <i class="far fa-phone"></i><span>${ page.place.contact.phone! }</span>
-                                                            </div>
-                                                        </#if>
-                                                    </div>
-                                                    <div class="description">
-                                                        ${ page.description! }
-
-                                                    </div>
-
+                        <div class="row">
+                            <#list pages as page>
+                                <div class="wil-col-5 col-md-3 col-sm-6 mb-3">
+                                    <article class="list-item wil-shadow js-listing-module wil-shadow wil-flex-column-between">
+                                        <div class="listing_firstWrap__36UOZ">
+                                            <!---->
+                                            <header class="listing-header is-verified">
+                                               <span
+                                                        class="wilcity-slider-gradient-before"></span>
+                                                    <div class="listing_img__3pwlB pos-a-full bg-cover"
+                                                        style="background-image:
+                                                        url('https://www.vantalii.ru/static/img/categories/places/${ page.place.type! }.jpg');">
+                                                        <img src="https://www.vantalii.ru/static/img/categories/places/${ page.place.type! }.jpg"
+                                                            alt="Statue of Liberty"></div> <span
+                                                        class="wilcity-slider-gradient-after"></span>
+                                            </header>
+                                            <div class="listing_body__31ndf"> <span
+                                                    class="listing_goo__3r7Tj">
+                                                     <i class="list-header-icon fad ${ page.place.type.icon }"></i>
+                                                     </span>
+                                                <h2 class="list-title text-ellipsis">
+                                                    <a href="${ webPage.baseUrl! }/places/${ page.slug! }" class="stretched-link">${ page.title! }</a>
+                                                </h2>
+                                                <div class="listing_tagline__1cOB3 text-ellipsis">
+                                                    ${ page.description! }
                                                 </div>
-                                                <div class="footer">
-                                                    <div class="category"><a href="${ webPage.baseUrl! }/places/m/${ page.place.type.mainType.slug }"><@spring.message "places.mainType.${ page.place.type.mainType! }" /></a>, <a href="${ webPage.baseUrl! }/places/t/${ page.place.type.slug }"><@spring.message "places.type.${ page.place.type! }" /></a></div>
-                                                    <div class="status <#if !page.place.open>closed</#if>">
-                                                        <#if page.place.open>
-                                                            Açık
-                                                        <#else>
-                                                            Kapalı
+                                                <div class="listing_meta__6BbCG"
+                                                    style="position: relative;"
+                                                        target="_blank" class="text-ellipsis w-100">
+                                                            <i class="fad fa-map-marker"></i>
+                                                            <span>${ page.place.address.city! } ${
+                                                                page.place.address.district?has_content?string(", " +
+                                                                page.place.address.district!,"") } ${
+                                                                page.place.address.region?has_content?string(", " +
+                                                                page.place.address.region!,"") }</span>
+                                                        <#if page.place.contact?? && page.place.contact.phone?has_content>
+                                                        <a href="tel: ${ page.place.contact.phone! }" target="_self" class="text-ellipsis w-100">
+                                                            <i class="fad fa-phone"></i><span>${ page.place.contact.phone! }</span>
+                                                        </a>
                                                         </#if>
-                                                    </div>
                                                 </div>
                                             </div>
-                                        </main>
-                                    </div>
+                                        </div>
+                                        <footer class="listing_footer__1PzMC">
+                                            <div class="text-ellipsis">
+                                                <div
+                                                    class="icon-box-1_module__uyg5F text-ellipsis icon-box-1_style2__1EMOP">
+                                                   <a href="${ webPage.baseUrl! }/places/m/${ page.place.type.mainType.slug }">
+                                                       <@spring.message "places.mainType.${ page.place.type.mainType! }" />
+                                                       </a>, <a
+                                                       href="${ webPage.baseUrl! }/places/t/${ page.place.type.slug }">
+                                                       <@spring.message "places.type.${ page.place.type! }" /></a>
+                                                   
+                                                </div>
+                                            </div>
+                                            <div class="listing_footerRight__2398w">
+                                            </div>
+                                        </footer>
+                                    </article>
+                                </div>
                                 </#list>
-                            </div>
-                            <div class="col-lg-4">
-
                             </div>
                         </div>
                     </div>

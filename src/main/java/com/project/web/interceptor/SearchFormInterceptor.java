@@ -19,8 +19,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.google.gson.Gson;
 import com.project.api.data.enums.MainType;
+import com.project.api.data.model.autocomplete.Item;
 import com.project.api.data.model.event.EventType;
-import com.project.web.model.AutocompleteItem;
 import com.project.web.model.WebPageModel;
 
 public class SearchFormInterceptor extends HandlerInterceptorAdapter implements InitializingBean {
@@ -33,8 +33,8 @@ public class SearchFormInterceptor extends HandlerInterceptorAdapter implements 
 	@Autowired
 	Gson gson;
 
-	private static final TreeMap<String, List<AutocompleteItem>> popularPlacesMap = new TreeMap<String, List<AutocompleteItem>>();
-	private static final TreeMap<String, List<AutocompleteItem>> popularEventsMap = new TreeMap<String, List<AutocompleteItem>>();
+	private static final TreeMap<String, List<Item>> popularPlacesMap = new TreeMap<String, List<Item>>();
+	private static final TreeMap<String, List<Item>> popularEventsMap = new TreeMap<String, List<Item>>();
 
 	/**
 	 * Executed before actual handler is executed
@@ -81,31 +81,25 @@ public class SearchFormInterceptor extends HandlerInterceptorAdapter implements 
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		for (String languageCode : Arrays.asList("tr", "en", "ru")) {
-			List<AutocompleteItem> popularPlaces =  popularPlacesMap.getOrDefault(languageCode, new ArrayList<>());
-			List<AutocompleteItem> popularEvents =  popularEventsMap.getOrDefault(languageCode, new ArrayList<>());
+			List<com.project.api.data.model.autocomplete.Item> popularPlaces =  popularPlacesMap.getOrDefault(languageCode, new ArrayList<>());
+			List<Item> popularEvents =  popularEventsMap.getOrDefault(languageCode, new ArrayList<>());
 
 			for (int i = 0; i < MainType.values().length; i++) {
 				if (MainType.values()[i].getSlug().length() == 0 || !MainType.values()[i].isShowInPopulars()) {
 					continue;
 				}
-				popularPlaces.add(new AutocompleteItem(
+				popularPlaces.add(new Item(
 						messageSource.getMessage("places.mainType." + MainType.values()[i].name(), null,
-								new Locale(languageCode)),
-						messageSource.getMessage("places.mainType." + MainType.values()[i].name(), null,
-								new Locale(languageCode)),
-						MainType.values()[i].toString(), "/places/m/" +  ("ru".equals(languageCode) ? "" : languageCode + "/")  + MainType.values()[i].getSlug()));
+								new Locale(languageCode)),  ("ru".equals(languageCode) ? "" : "/" + languageCode)  + "/places/m/" +  MainType.values()[i].getSlug()));
 			}
 			popularPlacesMap.put(languageCode, popularPlaces);
 			for (int j = 0; j < EventType.values().length; j++) {
 				if (EventType.values()[j].getSlug().length() == 0) {
 					continue;
 				}
-				popularEvents.add(new AutocompleteItem(
+				popularEvents.add(new Item(
 						messageSource.getMessage("events.type." + EventType.values()[j].name(), null,
-								new Locale(languageCode)),
-						messageSource.getMessage("events.type." + EventType.values()[j].name(), null,
-								new Locale(languageCode)),
-						EventType.values()[j].toString(), "/events/m/" + ("ru".equals(languageCode) ? "" : languageCode + "/") + EventType.values()[j].getSlug()));
+								new Locale(languageCode)), ("ru".equals(languageCode) ? "" : "/" + languageCode) +  "/events/m/"  + EventType.values()[j].getSlug()));
 			}
 			popularEventsMap.put(languageCode, popularEvents);
 

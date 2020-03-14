@@ -13,12 +13,6 @@
         </div>
         <nav id="v-nav_menu">
             <ul>
-                <li>
-                    <a href="<@utils.url url="/events" />"><@spring.message "nav.a.events" /></a>
-                </li>
-                <li>
-                    <a href="<@utils.url url="/places" />"><@spring.message "nav.a.places" /></a>
-                </li>
                 <li class="v-nav_buttons">
                     <#if !(user??)> 
                         <button class="btn btn-white" type="button" data-toggle="modal" data-target="#modal-signIn"><@spring.message "nav.a.signin" /></button>
@@ -34,7 +28,7 @@
                 </li>
                 <li>    
                     <div class="">
-                            <button class="btn btn-language" type="button" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                            <button class="btn btn-language nav-link dropdown-toggle" type="button" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false"><@spring.message "languages.${ webPage.language }" /></button>
                         <div class="dropdown-menu" aria-labelledby="dropdown01">
                             <#if webPage.language !='TURKISH'>

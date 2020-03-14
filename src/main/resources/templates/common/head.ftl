@@ -13,4 +13,5 @@
 <link rel="preconnect" href="//www.vantalii.ru">
 <link rel="dns-prefetch" href="//www.vantalii.ru">
 <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-<meta name="google-signin-client_id" content="670446652342-tetd8e4g5jtjmie01457ev3h8k6ft1o7.apps.googleusercontent.com">
+<meta name="google-signin-client_id" content="897437363481-oustapsredu1innp4ih4e82k77quq841.apps.googleusercontent.com">
+<#include '*/common/analytics.ftl'>

@@ -4,11 +4,7 @@
 <#import "*/imports/utils.ftl" as utils /> 
 <!-- Page Properties -->
 <#assign title> 
-    <#if mainType??>
-        <@spring.message "places.mainType.${ mainType }" />
-    <#else>
-        <@spring.message "places.type.${ type }" />
-    </#if>  
+    <@spring.message "events.type.${ eventRequest.type }" />
 </#assign>
 <#assign description> <@spring.message "page.home.description" /></#assign>
 <#assign product="place">
@@ -20,8 +16,10 @@
 <!DOCTYPE html>
 <html lang="${ webPage.language.code?lower_case }" class="page places" data-language="${ webPage.language }" data-user-id="<#if (user?? &&  user.id??)>${ user.id?c! }<#else>0</#if>" data-place-id="0">
 <head>
-    <title>- Vantalii.com</title>
+    <title>${ title } - Vantalii</title>
     <#include '*/common/styles.ftl'>
+        <link rel="stylesheet" href="<@utils.staticUrl source="/css/event-list.css" />">
+
     <script type="text/javascript">
         var popularPlaces = ${ popularPlaces };
         var popularEvents = ${ popularEvents };
@@ -51,55 +49,59 @@
                 <!-- .v-detail_top -->
                 <div class="v-body">
                     <div class="container">
+                        <div class="row">
+                        <#list eventsMap as _key, events>
+                            <div class="events-downlist col-lg-4">
+                                <div class="event-wrapper">
+                                    <h3><@formatter.localDate _key "EEEE" /><span><@formatter.localDate _key "dd.MM.yyyy" /></span></h3>
+                                    <ul class="list">
+                                        <#list events as event>
+                                        <li>
+                                            <header> 
+                                                <h4><a href="${ event.url! }">${ event.name!"-" }</a></h4>
+
+                                                <span class="${ (event.allDay?has_content)?then('event-begin allday', 'event-begin') }">
+                                                        <i class="far fa-clock"></i> ${ event.startTime }
+                                                </span>
+                                                <#if event.duration !=0>
+                                                    <span class="event-duration"><i class="far fa-hourglass-half"></i>&nbsp;${event.duration} min</span>
+                                                 </#if>
+                                                <span class="event-types"><@spring.message "events.type.${ event.type }" /> </span>
+                                            </header>
+                                           
+                                            <div>
+                                                
+                                               
+                                                
+                                            </div>    
+                                            
+                                            <div class="line-end">
+                                                <div class="info">
+                                                    <div class="event-place">
+                                                        <i class="far fa-map-marker-alt"></i><a href="${ event.place.url }">${event.place.name}</a>
+                                                    </div>
+                                                    <#--  <div class="attendee">
+                                                        <i class="fas fa-walking"></i><span>0</span>
+                                                    </div>
+                                                    <div class="comment">
+                                                        <i class="fas fa-comments"></i><span>0</span>
+                                                    </div>  -->
+                                                </div>
+                                            </div>
+                                        </li>
+                                        </#list>
+                                    </ul>
+                                </div>
+                            </div>
+                        </#list>    
+                        </div>
                         <div class="row mx--1">
                             <div class="col-lg-8">
-                                <#list pages as page>
+                                <#--  <#list events as event>
                                     <div class="v-box v-box-list">
-                                        <main class="">
-                                            <div class="v-box_thumbnail">
-                                                <figure>
-                                                    <img src="https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=370"
-                                                        width="370" />
-                                                </figure>
-                                            </div>
-                                            <div class="v-box_list_detail">
-                                                <div class="content">
-                                                    <h3><a href="${ webPage.baseUrl! }/places/${ page.slug! }" class="stretched-link">${ page.title! }</a></h3>
-                                                    <div class="meta">
-                                                        <div class="location">
-                                                            <i class="material-icons">
-                                                                beenhere
-                                                            </i>
-                                                            <span>${ page.place.address.city! } ${ page.place.address.district?has_content?string(", " +  page.place.address.district!,"") }  ${ page.place.address.region?has_content?string(", " +  page.place.address.region!,"") }</span>
-                                                        </div>
-                                                        <#if page.place.contact?has_content && page.place.contact.phone?has_content>
-                                                            <div class="number">
-                                                                <i class="material-icons">
-                                                                    phone
-                                                                </i><span>${ page.place.contact.phone! }</span>
-                                                            </div>
-                                                        </#if>
-                                                    </div>
-                                                    <div class="description">
-                                                        ${ page.description! }
-
-                                                    </div>
-
-                                                </div>
-                                                <div class="footer">
-                                                    <div class="category"><a href="${ webPage.baseUrl! }/places/m/${ page.place.type.mainType.slug }"><@spring.message "places.mainType.${ page.place.type.mainType! }" /></a>, <a href="${ webPage.baseUrl! }/places/t/${ page.place.type.slug }"><@spring.message "places.type.${ page.place.type! }" /></a></div>
-                                                    <div class="status <#if !page.place.open>closed</#if>">
-                                                        <#if page.place.open>
-                                                            Açık
-                                                        <#else>
-                                                            Kapalı
-                                                        </#if>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </main>
+                                        <a href="/${ event.slug! }">${ event.id } ${ event.name!"-" } - ${ event.type! } - ${ event.startDate! }</a>
                                     </div>
-                                </#list>
+                                </#list>  -->
                             </div>
                             <div class="col-lg-4">
 
