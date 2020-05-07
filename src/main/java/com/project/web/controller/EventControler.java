@@ -47,10 +47,10 @@ import com.project.api.data.model.event.EventStatus;
 import com.project.api.data.model.event.EventType;
 import com.project.api.data.model.event.TimeTable;
 import com.project.api.data.model.file.MyFile;
+import com.project.common.utils.WebUtils;
 import com.project.web.model.AutocompleteRequest;
 import com.project.web.service.IEventService;
 import com.project.web.service.IFileService;
-import com.project.web.utils.WebUtils;
 
 @Controller
 public class EventControler {

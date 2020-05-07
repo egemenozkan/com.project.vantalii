@@ -29,8 +29,8 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.gson.Gson;
 import com.project.common.model.User;
+import com.project.common.utils.WebUtils;
 import com.project.web.service.IUserService;
-import com.project.web.utils.WebUtils;
 
 @Controller
 public class GoogleLoginController {

@@ -23,8 +23,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
 import com.project.common.model.User;
+import com.project.common.utils.WebUtils;
 import com.project.web.service.IUserService;
-import com.project.web.utils.WebUtils;
 
 @Controller
 public class FacebookLoginController {

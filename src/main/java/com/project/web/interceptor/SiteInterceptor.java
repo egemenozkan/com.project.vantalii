@@ -18,9 +18,9 @@ import com.google.gson.Gson;
 import com.project.api.data.enums.Language;
 import com.project.api.data.enums.MainType;
 import com.project.api.data.enums.PlaceType;
+import com.project.common.utils.WebUtils;
 import com.project.web.component.Translator;
 import com.project.web.model.WebPageModel;
-import com.project.web.utils.WebUtils;
 
 public class SiteInterceptor extends HandlerInterceptorAdapter {
 
