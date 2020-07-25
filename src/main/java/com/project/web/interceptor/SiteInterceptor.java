@@ -15,9 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.google.gson.Gson;
-import com.project.api.data.enums.Language;
 import com.project.api.data.enums.MainType;
 import com.project.api.data.enums.PlaceType;
+import com.project.common.enums.Language;
 import com.project.common.utils.WebUtils;
 import com.project.web.component.Translator;
 import com.project.web.model.WebPageModel;

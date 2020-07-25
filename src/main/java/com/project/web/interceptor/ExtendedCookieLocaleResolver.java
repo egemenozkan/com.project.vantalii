@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
-import com.project.api.data.enums.Language;
+import com.project.common.enums.Language;
 import com.project.common.utils.WebUtils;
 
 public class ExtendedCookieLocaleResolver extends CookieLocaleResolver {

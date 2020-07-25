@@ -34,7 +34,6 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.google.gson.Gson;
 import com.project.api.data.enums.LandingPageType;
-import com.project.api.data.enums.Language;
 import com.project.api.data.enums.PeriodType;
 import com.project.api.data.model.EventSession;
 import com.project.api.data.model.autocomplete.AutocompleteResponse;
@@ -47,6 +46,7 @@ import com.project.api.data.model.event.EventStatus;
 import com.project.api.data.model.event.EventType;
 import com.project.api.data.model.event.TimeTable;
 import com.project.api.data.model.file.MyFile;
+import com.project.common.enums.Language;
 import com.project.common.utils.WebUtils;
 import com.project.web.model.AutocompleteRequest;
 import com.project.web.service.IEventService;

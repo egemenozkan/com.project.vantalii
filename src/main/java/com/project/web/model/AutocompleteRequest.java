@@ -1,6 +1,6 @@
 package com.project.web.model;
 
-import com.project.api.data.enums.Language;
+import com.project.common.enums.Language;
 
 public class AutocompleteRequest {
 	private String query;

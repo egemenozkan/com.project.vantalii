@@ -2,7 +2,6 @@ package com.project.web.service;
 
 import java.util.List;
 
-import com.project.api.data.enums.Language;
 import com.project.api.data.model.gis.City;
 import com.project.api.data.model.gis.District;
 import com.project.api.data.model.gis.Region;
@@ -10,6 +9,7 @@ import com.project.api.data.model.gis.TransferRegion;
 import com.project.api.data.model.gis.enums.CityEnum;
 import com.project.api.data.model.gis.enums.CountryEnum;
 import com.project.api.data.model.gis.enums.DistrictEnum;
+import com.project.common.enums.Language;
 
 public interface IGisService {
 

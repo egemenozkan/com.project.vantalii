@@ -11,7 +11,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.project.api.data.enums.Language;
 import com.project.api.data.model.gis.City;
 import com.project.api.data.model.gis.District;
 import com.project.api.data.model.gis.Region;
@@ -19,6 +18,7 @@ import com.project.api.data.model.gis.TransferRegion;
 import com.project.api.data.model.gis.enums.CityEnum;
 import com.project.api.data.model.gis.enums.CountryEnum;
 import com.project.api.data.model.gis.enums.DistrictEnum;
+import com.project.common.enums.Language;
 import com.project.web.service.IGisService;
 
 @Service
