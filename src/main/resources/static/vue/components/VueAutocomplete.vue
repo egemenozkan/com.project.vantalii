@@ -1,8 +1,8 @@
 <template>
     <div v-closable="{
-        exclude: ['suggestions', 'populars'],
-        handler: 'onClose'
-      }">
+            exclude: ['suggestions', 'populars'],
+            handler: 'onClose'
+          }">
         <input type="text" name="" :placeholder="placeholder" v-model="owner.value" @click="showPopulars" @keyup="getSuggestions($event.target.value)" />
         <div :class="'i-suggestions ' + (suggestions.visible ? 'show' : '')" ref="suggestions">
             <ul>
@@ -113,15 +113,21 @@ export default {
             }
         },
         getSuggestions: function(text) {
+            gtag('event', 'input', {
+                'event_category': 'autocomplete',
+                'event_label': text
+            });
+
+
             var self = this;
 
             // if (self.properties.suggestions && text.length < 3) {
             //     return;
             // }
-     if (text.length < 3) {
+            if (text.length < 3) {
                 return;
             }
-            console.log("-->",text);
+            console.log("-->", text);
             self.populars.visible = false;
 
             var regexp = new RegExp('(' + text + ')', 'gi');
