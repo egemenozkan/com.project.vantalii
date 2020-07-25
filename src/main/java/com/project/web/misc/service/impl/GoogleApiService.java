@@ -22,7 +22,7 @@ public class GoogleApiService implements IGoogleApiService {
 	 * is "MyCompany-ProductName/1.0".
 	 */
 	private static final String APPLICATION_NAME = "Vantalii International";
-	private static final String CLIENT_ID = "670446652342-uqckk0np40ppn1hbcs2mi898dcfkqfhu.apps.googleusercontent.com";
+	private static final String CLIENT_ID = "897437363481-oustapsredu1innp4ih4e82k77quq841.apps.googleusercontent.com";
 	private static final String CLIENT_SECRET = "TwqIOvHqG64PzheU8DA1_fcl";
 
 	private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();

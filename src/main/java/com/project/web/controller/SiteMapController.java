@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.project.api.data.enums.Language;
 import com.project.api.data.enums.MainType;
 import com.project.api.data.model.place.PlaceLandingPage;
 import com.project.api.data.model.place.PlaceRequest;
+import com.project.common.enums.Language;
 import com.project.web.model.XmlUrl;
 import com.project.web.model.XmlUrlSet;
 import com.project.web.service.IPlaceService;

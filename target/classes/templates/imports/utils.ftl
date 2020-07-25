@@ -11,7 +11,7 @@
 
 <#macro staticUrl source>
 <@compress single_line=true>
-    <#if webPage.environment == 'prod'>
+    <#if webPage.environment == 'abc'>
         //static.vantalii.com${ source }
     <#else>
        /static${ source }    

@@ -1,8 +1,5 @@
 <template>
                     <div class="comments">
-                        <div class="header">
-                            <h4 class="">{{ m['comments']}}</h4>
-                        </div>
                         <div v-if="online">
                           <div v-for="comment in comments" v-bind:comment="comment" v-bind:key="comment.id">
                             <div class="comment-item">

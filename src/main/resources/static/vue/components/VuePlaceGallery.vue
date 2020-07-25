@@ -1,7 +1,16 @@
 <style>
-input[type="file"] {
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
   position: absolute;
-  top: -500px;
+  left: 0;
+  top: 0;
+  opacity: 0;
 }
 div.file-listing img {
   max-width: 90%;
@@ -19,26 +28,27 @@ div.file-listing img {
   <div class="gallery">
     <div class="row photo-by-users">
       <gallery :images="lgImages" :index="index" @close="index = null"></gallery>
-      <div
-        v-for="(image,imageIndex) in mdImages"
-        :key="imageIndex"
-        @click="index = imageIndex"
-        class="col-6 col-sm-3"
-        style="padding: 2px!important;'"
-      >
-        <div style="position:relative;">
-          <div style="overflow: hidden;">
-            <div class="photo" :style="'background: url(' + image + ')'"></div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="col-6 col-sm-3"
-        style="padding: 2px!important; background: transparent; text-align: center; vertical-align: middle;"
-      >
+      <ul id="lightgallery" class="row">
+        <li
+          v-for="(image,imageIndex) in mdImages"
+          :key="imageIndex"
+          @click="index = imageIndex"
+          class="col-md-3 col-6"
+        >
+          <!-- <div style="position:relative;">
+            <div style="overflow: hidden;">
+              <div class="photo" :style="'background: url(' + image + ')'"></div>
+            </div>
+          </div> -->
+<a href="#">
+            <img :src="image" />
+            </a>
+        </li>
+      </ul>
+      <div class="mt-2 mx-auto" style="text-align: center;"> 
         <div v-if="online" class="upload-btn-wrapper">
-          <button type="button">
-            <i class="fa fa-camera"></i>
+          <button class="btn btn-white" type="button">
+              Fotoğraf Ekle
           </button>
           <input
             type="file"
@@ -49,8 +59,8 @@ div.file-listing img {
           />
         </div>
         <div v-if="!online" class="upload-btn-wrapper">
-          <button type="button" data-toggle="modal" data-target="#modal-signIn">
-            <i class="fa fa-camera"></i>
+          <button type="button" class="btn btn-white" data-toggle="modal" data-target="#modal-signIn">
+              Fotoğraf Ekle
           </button>
         </div>
       </div>
@@ -112,6 +122,7 @@ export default {
   data() {
     return {
       lgImages: [],
+      mdImages: [],
       xsImages: [],
       online: false,
       image: {
@@ -144,12 +155,12 @@ export default {
               self.mdImages.push(response.data[i].mdUrl);
               self.lgImages.push(response.data[i].lgUrl);
             }
-            for (var j = 3; j > length; j--) {
+            for (var j = 4; j > length; j--) {
               // self.images.push({ background: "background-image: url(/img/nophoto.jpg);" });
-              self.mdImages.push("/img/nophoto.jpg");
+              self.mdImages.push("/static/img/nophoto.jpg");
             }
 
-            console.log(self.images);
+            console.log(self.mdImages);
           }
         })
         .catch(function(error) {

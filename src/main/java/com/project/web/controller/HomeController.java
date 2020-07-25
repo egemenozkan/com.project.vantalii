@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.project.api.data.enums.Language;
 import com.project.api.data.model.place.PlaceRequest;
+import com.project.common.enums.Language;
+import com.project.common.utils.WebUtils;
 import com.project.web.service.impl.PlaceService;
-import com.project.web.utils.WebUtils;
 
 @Controller
 public class HomeController {

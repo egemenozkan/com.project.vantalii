@@ -27,7 +27,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.google.gson.Gson;
 import com.project.api.data.enums.LandingPageType;
-import com.project.api.data.enums.Language;
 import com.project.api.data.enums.MainType;
 import com.project.api.data.enums.PlaceType;
 import com.project.api.data.model.comment.Comment;
@@ -35,9 +34,11 @@ import com.project.api.data.model.comment.CommentResponse;
 import com.project.api.data.model.file.MyFile;
 import com.project.api.data.model.place.PlaceLandingPage;
 import com.project.api.data.model.place.PlaceRequest;
+import com.project.common.enums.Language;
+import com.project.common.utils.WebUtils;
 import com.project.web.service.IFileService;
 import com.project.web.service.IPlaceService;
-import com.project.web.utils.WebUtils;
+import com.project.web.service.ITimeService;
 
 @Controller
 public class PlaceController {
@@ -46,12 +47,17 @@ public class PlaceController {
 	private IPlaceService placeService;
 	@Autowired
 	private IFileService fileService;
+	@Autowired
+	private ITimeService timeService;
 	
 	@Autowired
 	private Gson gson;
 
-	final Logger LOG = LoggerFactory.getLogger(PlaceController.class);
+	final Logger logger = LoggerFactory.getLogger(PlaceController.class);
 
+	
+	private static final String PAGES = "pages";
+	
 	@SuppressWarnings("unchecked")
 	@GetMapping({ "/places", "/{language}/places" })
 	public ModelAndView placesHomepage(Model model, HttpServletRequest request,
@@ -65,7 +71,6 @@ public class PlaceController {
 		return new ModelAndView("places/index");
 	}
 
-	@SuppressWarnings("unchecked")
 	@GetMapping({ "/places/{slug}", "/{language}/places/{slug}" })
 	public ModelAndView placeLandingPage(ModelMap model, HttpServletRequest request,
 			@PathVariable(required = false, name = "language") String language, @PathVariable String slug) throws NoHandlerFoundException {
@@ -85,7 +90,7 @@ public class PlaceController {
 		}
 		/** REDIRECT - 404 **/
 		if (page == null) {
-			LOG.warn("::redirect status 404  {}-> {}", url, "404");
+			logger.warn("::redirect status 404  {}-> {}", url, "404");
 			throw new NoHandlerFoundException(HttpMethod.GET.toString(), url.toString(), new HttpHeaders());
 		}
 		//
@@ -99,7 +104,7 @@ public class PlaceController {
 			redirectUrl.append("places/");
 			redirectUrl.append(page.getSlug());
 
-			LOG.warn("::redirect status 301  {}-> {}", url, redirectUrl);
+			logger.warn("::redirect status 301  {}-> {}", url, redirectUrl);
 			RedirectView redirect = new RedirectView(redirectUrl.toString(), false);
 			redirect.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
 			redirect.setExposeModelAttributes(false);
@@ -120,8 +125,10 @@ public class PlaceController {
 		model.addAttribute("seoPages", seoPages);
 
 		model.addAttribute("placeId", id);
-
-		return new ModelAndView("places/page", model);
+		model.addAttribute("dailyWorkingHours", timeService.getDailyWorkingHours(id));
+		;
+		
+		return new ModelAndView("places/detail", model);
 	}
 
 	@GetMapping({ "/places/comments" })
@@ -142,7 +149,9 @@ public class PlaceController {
 
 	@GetMapping({ "/places/m/{slug}", "/{language}/places/m/{slug}" })
 	public ModelAndView landingPageByMainTypes(Model model, HttpServletRequest request,
-			@PathVariable(required = false, name = "language") String language, @PathVariable String slug) {
+			@PathVariable(required = false, name = "language") String language, @PathVariable String slug,
+			@RequestParam(required = false, defaultValue = "", name = "districts") String[] districts,
+			@RequestParam(required = false, defaultValue = "", name = "regions") String[] regions) {
 
 		PlaceRequest placeRequest = null;
 		language = (language ==  null) ? "RU" : language;
@@ -153,20 +162,26 @@ public class PlaceController {
 			placeRequest.setLimit(20);
 			placeRequest.setHideContent(true);
 			placeRequest.setHideImages(true);
-			placeRequest.setRandom(true);
-			model.addAttribute("mainType", MainType.getBySlug(slug));
-			model.addAttribute("pages", placeService.getPlaceLandingPages(placeRequest));
+			placeRequest.setDistricts(districts);
+			placeRequest.setRegions(regions);
+			
+			model.addAttribute(PAGES, placeService.getPlaceLandingPages(placeRequest));
 		} else {
-			LOG.error("not found {}", request.getPathInfo());
-			model.addAttribute("pages", Collections.emptyList());
+			logger.error("not found {}", request.getPathInfo());
+			model.addAttribute(PAGES, Collections.emptyList());
 		}
-		return new ModelAndView("places/category");
+		
+		model.addAttribute("mainType", MainType.getBySlug(slug));
+		model.addAttribute("slug", slug);
+		
+		return new ModelAndView("places/listMainType");
 	}
 
 	@GetMapping({ "/places/t/{slug}", "/{language}/places/t/{slug}" })
 	public ModelAndView landingPageByTypes(Model model, HttpServletRequest request,
-			@PathVariable(required = false, name = "language") String language,
-			@PathVariable String slug) {
+			@PathVariable(required = false, name = "language") String language, @PathVariable String slug,
+			@RequestParam(required = false, defaultValue = "", name = "districts") String[] districts,
+			@RequestParam(required = false, defaultValue = "", name = "regions") String[] regions) {
 
 		PlaceRequest placeRequest = null;
 		language = (language ==  null) ? "RU" : language;
@@ -181,7 +196,7 @@ public class PlaceController {
 			model.addAttribute("pages", placeService.getPlaceLandingPages(placeRequest));
 		}
 
-		return new ModelAndView("places/category");
+		return new ModelAndView("places/list");
 	}
 
 	@PostMapping({ "/places/file-upload/single", "/{language}/places/file-upload/single" })

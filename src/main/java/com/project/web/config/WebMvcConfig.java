@@ -1,7 +1,6 @@
 package com.project.web.config;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,14 +18,13 @@ import com.google.gson.Gson;
 import com.project.web.interceptor.ExtendedCookieLocaleResolver;
 import com.project.web.interceptor.ExtendedLocaleChangeInterceptor;
 import com.project.web.interceptor.ExtendedResourceBundleMessageSource;
+import com.project.web.interceptor.SearchFormInterceptor;
 import com.project.web.interceptor.SessionTimerInterceptor;
 import com.project.web.interceptor.SiteInterceptor;
 import com.project.web.interceptor.UserInterceptor;
 
-import freemarker.template.TemplateModel;
-import kr.pe.kwonnam.freemarker.inheritance.BlockDirective;
-import kr.pe.kwonnam.freemarker.inheritance.ExtendsDirective;
-import kr.pe.kwonnam.freemarker.inheritance.PutDirective;
+import freemarker.cache.NullCacheStorage;
+import freemarker.template.TemplateException;
 
 @EnableWebMvc
 @Configuration
@@ -42,19 +40,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		// registry.addInterceptor(localisationInteceptor());
 		registry.addInterceptor(localeChangeInterceptor());
-		registry.addInterceptor(siteInteceptor());
+        registry.addInterceptor(searchFormInterceptor());
+		registry.addInterceptor(siteInterceptor());
         registry.addInterceptor(new UserInterceptor());
         registry.addInterceptor(new SessionTimerInterceptor());
 	}
 
-	@Bean
-	public Map<String, TemplateModel> freemarkerLayoutDirectives() {
-		Map<String, TemplateModel> freemarkerLayoutDirectives = new HashMap<>();
-		freemarkerLayoutDirectives.put("extends", new ExtendsDirective());
-		freemarkerLayoutDirectives.put("block", new BlockDirective());
-		freemarkerLayoutDirectives.put("put", new PutDirective());
-		return freemarkerLayoutDirectives;
-	}
 
 	@Bean
 	public FreeMarkerViewResolver freemarkerViewResolver() {
@@ -66,21 +57,38 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		resolver.setExposeRequestAttributes(true);
 		resolver.setExposeSessionAttributes(true);
 		resolver.setExposeSpringMacroHelpers(true);
-
 		return resolver;
 	}
 
+//	@Bean
+//	public FreeMarkerConfigurer freemarkerConfig() {
+//		FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
+//		freeMarkerConfigurer.setTemplateLoaderPath("classpath:templates");
+//		
+//		return freeMarkerConfigurer;
+//	}
+
+	
 	@Bean
-	public FreeMarkerConfigurer freemarkerConfig() {
-		FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
-		freeMarkerConfigurer.setTemplateLoaderPath("classpath:templates");
-		Map<String, Object> freemarkerVariables = new HashMap<>();
-		freemarkerVariables.put("layout", freemarkerLayoutDirectives());
+	public FreeMarkerConfigurer freeMarkerConfigurer() throws IOException, TemplateException
+	{
+	    FreeMarkerConfigurer configurer = new FreeMarkerConfigurer()
+	    {
 
-		freeMarkerConfigurer.setFreemarkerVariables(freemarkerVariables);
-		return freeMarkerConfigurer;
+	        @Override
+	        protected void postProcessConfiguration(freemarker.template.Configuration config) throws IOException, TemplateException
+	        { 
+	            config.setCacheStorage(new NullCacheStorage()); 
+	        	config.setTemplateUpdateDelayMilliseconds(0);
+	        }
+	    };
+	    configurer.setDefaultEncoding("UTF-8"); 
+	    configurer.setPreferFileSystemAccess(false);
+	    configurer.setTemplateLoaderPath("classpath:templates");
+
+	    return configurer;
 	}
-
+	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
@@ -127,8 +135,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	}
 
 	@Bean
-	public SiteInterceptor siteInteceptor() {
+	public SiteInterceptor siteInterceptor() {
 		return new SiteInterceptor();
+	}
+	
+	@Bean
+	public SearchFormInterceptor searchFormInterceptor() {
+		return new SearchFormInterceptor();
 	}
 
 	@Bean

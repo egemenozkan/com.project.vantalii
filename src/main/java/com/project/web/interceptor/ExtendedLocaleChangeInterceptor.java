@@ -10,8 +10,8 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
-import com.project.api.data.enums.Language;
-import com.project.web.utils.WebUtils;
+import com.project.common.enums.Language;
+import com.project.common.utils.WebUtils;
 
 public class ExtendedLocaleChangeInterceptor extends LocaleChangeInterceptor {
 	@Override

@@ -1,9 +1,8 @@
 import '../js/common';
 import Vue from 'vue';
-import VueEventDays from '../vue/components/VueEventDays.vue'
-import {LocalDate} from '../js/mydate';
+import VueSearchForm from '../vue/components/VueSearchForm.vue'
 
-
+import {} from '../js/mydate';
 
 
 Vue.config.productionTip = false
@@ -15,8 +14,9 @@ Vue.mixin({
       }
     }
   })
-/* eslint-disable no-new */
+ console.log("-->", localeMessages);
 const app1 = new Vue({
   el: '#app1',
-  components: { 'vue-event-days': VueEventDays}
+  components: { 'search-form': VueSearchForm}
 })
+

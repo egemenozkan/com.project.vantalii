@@ -3,22 +3,7 @@
 <#import "*/imports/formatter.ftl" as formatter/>
 <#import "*/imports/utils.ftl" as utils/>
  
- 
-<!-- Page Properties -->
-<#assign title>
-    <@spring.message "page.home.title" />
-</#assign>
-<#assign description>
-    <@spring.message "page.home.description" />
-</#assign>
-<#assign category = "home">
-<#assign page = "index">
-<#assign styles = []>
-<#assign javascripts = []>
-<#assign bundle = "index">
-<@layout.extends name="layouts/base.ftl">
-	<@layout.put block="contents">
-		<div class="ax-panel good">
+ 		<div class="ax-panel good">
 			<div class="ax-panel-heading">
 				Login
 			</div>
@@ -42,11 +27,7 @@
                     </div>
                   </div>
                   <a href="https://www.facebook.com/v3.2/dialog/oauth?client_id=287713494586438&response_type=code&redirect_uri=https://www.vantalii.com/login/facebook">Facebook</a>
-                  <a href="https://oauth.vk.com/authorize?client_id=6942392&display=page&redirect_uri=https://www.vantalii.com/login/vkontakte&scope=friends,email&response_type=code&v=5.95">VKontakte</a>  
+                  <a href="https://oauth.vk.com/authorize?client_id=6954043 &display=page&redirect_uri=https://www.vantalii.com/login/vkontakte&scope=friends,email&response_type=code&v=5.95">VKontakte</a>  
               </form>
 			</div>
 		</div>
-		<!-- /.container -->
-	</@layout.put>
-</@layout.extends>
-
