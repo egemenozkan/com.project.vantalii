@@ -1,5 +1,6 @@
 
 /src/main/resources/static/bundle
+/src/main/resources/config/application-prod.properties
 
 
 /target/
