@@ -100,6 +100,10 @@ export default {
                 self.owner.url = self.populars.list[index].url;
                 self.populars.visible = false;
                 console.log(self.owner);
+                gtag('event', 'popular', {
+                'event_category': 'autocomplete',
+                'event_label':  self.owner.value
+            });
             }
         },
         selectSuggestion: function(index) {
@@ -110,14 +114,13 @@ export default {
                 self.current = index;
                 self.owner.url = self.suggestions.list[index].url;
                 self.suggestions.visible = false;
+                      gtag('event', 'suggestion', {
+                'event_category': 'autocomplete',
+                'event_label':  self.owner.value
+            });
             }
         },
         getSuggestions: function(text) {
-            gtag('event', 'input', {
-                'event_category': 'autocomplete',
-                'event_label': text
-            });
-
 
             var self = this;
 
@@ -127,6 +130,10 @@ export default {
             if (text.length < 3) {
                 return;
             }
+            gtag('event', 'text', {
+                'event_category': 'autocomplete',
+                'event_label': text
+            });
             console.log("-->", text);
             self.populars.visible = false;
 

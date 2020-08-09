@@ -6,12 +6,12 @@
 </script>
 
 <!-- Bundles -->
-<script src="<@utils.staticUrl source="/bundle/js/${ bundle!'common' }.js" />"></script>
+<script src="<@utils.staticUrl source="/bundle/js/${ bundle!'common' }.js?v=1.0" />"></script>
 
 
 <!-- Dynamic Javascript Calls -->
 <#list javascripts as javascript>
-    <script src="<@utils.staticUrl source="/js/${ javascript }.js" />"></script>
+    <script src="<@utils.staticUrl source="/js/${ javascript }.js?v=1.0" />"></script>
 </#list>
 
  <#if !(user??)> 
