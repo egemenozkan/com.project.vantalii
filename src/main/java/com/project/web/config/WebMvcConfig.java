@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -29,7 +30,10 @@ import freemarker.template.TemplateException;
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = "com.project.web")
-@PropertySource({ "classpath:config/application.properties", "classpath:config/application-${spring.profiles.active}.properties" })
+@PropertySources({
+	@PropertySource({ "classpath:config/application.properties", "classpath:config/application-${spring.profiles.active}.properties" })
+    , @PropertySource(value = "file:${external.config}", ignoreResourceNotFound = true)
+})
 // @EnableScheduling
 public class WebMvcConfig implements WebMvcConfigurer {
 
