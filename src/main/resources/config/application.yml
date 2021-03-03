@@ -1,0 +1,7 @@
+  
+logging:
+  level: 
+    root: ERROR
+    org.springframework: WARN
+    com.project: WARN
+  file: log/api.log
