@@ -1,10 +1,5 @@
 package com.project.web.config;
 
-import javax.servlet.ServletContext;
-import javax.servlet.SessionCookieConfig;
-import javax.servlet.SessionTrackingMode;
-
-import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -55,7 +50,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		return new SearchFormInterceptor();
 	}
 	
-	@Bean(name="localeResolver")
+	@Bean
 	public ExtendedCookieLocaleResolver localeResolver() {
 		ExtendedCookieLocaleResolver localeResolver = new ExtendedCookieLocaleResolver();
 		localeResolver.setCookieName("lang");

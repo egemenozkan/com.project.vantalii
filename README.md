@@ -25,6 +25,11 @@ kullanılacaktır. Geliştirme yaparken hot development özelliği vardır, komu
  
 > /resources/static/bundle/**
 
+#### Jenkins
+Açıklama eklenecek
+
+#### JFrog Artifactory
+Açıklama eklenecek
 
 #### Deploy
 
