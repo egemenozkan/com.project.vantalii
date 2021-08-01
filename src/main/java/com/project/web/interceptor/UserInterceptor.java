@@ -59,7 +59,7 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
         log.info("================= addToModelUserDetails ============================");
         String loggedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         model.addObject("loggedUsername", loggedUsername);
-        log.trace("session : " + model.getModel());
+        log.info("session : " + model.getModel());
         log.info("================= addToModelUserDetails ============================");
 
     }

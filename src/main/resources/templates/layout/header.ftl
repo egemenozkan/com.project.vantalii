@@ -20,8 +20,8 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${ user.firstName! } ${ user.lastName! }</a>
                             <div class="dropdown-menu" aria-labelledby="dropdown02">
-                                <a class="nav-link" href="javascript:btnlogout.submit()"><@spring.message "nav.a.logout" /></a>
-                            <form id="btnlogout" action="/logout" method="POST"> </form>
+                                <a class="nav-link" href="/perform_logout"><@spring.message "nav.a.logout" /></a>
+                            
                             </div>
                         </li>
                     </#if>

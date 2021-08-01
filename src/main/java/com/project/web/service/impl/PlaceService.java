@@ -70,7 +70,7 @@ public class PlaceService extends BaseApiService implements IPlaceService {
 		if (placeRequest.getRegions() != null && placeRequest.getRegions().length > 0) {
 			endpoint.queryParam("regions", String.join(",", placeRequest.getRegions()));
 		}
-
+		
 		Object cacheValue = redisTemplate.opsForHash().get("PLACE", endpoint.toString());
 
 		if (cacheValue != null) {

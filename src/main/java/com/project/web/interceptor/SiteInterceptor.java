@@ -34,6 +34,9 @@ public class SiteInterceptor extends HandlerInterceptorAdapter {
 
 	@Value("${site.environment}")
 	private String environment;
+	
+    @Value("${git.commit.id.abbrev}")
+    private String commitId;
 
 	/**
 	 * Executed before actual handler is executed
@@ -89,6 +92,7 @@ public class SiteInterceptor extends HandlerInterceptorAdapter {
 		}
 
 		modelAndView.getModel().put("webPage", webPage);
+		modelAndView.getModel().put("commitId", commitId);
 
 		Principal auth = request.getUserPrincipal();
 		if (auth != null) {

@@ -24,10 +24,10 @@ public class HomeController {
 	@Autowired
 	private PlaceService placeService;
 
-	final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
 	@GetMapping({ "/", "/{language}/" })
-	public String home(HttpServletRequest request, Model model, @PathVariable(required = false, name = "language") String language) {
+	public String home(Model model, @PathVariable(required = false, name = "language") String language) {
 		if (language == null) {
 			language = Language.RUSSIAN.getCode();
 		}
@@ -40,6 +40,22 @@ public class HomeController {
 		model.addAttribute("pages", Collections.emptyList());
 
 		return "index";
+	}
+	
+	@GetMapping({ "/about-vantalii", "/{language}/about-vantalii" })
+	public String aboutUs(Model model, @PathVariable(required = false, name = "language") String language) {
+		if (language == null) {
+			language = Language.RUSSIAN.getCode();
+		}
+		PlaceRequest placeRequest = new PlaceRequest();
+		placeRequest.setLanguage(Language.getByCode(language));
+		placeRequest.setLimit(10);
+		placeRequest.setRandom(Boolean.TRUE);
+//		List<PlaceLandingPage> pages = placeService.getPlaceLandingPages(placeRequest);
+
+		model.addAttribute("pages", Collections.emptyList());
+
+		return "aboutUs";
 	}
 
 	@GetMapping({ "/status" })

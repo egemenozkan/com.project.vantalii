@@ -64,18 +64,16 @@ public class FacebookLoginController {
 				if (logger.isInfoEnabled()) {
 					logger.info("meResponse response: {}", gson.toJson(meResponse));
 				}
-				logger.info("mePicture {}", generateFacebookGetPicture(meResponse.get("id").toString(), accessToken));
-				byte[] imageBytes = restTemplate.getForObject(
-						generateFacebookGetPicture(meResponse.get("id").toString(), accessToken), byte[].class);
-				if (logger.isInfoEnabled()) {
-					logger.info("mePicture {}, response: {}",
-							generateFacebookGetPicture(meResponse.get("id").toString(), accessToken), imageBytes);
-				}
+				logger.info("mePicture v11 {}", meResponse.get("picture"));
+			}
+			
+			if (WebUtils.getAsString(meResponse, "email") == null) {
+				throw new Exception("User e-postası yok");
 			}
 
 			User user = userService.findByUsernameOrEmail(WebUtils.getAsString(meResponse, "email"));
 
-			if (user != null && !WebUtils.getAsString(meResponse, "id").equals(user.getFacebookId())) {
+			if (user != null && (!WebUtils.getAsString(meResponse, "id").equals(user.getFacebookId()) || user.getId() > 0)){
 				user.setFacebookId(WebUtils.getAsString(meResponse, "id"));
 				userService.updateSocialUserByEmail(user);
 			} else if (user == null && WebUtils.getAsString(meResponse, "id") != null) {
@@ -84,13 +82,18 @@ public class FacebookLoginController {
 				user.setFirstName(WebUtils.getAsString(meResponse, "first_name"));
 				user.setLastName(WebUtils.getAsString(meResponse, "last_name"));
 				user.setEmail(WebUtils.getAsString(meResponse, "email"));
-				userService.registerUser(user);
+				long userId = userService.registerUser(user);
+				//user.setId(userId);
 			}
 
 			if (user != null) {
 				UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user.getEmail(),
 						null, Arrays.asList(new SimpleGrantedAuthority("FACEBOOK_USER")));
+				logger.info("facebook login: user: {}", gson.toJson(user));
+
 				auth.setDetails(user);
+				logger.info("facebook login: auth: {}",  gson.toJson(auth));
+
 				SecurityContextHolder.getContext().setAuthentication(auth);
 				SecurityContext sc = SecurityContextHolder.getContext();
 				sc.setAuthentication(auth);
@@ -106,9 +109,8 @@ public class FacebookLoginController {
 		}
 		return "login";
 	}
-
 	private String generateFacebookGetAccessTokenUrl(String appId, String appSecret, String redirectUrl, String code) {
-		StringBuilder stringBuilder = new StringBuilder("https://graph.facebook.com/v3.2/oauth/access_token?");
+		StringBuilder stringBuilder = new StringBuilder("https://graph.facebook.com/v11.0/oauth/access_token?");
 		stringBuilder.append("client_id=");
 		stringBuilder.append(appId);
 		stringBuilder.append("&client_secret=");
@@ -121,19 +123,12 @@ public class FacebookLoginController {
 	}
 
 	private String generateFacebookGetMeUrl(String accessToken) {
-		StringBuilder stringBuilder = new StringBuilder("https://graph.facebook.com/me?");
+		StringBuilder stringBuilder = new StringBuilder("https://graph.facebook.com/v11.0/me?");
 		stringBuilder.append("access_token=");
 		stringBuilder.append(accessToken);
-		stringBuilder.append("&fields=id,email,first_name,last_name,age_range, picture");
-
-		return stringBuilder.toString();
-	}
-
-	private String generateFacebookGetPicture(String userId, String accessToken) {
-		StringBuilder stringBuilder = new StringBuilder("https://graph.facebook.com/").append(userId)
-				.append("/picture?redirect=false&");
-		stringBuilder.append("access_token=");
-		stringBuilder.append(accessToken);
+		stringBuilder.append("&fields=id,first_name,last_name,picture,email");
+		stringBuilder.append("&auth_type=rerequest");
+		stringBuilder.append("&scope=email,public_profile");
 
 		return stringBuilder.toString();
 	}

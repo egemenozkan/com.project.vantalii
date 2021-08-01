@@ -1,4 +1,4 @@
-<#assign facebookConnectUrl>https://www.facebook.com/v3.2/dialog/oauth?client_id=287713494586438&redirect_uri=${ webPage.baseUrl! }/login/facebook&response_type=code</#assign>
+<#assign facebookConnectUrl>https://www.facebook.com/v3.2/dialog/oauth?client_id=370747544559370&redirect_uri=${ webPage.baseUrl! }/login/facebook&response_type=code</#assign>
 <#assign vkConnectUrl>https://oauth.vk.com/authorize?client_id=6954043&display=page&redirect_uri=${ webPage.baseUrl! }/login/vkontakte?referer=${ webPage.canonical! }&scope=friends,email,account&response_type=code&v=5.95</#assign>
 
 <!-- Modal -->

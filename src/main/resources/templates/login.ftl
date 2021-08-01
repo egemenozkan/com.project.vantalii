@@ -19,14 +19,13 @@
                   </div>
                   <div class="row">
                     <div class="col-6">
-                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                       <button type="submit" class="btn btn-primary px-4">Login</button>
                     </div>
                     <div class="col-6 text-right">
                       <button type="button" class="btn btn-link px-0">Forgot password?</button>
                     </div>
                   </div>
-                  <a href="https://www.facebook.com/v3.2/dialog/oauth?client_id=287713494586438&response_type=code&redirect_uri=https://www.vantalii.com/login/facebook">Facebook</a>
+                  <a href="https://www.facebook.com/v3.2/dialog/oauth?client_id=370747544559370&response_type=code&redirect_uri=https://www.vantalii.com/login/facebook">Facebook</a>
                   <a href="https://oauth.vk.com/authorize?client_id=6954043 &display=page&redirect_uri=https://www.vantalii.com/login/vkontakte&scope=friends,email&response_type=code&v=5.95">VKontakte</a>  
               </form>
 			</div>

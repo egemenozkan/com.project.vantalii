@@ -567,8 +567,25 @@ footer.v-footer {
     position: relative;
     z-index: 99;
     background-color: #252c41;
-    color: #9ea6ba;
+    color: #FFF;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 50% 50%;
+	padding-top: 15px;
+	h5 {
+		color: #FFF;
+	}
+	
+	a {
+		color: #FFF;
+	}
+	
+	ul {
+		padding-inline-start: 10px;
+		li {
+			margin:0;
+			list-style: none;
+			padding:3px;
+		}
+	}
 }
