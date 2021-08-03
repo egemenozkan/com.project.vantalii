@@ -25,14 +25,18 @@ kullanılacaktır. Geliştirme yaparken hot development özelliği vardır, komu
  
 > /resources/static/bundle/**
 
+
+
+#### Spring Boot
+
+api.vantalii.com üzerinden konuşacak şekilde local üzerinde Preprod ortamında ayağa kaldırılabilir.
+
+```
+clean package -DskipTests -X -e -Ppreprod
+```
+
 #### Jenkins
 Açıklama eklenecek
 
 #### JFrog Artifactory
 Açıklama eklenecek
-
-#### Deploy
-
-```
-clean package -DskipTests -X -e -Pprod
-```
